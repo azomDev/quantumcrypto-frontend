@@ -8,7 +8,7 @@ import {Button} from '@/components/ui/button';
 import axios from '@/commons/http';
 import {useSocket} from '@/components/providers/socket-provider';
 import {useLanguage} from '@/components/providers/language-provider';
-import useBB84GameStore from '@/store/bb84/bb84-game-store';
+import useE91GameStore from '@/store/e91/e91-game-store';
 import usePlayerStore from '@/store/player-store';
 import {
     Card, CardContent,
@@ -23,19 +23,19 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
-import CreateGameModal from '@/components/bb84/home-page/create-game-modal';
+import CreateGameModal from '@/components/e91/home-page/create-game-modal';
 import {useRouter} from 'next/navigation';
 import {toast} from 'sonner';
-import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import useBB84RoomStore from '@/store/bb84/bb84-room-store';
+import {useE91ProgressStore} from '@/store/e91/e91-progress-store';
+import useE91RoomStore from '@/store/e91/e91-room-store';
 import {
     AlertDialog, AlertDialogAction, AlertDialogCancel,
     AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
     AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import {clearBB84LocalStorage} from '@/lib/utils';
+import {clearE91LocalStorage} from '@/lib/utils';
 
-const BB84Main: React.FC = () => {
+const E91Main: React.FC = () => {
 
     const {
         connectToWaitingRoom,
@@ -52,23 +52,23 @@ const BB84Main: React.FC = () => {
         setGameHasEve,
         setValidationBitsLength,
         setPhotonNumber
-    } = useBB84GameStore();
+    } = useE91GameStore();
     const {
         setPlayerName,
         setPlayerRole,
         setPartner,
         setIsAdmin,
     } = usePlayerStore();
-    const {setBb84Tab, setStep, setDisplayedLines} = useBB84ProgressStore();
-    const {restoreGame} = useBB84RoomStore();
+    const {setBb84Tab, setStep, setDisplayedLines} = useE91ProgressStore();
+    const {restoreGame} = useE91RoomStore();
     const router = useRouter();
 
     useEffect(() => {
         if (isPlayRoomConnected) {
-            router.push('/bb84/play');
+            router.push('/e91/play');
             return;
         }
-        const previousGame = localStorage.getItem('bb84PlayerData');
+        const previousGame = localStorage.getItem('e91PlayerData');
         if (previousGame) {
             setRejoinDialogOpen(true);
         }
@@ -81,7 +81,7 @@ const BB84Main: React.FC = () => {
             return item ? JSON.parse(item) : null;
         };
 
-        const previousGame = getItem('bb84PlayerData');
+        const previousGame = getItem('e91PlayerData');
 
         if (previousGame) {
             const {
@@ -99,38 +99,38 @@ const BB84Main: React.FC = () => {
             setPlayerName(playerName);
         }
 
-        const stepJSON = getItem('bb84Step');
+        const stepJSON = getItem('e91Step');
         if (stepJSON) {
             setStep(stepJSON);
         }
 
-        const tab = localStorage.getItem('bb84Tab');
+        const tab = localStorage.getItem('e91Tab');
         if (tab) {
             setBb84Tab(tab);
         }
 
-        const photonNumber = getItem('bb84PhotonNumber');
+        const photonNumber = getItem('e91PhotonNumber');
         if (photonNumber) {
             setPhotonNumber(photonNumber)
         }
 
-        const validationBitsLength = getItem('bb84ValidationBitsLength');
+        const validationBitsLength = getItem('e91ValidationBitsLength');
         if (validationBitsLength) {
             setValidationBitsLength(validationBitsLength);
         }
 
-        const previousDisplayedLines = getItem('bb84DisplayedLines');
+        const previousDisplayedLines = getItem('e91DisplayedLines');
         if (previousDisplayedLines) {
             setDisplayedLines(previousDisplayedLines);
         }
 
-        const gameDataJSON = getItem('bb84GameData');
+        const gameDataJSON = getItem('e91GameData');
         if (gameDataJSON) {
             restoreGame(gameDataJSON);
         }
 
         if (previousGame && previousGame.role && previousGame.room) {
-            connectToPlayRoom('bb84', useBB84GameStore.getState().gameCode, previousGame.role, previousGame.room);
+            connectToPlayRoom('e91', useE91GameStore.getState().gameCode, previousGame.role, previousGame.room);
         }
     };
 
@@ -169,7 +169,7 @@ const BB84Main: React.FC = () => {
         setIsAdmin(false);
 
         const data = {
-            gameType: 'bb84',
+            gameType: 'e91',
             gameCode: gamePIN,
             playerName,
             admin: 0,
@@ -195,7 +195,7 @@ const BB84Main: React.FC = () => {
                 eve_percentage: evePercentage,
             };
 
-            const response = await axios.post('/games/bb84/', gameData);
+            const response = await axios.post('/games/e91/', gameData);
             const {code: gamePIN} = response.data;
 
             setGameCode(gamePIN);
@@ -203,7 +203,7 @@ const BB84Main: React.FC = () => {
             setIsAdmin(true);
 
             const data = {
-                gameType: 'bb84',
+                gameType: 'e91',
                 gameCode: gamePIN,
                 playerName: 'admin',
                 admin: 1,
@@ -219,7 +219,7 @@ const BB84Main: React.FC = () => {
 
     const onCancelRejoin = () => {
         setRejoinDialogOpen(false);
-        clearBB84LocalStorage();
+        clearE91LocalStorage();
     };
 
     const onRejoin = () => {
@@ -233,10 +233,10 @@ const BB84Main: React.FC = () => {
                 <AlertDialogContent className="border-secondary">
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            {localize('component.bb84.gameFound')}
+                            {localize('component.e91.gameFound')}
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            {localize('component.bb84.gameFound.desc')}
+                            {localize('component.e91.gameFound.desc')}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -244,7 +244,7 @@ const BB84Main: React.FC = () => {
                             {localize('general.close')}
                         </AlertDialogCancel>
                         <AlertDialogAction onClick={onRejoin}>
-                            {localize('component.bb84.gameFound.action')}
+                            {localize('component.e91.gameFound.action')}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -252,7 +252,7 @@ const BB84Main: React.FC = () => {
             <div
                 className="h-fit w-fit mx-auto p-2 mt-6 flex flex-col gap-y-16">
                 <div className="flex flex-col gap-y-4 text-center">
-                    <h1 className="text-5xl font-bold text-primary">BB84</h1>
+                    <h1 className="text-5xl font-bold text-primary">E91</h1>
                     <h1 className="text-4xl font-bold">{localize(
                         'component.main.game')}</h1>
                 </div>
@@ -321,4 +321,4 @@ const BB84Main: React.FC = () => {
     );
 };
 
-export default BB84Main;
+export default E91Main;

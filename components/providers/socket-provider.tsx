@@ -4,12 +4,15 @@ import React, {createContext, useContext, useState} from 'react';
 // @ts-ignore
 import {w3cwebsocket as W3CWebSocket} from 'websocket';
 import useBB84GameStore from '@/store/bb84/bb84-game-store';
+import useE91GameStore from '@/store/e91/e91-game-store';
 import {toast} from 'sonner';
 import {useLanguage} from '@/components/providers/language-provider';
 import {useRouter} from 'next/navigation';
 import usePlayerStore from '@/store/player-store';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
+import useE91RoomStore from '@/store/e91/e91-room-store';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
+import {useE91ProgressStore} from '@/store/e91/e91-progress-store';
 import {BB84GameStep} from '@/types';
 import {
     moveToExchangeTab,
@@ -46,9 +49,9 @@ type SocketContextType = {
     isPlayRoomConnected: boolean;
     playRoomError: boolean;
     playRoomConnecting: boolean;
-    connectToWaitingRoom: (data: { gameCode: string, playerName: string, admin: number }) => void;
-    connectToPlayRoom: (role: string, room: string) => void;
-    startGame: () => void;
+    connectToWaitingRoom: (data: { gameType: string, gameCode: string, playerName: string, admin: number }) => void;
+    connectToPlayRoom: (gameType:string, gameCode:string, role: string, room: string) => void;
+    startGame: (gameType:string) => void;
     sendEvent: (event: string, message?: any) => void;
     sendPhotons: (photons: number[]) => void;
     sendCipher: (cipher: string[]) => void;
@@ -109,16 +112,17 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
     const [playRoomConnecting, setPlayRoomConnecting] = useState(false);
 
     const connectToWaitingRoom = ({
+                                      gameType,
                                       gameCode,
                                       playerName,
                                       admin,
-                                  }: { gameCode: string, playerName: string, admin: number }) => {
+                                  }: { gameType: string, gameCode: string, playerName: string, admin: number }) => {
 
         setWaitingRoomConnecting(true);
 
         // Socket instance initialization
         const socketInstance = new W3CWebSocket(
-            `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/games/bb84/${gameCode}/?player_name=${playerName}?admin=${admin}`);
+            `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/games/${gameType}/${gameCode}/?player_name=${playerName}?admin=${admin}`);
 
         (socketInstance as any).onerror = (error: any) => {
             console.log(error);
@@ -143,38 +147,62 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
             switch (event) {
 
                 case PLAYER_COUNT_EVENT:
-                    useBB84GameStore.setState({playerCount: message['count']});
+                    if (gameType === 'bb84') {
+                        useBB84GameStore.setState({playerCount: message['count']});
+                    } else if (gameType === 'e91') {
+                        useE91GameStore.setState({playerCount: message['count']});
+                    }
                     break;
 
                 case CONNECTED_EVENT:
-                    router.push('bb84/waiting-room');
-                    setIsWaitingRoomConnected(true);
-                    setWaitingRoomConnecting(false);
-                    if (!usePlayerStore.getState().isAdmin) {
-                        usePlayerStore.setState(
-                            {playerId: message['player']['id']});
-                        useBB84GameStore.setState(
-                            {
-                                photonNumber: message['game']['photon_number'],
-                                validationBitsLength: message['game']['validation_bits_length'],
-                            });
-                        localStorage.setItem('bb84PhotonNumber',
-                            JSON.stringify(message['game']['photon_number']));
-                        localStorage.setItem('bb84ValidationBitsLength',
-                            JSON.stringify(
-                                message['game']['validation_bits_length']));
-                    }
+                    if (gameType === 'bb84') {
+                        router.push('bb84/waiting-room');
+                        setIsWaitingRoomConnected(true);
+                        setWaitingRoomConnecting(false);
+                        if (!usePlayerStore.getState().isAdmin) {
+                            usePlayerStore.setState({playerId: message['player']['id']});
+                            useBB84GameStore.setState(
+                                {
+                                    photonNumber: message['game']['photon_number'],
+                                    validationBitsLength: message['game']['validation_bits_length'],
+                                });
+                            localStorage.setItem('bb84PhotonNumber',
+                                JSON.stringify(message['game']['photon_number']));
+                            localStorage.setItem('bb84ValidationBitsLength',
+                                JSON.stringify(message['game']['validation_bits_length']));
+                        }
+                    } else if (gameType === 'e91') {
+                        router.push('e91/waiting-room');
+                        setIsWaitingRoomConnected(true);
+                        setWaitingRoomConnecting(false);
+                        if (!usePlayerStore.getState().isAdmin) {
+                            usePlayerStore.setState({playerId: message['player']['id']});
+                            useE91GameStore.setState(
+                                {
+                                    photonNumber: message['game']['photon_number'],
+                                    validationBitsLength: message['game']['validation_bits_length'],
+                                });
+                            localStorage.setItem('e91PhotonNumber',
+                                JSON.stringify(message['game']['photon_number']));
+                            localStorage.setItem('e91ValidationBitsLength',
+                                JSON.stringify(message['game']['validation_bits_length']));
+                        }
+                    }                  
                     break;
 
                 case PLAYER_JOIN_EVENT:
                     if (usePlayerStore.getState().isAdmin) {
-                        const updatedPlayers = [...useBB84GameStore.getState().players];
-                        const player = {
-                            name: message['player']['name'],
-                        };
-                        updatedPlayers.push(player);
-                        useBB84GameStore.setState(
-                            {players: updatedPlayers});
+                        if (gameType === 'bb84') {
+                            const updatedPlayers = [...useBB84GameStore.getState().players];
+                            const player = { name: message['player']['name'] };
+                            updatedPlayers.push(player);
+                            useBB84GameStore.setState({players: updatedPlayers});
+                        } else if (gameType === 'e91') {
+                            const updatedPlayers = [...useE91GameStore.getState().players];
+                            const player = { name: message['player']['name'] };
+                            updatedPlayers.push(player);
+                            useE91GameStore.setState({players: updatedPlayers});
+                        }
                     }
                     break;
 
@@ -201,17 +229,9 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
 
                 case ROLES_EVENT:
                     if (!usePlayerStore.getState().isAdmin) {
-                        const {
-                            role,
-                            partner,
-                            room,
-                            eve_present: evePresent,
-                        } = message[`${(usePlayerStore.getState().playerId as number)}`];
+                        const { role, partner, room, eve_present: evePresent } = message[`${(usePlayerStore.getState().playerId as number)}`];
                         const {game_has_eve: gameHasEve} = message;
                         usePlayerStore.setState({playerRole: role, partner});
-                        useBB84GameStore.setState({gameHasEve: gameHasEve});
-                        useBB84RoomStore.setState({evePresent});
-
                         const playerData = {
                             gameCode: useBB84GameStore.getState().gameCode,
                             role,
@@ -220,25 +240,37 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                             gameHasEve,
                             playerName: usePlayerStore.getState().playerName,
                         };
-
-                        localStorage.setItem('bb84PlayerData',
-                            JSON.stringify(playerData));
-                        localStorage.setItem('bb84Step',
-                            JSON.stringify(
-                                useBB84ProgressStore.getState().step));
-                        localStorage.setItem('bb84Tab',
-                            useBB84ProgressStore.getState().bb84Tab);
-                        localStorage.setItem('bb84GameData',
-                            JSON.stringify({evePresent}));
-
-                        connectToPlayRoom(role, room);
+                        if (gameType === 'bb84') {
+                            useBB84GameStore.setState({gameHasEve: gameHasEve});
+                            useBB84RoomStore.setState({evePresent});
+                  
+                            localStorage.setItem('bb84PlayerData', JSON.stringify(playerData));
+                            localStorage.setItem('bb84Step', JSON.stringify(useBB84ProgressStore.getState().step));
+                            localStorage.setItem('bb84Tab', useBB84ProgressStore.getState().bb84Tab);
+                            localStorage.setItem('bb84GameData', JSON.stringify({evePresent}));
+            
+                        } else if (gameType === 'e91') {
+                            useE91GameStore.setState({gameHasEve: gameHasEve});
+                            useE91RoomStore.setState({evePresent});
+            
+                            localStorage.setItem('e91PlayerData', JSON.stringify(playerData));
+                            localStorage.setItem('e91Step', JSON.stringify(useBB84ProgressStore.getState().step));
+                            localStorage.setItem('e91Tab', useE91ProgressStore.getState().e91Tab);
+                            localStorage.setItem('e91GameData', JSON.stringify({evePresent}));
+            
+                        }
+                        connectToPlayRoom(gameType, gameCode, role, room);
                         setTimeout(() => socketInstance.close(), 10000);
                     }
                     break;
-
                 case END_EVENT:
                     socketInstance.close();
-                    useBB84GameStore.setState({players: [], playerCount: 0});
+                    if (gameType === 'bb84') {
+                        useBB84GameStore.setState({players: [], playerCount: 0});
+                    } else if (gameType === 'e91') {
+                        useE91GameStore.setState({players: [], playerCount: 0});
+                    }
+                    
                     if (!usePlayerStore.getState().isAdmin) {
                         toast.warning(
                             localize('component.waitingRoom.gameEndedTitle'), {
@@ -255,12 +287,11 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
         setWaitingRoomSocket(socketInstance);
     };
 
-    const connectToPlayRoom = (role: string, room: string) => {
+    const connectToPlayRoom = (gameType: string, gameCode:string, role: string, room: string) => {
 
         setPlayRoomConnecting(true);
 
-        const socketInstance = new W3CWebSocket(
-            `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/games/bb84/${useBB84GameStore.getState().gameCode}/rooms/${room}/`);
+        const socketInstance = new W3CWebSocket(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/games/${gameType}/${gameCode}/rooms/${room}/`);
 
         setPlayRoomSocket(socketInstance);
 
@@ -286,7 +317,12 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                 case CONNECTED_EVENT:
                     setIsPlayRoomConnected(true);
                     setPlayRoomConnecting(false);
-                    router.replace('/bb84/play');
+                    if (gameType === 'bb84') {
+                        router.replace('/bb84/play');
+                    } else if (gameType === 'e91') {
+                        router.replace('/e91/play')
+                    }
+                    
                     break;
 
                 case A_PHOTONS_EVENT:
@@ -519,17 +555,31 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
         };
     };
 
-    const startGame = () => {
-        const payload = {
-            event: START_EVENT,
-            message: {
-                game_code: useBB84GameStore.getState().gameCode,
-            },
-        };
-        (waitingRoomSocket as any).send(JSON.stringify(payload));
-        toast.success('Game started!');
-        setTimeout(() => (waitingRoomSocket as any).close(), 5000);
-        useBB84GameStore.setState({players: [], playerCount: 0});
+    const startGame = (gameType: string) => {
+        if (gameType === 'bb84') {
+            const payload = {
+                event: START_EVENT,
+                message: {
+                    game_code: useBB84GameStore.getState().gameCode,
+                },
+            };
+            (waitingRoomSocket as any).send(JSON.stringify(payload));
+            toast.success('Game started!');
+            setTimeout(() => (waitingRoomSocket as any).close(), 5000);
+            useBB84GameStore.setState({players: [], playerCount: 0});
+        } else if (gameType === 'e91') {
+            const payload = {
+                event: START_EVENT,
+                message: {
+                    game_code: useE91GameStore.getState().gameCode,
+                },
+            };
+            (waitingRoomSocket as any).send(JSON.stringify(payload));
+            toast.success('Game started!');
+            setTimeout(() => (waitingRoomSocket as any).close(), 5000);
+            useE91GameStore.setState({players: [], playerCount: 0});
+        }
+       
     };
 
     /**

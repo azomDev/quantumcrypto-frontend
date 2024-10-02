@@ -187,6 +187,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.homePage.protocolsSection.bb84.description': 'A protocol' +
             ' for securely sharing cryptographic keys between two parties' +
             ' over an insecure communication channel.',
+        'component.homePage.protocolsSection.e91.description': 'The E91 protocol uses quantum entanglement to ensure communication security by allowing parties to exchange unbreakable cryptographic keys.',
         'component.homePage.title.description': 'Learn and practice quantum' +
             ' cryptography protocols',
         'component.homePage.aboutSection': 'QuantumCrypto is a web platform' +
@@ -299,6 +300,23 @@ export const bb84Lines: LanguageItem[] = [
             ' Alice\'s',
         'component.bb84.highlights.highlight5Bob': 'Validate your key',
         'component.bb84.highlights.highlight6Bob': 'Decrypt Alice\'s message',
+        'component.header.about.e91': 'About E91',
+        'component.e91.about': 'The protocol was introduced in 1991 by' +
+            ' Artur Ekert. It involves two separate parties,' +
+            ' Alice and Bob, who wish to communicate securely through a' +
+            ' public channel. The protocol uses quantum entanglement to ensure' +
+            ' security. Alice and Bob measure entangled particle pairs and' +
+            ' compare their results to establish a secret cryptographic key.' +
+            ' Any attempt by an eavesdropper, typically referred to as Eve,' +
+            ' will disturb these measurements, allowing Alice and Bob to detect' +
+            ' the presence of a threat. If no eavesdropper is detected, they can use the key' +
+            ' to encrypt their communication over a classical channel.' +
+            ' Otherwise, they must start the process again.',
+        'component.e91.howToPlayTitle': 'How to play E91',
+        'component.e91.howToPlayDescription': 'The E91 protocol has two' +
+            ' main actors: Alice and Bob, who play different roles. Here' +
+            ' you can explore the set of steps that each one of them must' +
+            ' take in order to complete the protocol successfully.',
     },
     {
         // ... (French translations)
@@ -493,6 +511,7 @@ export const bb84Lines: LanguageItem[] = [
             ' protocole pour établir de manière sécurisée des clés' +
             ' cryptographiques entre deux parties sur un canal de' +
             ' communication non sécurisé.',
+        'component.homePage.protocolsSection.e91.description': 'Le protocole E91 utilise l\'intrication quantique pour garantir la sécurité des communications en permettant aux parties d\'échanger des clés cryptographiques inviolables.',
         'component.homePage.title.description': 'Apprenez et pratiquez les' +
             ' protocoles de cryptographie quantique',
         'component.homePage.aboutSection': 'QuantumCrypto est une' +
@@ -614,6 +633,23 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.highlights.highlight5Bob': 'Validez votre clé',
         'component.bb84.highlights.highlight6Bob': 'Déchiffrez le message' +
             ' d\'Alice',
+        'component.header.about.e91': 'À propos de E91',
+        'component.e91.about': 'Le protocole a été introduit en 1991 par' +
+            ' Artur Ekert. Il implique deux parties distinctes,' +
+            ' Alice et Bob, qui souhaitent communiquer de manière sécurisée via un' +
+            ' canal public. Le protocole utilise l\'intrication quantique pour garantir' +
+            ' la sécurité. Alice et Bob mesurent des paires de particules intriquées' +
+            ' et comparent leurs résultats pour établir une clé cryptographique secrète.' +
+            ' Toute tentative d\'interception par un espion, généralement appelé Eve,' +
+            ' perturbera ces mesures, permettant ainsi à Alice et Bob de détecter la présence' +
+            ' d\'une menace. Si aucun espion n\'est détecté, ils peuvent utiliser la clé' +
+            ' générée pour chiffrer leurs communications sur un canal classique.' +
+            ' Sinon, ils doivent recommencer le processus.',
+        'component.e91.howToPlayTitle': 'Comment jouer à E91',
+        'component.e91.howToPlayDescription': 'Le protocole E91 implique' +
+            ' deux acteurs principaux : Alice et Bob, qui jouent des rôles' +
+            ' différents. Vous pouvez ici explorer l\'ensemble des étapes' +
+            ' que chacun d\'eux doit suivre pour mener à bien le protocole.',
     },
     {
         // ... (Spanish translations)
@@ -798,6 +834,7 @@ export const bb84Lines: LanguageItem[] = [
             ' protocolo para compartir de forma segura claves' +
             ' criptográficas entre dos partes a través de un canal de' +
             ' comunicación inseguro.',
+        'component.homePage.protocolsSection.e91.description': 'El protocolo E91 utiliza el entrelazamiento cuántico para garantizar la seguridad de las comunicaciones al permitir que las partes intercambien claves criptográficas inviolables.',
         'component.homePage.title.description': 'Aprende y practica' +
             ' protocolos de criptografía cuántica',
         'component.homePage.aboutSection': 'QuantumCrypto es una plataforma' +
@@ -917,6 +954,24 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.highlights.highlight5Bob': 'Valida tu clave',
         'component.bb84.highlights.highlight6Bob': 'Descifra el mensaje de' +
             ' Alice',
+        'component.header.about.e91': 'Acerca de E91',
+        'component.e91.about': 'El protocolo fue introducido en 1991 por' +
+            ' Artur Ekert. Involucra a dos partes separadas,' +
+            ' Alice y Bob, que desean comunicarse de manera segura a través de un' +
+            ' canal público. El protocolo utiliza el entrelazamiento cuántico para garantizar' +
+            ' la seguridad. Alice y Bob miden pares de partículas entrelazadas' +
+            ' y comparan sus resultados para establecer una clave criptográfica secreta.' +
+            ' Cualquier intento de un espía, generalmente llamado Eve,' +
+            ' de interceptar estas medidas perturbará las partículas, lo que permite' +
+            ' a Alice y Bob detectar la presencia de una amenaza. Si no se detecta un espía,' +
+            ' pueden usar la clave generada para cifrar su comunicación en un canal clásico.' +
+            ' De lo contrario, deben comenzar el proceso de nuevo.',
+        'component.e91.howToPlayTitle': 'Cómo jugar E91',
+        'component.e91.howToPlayDescription': 'El protocolo E91 tiene dos' +
+            ' actores principales: Alice y Bob, que desempeñan roles' +
+            ' diferentes. Aquí puedes explorar el conjunto de pasos que' +
+            ' cada uno de ellos debe seguir para completar el protocolo con' +
+            ' éxito.',
     },
     {
         // ... (German translations)
@@ -1111,6 +1166,7 @@ export const bb84Lines: LanguageItem[] = [
             ' Protokoll zum sicheren Austausch kryptografischer Schlüssel' +
             ' zwischen zwei Parteien über einen unsicheren' +
             ' Kommunikationskanal.',
+        'component.homePage.protocolsSection.e91.description': 'Das E91-Protokoll nutzt Quantenverschränkung, um die Sicherheit der Kommunikation zu gewährleisten, indem es den Parteien ermöglicht, unknackbare kryptografische Schlüssel auszutauschen.',
         'component.homePage.title.description': 'Lernen und Üben von' +
             ' Quantenkryptographieprotokollen',
         'component.homePage.aboutSection': 'QuantumCrypto ist eine' +
@@ -1238,6 +1294,24 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.rawKeyInfo': 'An diesem Punkt besitzen Sie den' +
             ' "rohen Schlüssel", der verwendet wird, um die Anwesenheit' +
             ' eines Lauschers zu erkennen.',
+        'component.header.about.e91': 'Über E91',
+        'component.e91.about': 'Das Protokoll wurde 1991 von' +
+            ' Artur Ekert eingeführt. Es beinhaltet zwei separate Parteien,' +
+            ' Alice und Bob, die sicher über einen öffentlichen Kanal kommunizieren möchten.' +
+            ' Das Protokoll nutzt Quantenverschränkung zur Sicherstellung der Sicherheit.' +
+            ' Alice und Bob messen verschränkte Teilchenpaare und vergleichen ihre Ergebnisse,' +
+            ' um einen geheimen kryptografischen Schlüssel zu erstellen. Jeder Versuch eines' +
+            ' Abhörers, normalerweise Eve genannt, diese Messungen zu stören, wird' +
+            ' Unregelmäßigkeiten einführen, die Alice und Bob entdecken können.' +
+            ' Wenn kein Abhörer erkannt wird, können sie den Schlüssel verwenden,' +
+            ' um ihre Kommunikation über einen klassischen Kanal zu verschlüsseln.' +
+            ' Andernfalls müssen sie den Prozess erneut starten.',
+        'component.e91.howToPlayTitle': 'Wie man E91 spielt',
+        'component.e91.howToPlayDescription': 'Das E91-Protokoll hat zwei' +
+            ' Hauptdarsteller: Alice und Bob, die verschiedene Rollen' +
+            ' spielen. Hier kannst du die Reihe von Schritten erkunden, die' +
+            ' jeder von ihnen unternehmen muss, um das Protokoll' +
+            ' erfolgreich abzuschließen.',
     },
 ];
 

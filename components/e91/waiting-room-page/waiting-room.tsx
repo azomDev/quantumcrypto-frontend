@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {useSocket} from '@/components/providers/socket-provider';
 import {useEffect} from 'react';
-import useBB84GameStore from '@/store/bb84/bb84-game-store';
+import useE91GameStore from '@/store/e91/e91-game-store';
 import {Card, CardContent} from '@/components/ui/card';
 import {useLanguage} from '@/components/providers/language-provider';
 import {Button} from '@/components/ui/button';
@@ -30,13 +30,14 @@ const WaitingRoom: React.FC = () => {
     } = useSocket();
     const {localize} = useLanguage();
     const router = useRouter();
-    const {gameCode, playerCount, players} = useBB84GameStore();
+    const {gameCode, playerCount, players} = useE91GameStore();
     const {playerName, isAdmin} = usePlayerStore();
     const [copied, setCopied] = useState(false);
 
     const onStartGame = () => {
-        router.replace(`/games/${gameCode}/results`);
-        startGame('bb84');
+        //router.replace(`/games/${gameCode}/results`);
+        router.replace('/');
+        startGame('e91');
     };
 
     useEffect(() => {
