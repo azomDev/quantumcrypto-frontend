@@ -16,7 +16,7 @@ const font = Roboto({
 });
 
 export const metadata: Metadata = {
-    title: 'BB84',
+    title: 'QuantumCrypto',
     description: 'An interactive game based on the BB84 quantum key' +
         ' distribution protocol',
 };

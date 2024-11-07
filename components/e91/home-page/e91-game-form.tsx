@@ -1,15 +1,14 @@
 'use client';
-import React, {useEffect, useState} from 'react';
-import * as z from 'zod';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {TailSpin} from 'react-loading-icons';
-import {useForm} from 'react-hook-form';
-import {Button} from '@/components/ui/button';
 import axios from '@/commons/http';
-import {useSocket} from '@/components/providers/socket-provider';
-import {useLanguage} from '@/components/providers/language-provider';
-import useE91GameStore from '@/store/e91/e91-game-store';
-import usePlayerStore from '@/store/player-store';
+import CreateGameModal from '@/components/e91/home-page/create-game-modal';
+import { useLanguage } from '@/components/providers/language-provider';
+import { useSocket } from '@/components/providers/socket-provider';
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
     Card, CardContent,
 } from '@/components/ui/card';
@@ -22,18 +21,19 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import {Input} from '@/components/ui/input';
-import CreateGameModal from '@/components/e91/home-page/create-game-modal';
-import {useRouter} from 'next/navigation';
-import {toast} from 'sonner';
-import {useE91ProgressStore} from '@/store/e91/e91-progress-store';
+import { Input } from '@/components/ui/input';
+import { clearE91LocalStorage } from '@/lib/utils';
+import useE91GameStore from '@/store/e91/e91-game-store';
+import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
 import useE91RoomStore from '@/store/e91/e91-room-store';
-import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel,
-    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import {clearE91LocalStorage} from '@/lib/utils';
+import usePlayerStore from '@/store/player-store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { TailSpin } from 'react-loading-icons';
+import { toast } from 'sonner';
+import * as z from 'zod';
 
 const E91Main: React.FC = () => {
 
@@ -59,7 +59,7 @@ const E91Main: React.FC = () => {
         setPartner,
         setIsAdmin,
     } = usePlayerStore();
-    const {setBb84Tab, setStep, setDisplayedLines} = useE91ProgressStore();
+    const {setE91Tab, setStep, setDisplayedLines} = useE91ProgressStore();
     const {restoreGame} = useE91RoomStore();
     const router = useRouter();
 
@@ -106,7 +106,7 @@ const E91Main: React.FC = () => {
 
         const tab = localStorage.getItem('e91Tab');
         if (tab) {
-            setBb84Tab(tab);
+            setE91Tab(tab);
         }
 
         const photonNumber = getItem('e91PhotonNumber');
@@ -179,7 +179,6 @@ const E91Main: React.FC = () => {
     };
 
     const onCreateGame = async (photonNumber: number, eve: boolean,
-                                validationBits: number,
                                 evePercentage: number) => {
 
         if (isWaitingRoomConnected) return;
@@ -191,7 +190,7 @@ const E91Main: React.FC = () => {
             const gameData = {
                 photon_number: photonNumber,
                 eve,
-                validation_bits_length: validationBits,
+                validation_bits_length: 0,
                 eve_percentage: evePercentage,
             };
 
@@ -233,10 +232,10 @@ const E91Main: React.FC = () => {
                 <AlertDialogContent className="border-secondary">
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            {localize('component.e91.gameFound')}
+                            {localize('component.bb84.gameFound')}
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            {localize('component.e91.gameFound.desc')}
+                            {localize('component.bb84.gameFound.desc')}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

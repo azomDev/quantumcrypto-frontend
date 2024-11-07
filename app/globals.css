@@ -67,4 +67,27 @@ body,
         --highlight: 45 93% 47%;
         --red: 0 100% 32%;
     }
+   
+    .flash-delete {
+        animation: flashDelete 0.25s ease forwards;
+    }
+
+    @keyframes flashDelete {
+        0% {
+            background-color: red;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        50% {
+            background-color: #ff4d4d;
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+        100% {
+            background-color: transparent;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    }
+
 }

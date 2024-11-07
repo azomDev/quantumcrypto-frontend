@@ -112,7 +112,7 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
                     },
                 ]);
                 toast.success(localize('component.basis.correct'));
-                sendBobSuccess();
+                sendBobSuccess('bb84');
             } else {
                 const payload = crypto.map(({value}) => value);
                 sendCipher(payload);

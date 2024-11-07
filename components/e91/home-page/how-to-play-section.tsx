@@ -28,50 +28,41 @@ const HowToPlaySection = React.forwardRef<HTMLElement>((_, ref) => {
                             <div className="flex flex-row gap-x-2">
                                 <span>1.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight1Alice')}</span>
+                                    'component.e91.highlights.highlight1')}</span>
                                     {localize(
-                                        'component.bb84.steps.step1Alice')}</p>
+                                        'component.e91.steps.step1')}</p>
                             </div>
                             <div className="flex flex-row gap-x-2">
                                 <span>2.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight2Alice')}</span>{localize(
-                                    'component.bb84.steps.step2Alice')}</p>
+                                    'component.e91.highlights.highlight2')}</span>{localize(
+                                    'component.e91.steps.step2Alice')}</p>
                             </div>
                             <div className="flex flex-row gap-x-2">
                                 <span>3.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight3Alice')}</span>{localize(
-                                    'component.bb84.steps.step3Alice')}</p>
+                                    'component.e91.highlights.highlight3')}</span>{localize(
+                                    'component.e91.steps.step3Alice')}</p>
                             </div>
+                            <p>{localize('component.e91.additionalStep')}</p>
                             <div className="flex flex-row gap-x-2">
                                 <span>4.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight4Alice')}</span>{localize(
-                                    'component.bb84.steps.step4Alice')}</p>
+                                    'component.e91.highlights.highlight4')}</span>{localize(
+                                    'component.e91.steps.step4')}</p>
                             </div>
                             <div className="flex flex-row gap-x-2">
                                 <span>5.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight5Alice')}</span>{localize(
-                                    'component.bb84.steps.step5Alice')}</p>
-                            </div>
-                            <div className="flex flex-row gap-x-2 mt-2">
-                                <p>{localize('component.bb84.rawKeyInfo')}</p>
-                            </div>
-                            <p>{localize('component.bb84.additionalStep')}</p>
+                                    'component.e91.highlights.highlight5')}</span>{localize(
+                                    'component.e91.steps.step5')}</p>
+                            </div>                         
                             <div className="flex flex-row gap-x-2">
                                 <span>6.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight6Alice')}</span>{localize(
-                                    'component.bb84.steps.step6Alice')}
+                                    'component.e91.highlights.highlight6Alice')}</span>{localize(
+                                    'component.e91.steps.step6Alice')}
                                 </p>
-                            </div>
-                            <div className="flex flex-row gap-x-2">
-                                <span>7.</span>
-                                <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight7Alice')}</span>{localize(
-                                    'component.bb84.steps.step7Alice')}</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -82,42 +73,39 @@ const HowToPlaySection = React.forwardRef<HTMLElement>((_, ref) => {
                             <div className="flex flex-row gap-x-2">
                                 <span>1.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight1Bob')}</span>{localize(
-                                    'component.bb84.steps.step1Bob')}</p>
+                                    'component.e91.highlights.highlight1')}</span>{localize(
+                                    'component.e91.steps.step1')}</p>
                             </div>
                             <div className="flex flex-row gap-x-2">
                                 <span>2.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight2Bob')}</span>{localize(
-                                    'component.bb84.steps.step2Bob')}</p>
+                                    'component.e91.highlights.highlight2')}</span>{localize(
+                                    'component.e91.steps.step2Bob')}</p>
                             </div>
                             <div className="flex flex-row gap-x-2">
                                 <span>3.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight3Bob')}</span>{localize(
-                                    'component.bb84.steps.step3Bob')}</p>
+                                    'component.e91.highlights.highlight3')}</span>{localize(
+                                    'component.e91.steps.step3Bob')}</p>
                             </div>
+                            <p>{localize('component.e91.additionalStep')}</p>
                             <div className="flex flex-row gap-x-2">
                                 <span>4.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight4Bob')}</span>{localize(
-                                    'component.bb84.steps.step4Bob')}</p>
+                                    'component.e91.highlights.highlight4')}</span>{localize(
+                                    'component.e91.steps.step4')}</p>
                             </div>
-                            <div className="flex flex-row gap-x-2 mt-2">
-                                <p>{localize('component.bb84.rawKeyInfo')}</p>
-                            </div>
-                            <p>{localize('component.bb84.additionalStep')}</p>
                             <div className="flex flex-row gap-x-2">
                                 <span>5.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight5Bob')}</span>{localize(
-                                    'component.bb84.steps.step5Bob')}</p>
+                                    'component.e91.highlights.highlight5')}</span>{localize(
+                                    'component.e91.steps.step5')}</p>
                             </div>
                             <div className="flex flex-row gap-x-2">
                                 <span>6.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.bb84.highlights.highlight6Bob')}</span>{localize(
-                                    'component.bb84.steps.step6Bob')}</p>
+                                    'component.e91.highlights.highlight6Bob')}</span>{localize(
+                                    'component.e91.steps.step6Bob')}</p>
                             </div>
                         </CardContent>
                     </Card>

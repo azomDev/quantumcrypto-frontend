@@ -3,33 +3,33 @@
 import React from 'react';
 import GameProgression from '@/components/shared/game-progression';
 import usePlayerStore from '@/store/player-store';
-import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import useBB84RoomStore from '@/store/bb84/bb84-room-store';
+import {useE91ProgressStore} from '@/store/e91/e91-progress-store';
+import useE91RoomStore from '@/store/e91/e91-room-store';
 import {useLanguage} from '@/components/providers/language-provider';
 import {Button} from '@/components/ui/button';
 import {useSocket} from '@/components/providers/socket-provider';
 import {RESTART_WITHOUT_EVE_EVENT} from '@/bb84-constants';
 import {useRouter} from 'next/navigation';
-import useBB84GameStore from '@/store/bb84/bb84-game-store';
+import useE91GameStore from '@/store/e91/e91-game-store';
 
-const Bb84Progression = () => {
+const E91Progression = () => {
 
     const {localize} = useLanguage();
     const {sendEvent} = useSocket();
     const router = useRouter();
 
-    const {gameCode} = useBB84GameStore();
+    const {gameCode} = useE91GameStore();
 
     const {playerRole, partner: partnerName} = usePlayerStore();
 
-    const {displayedLines} = useBB84ProgressStore();
+    const {displayedLines} = useE91ProgressStore();
 
     const {
         gameSuccess,
         evePresent,
         validated,
-        validatedByPartner,
-    } = useBB84RoomStore();
+        eveSpotted,
+    } = useE91RoomStore();
 
 
     const getFeed = () => displayedLines.map((line: any, index: number) => {
@@ -56,9 +56,9 @@ const Bb84Progression = () => {
     return (
         <GameProgression className="border-none">
             {getFeed()}
-            {evePresent && (validated || validatedByPartner) &&
+            {evePresent && validated && eveSpotted &&
                 <div className="w-full h-fit mb-1 flex justify-center">
-                    <Button onClick={restartGameWithoutEve}>Restart</Button>
+                    <Button onClick={restartGameWithoutEve}>{localize('component.e91.restart')}</Button>
                 </div>}
             {gameSuccess && <div className="w-full h-fit mb-1">
                 <p className="text-card-foreground text-md md:text-xl">
@@ -73,7 +73,8 @@ const Bb84Progression = () => {
                 </div>
             </div>}
         </GameProgression>
+        
     );
 };
 
-export default Bb84Progression;
+export default E91Progression;

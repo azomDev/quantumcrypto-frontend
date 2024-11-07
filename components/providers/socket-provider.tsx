@@ -17,7 +17,7 @@ import {BB84GameStep} from '@/types';
 import {
     moveToExchangeTab,
 } from '@/components/bb84/play-page/tabs/validation-tab';
-import {clearBB84LocalStorage} from '@/lib/utils';
+import {clearBB84LocalStorage, clearE91LocalStorage} from '@/lib/utils';
 import {
     A_BASES_EVENT,
     A_CIPHER_EVENT,
@@ -40,6 +40,20 @@ import {
     TAKEN_NAME_EVENT,
 } from '@/bb84-constants';
 
+import {
+    A_BITS_EVENT,
+    A_DECISION_EVENT,
+    A_DICE_EVENT,
+    A_MEASURE_EVENT,
+    A_PREFERENCE_EVENT,
+    B_BITS_EVENT,
+    B_DECISION_EVENT,
+    B_DICE_EVENT,
+    B_MEASURE_EVENT,
+    B_PREFERENCE_EVENT,
+    VALIDATION_INDICES_EVENT,
+} from '@/e91-constants';
+
 type SocketContextType = {
     waitingRoomSocket: any | null;
     playRoomSocket: any | null;
@@ -53,12 +67,18 @@ type SocketContextType = {
     connectToPlayRoom: (gameType:string, gameCode:string, role: string, room: string) => void;
     startGame: (gameType:string) => void;
     sendEvent: (event: string, message?: any) => void;
+    measurePhotons: (bases: string[]) => void;
     sendPhotons: (photons: number[]) => void;
     sendCipher: (cipher: string[]) => void;
     shareBases: (bases: string[], event: string, socket?: any) => void;
+    shareBits: (bits: string[], event: string, socket?: any) => void;
     shareKey: (key: string[]) => void;
+    shareIndices: (validationIndices: number[]) => void;
+    shareDecision: (decision: boolean) => void;
+    sharePreference: (useValidBits: boolean) => void;
     shareValidation: (valid: boolean) => void;
-    sendBobSuccess: () => void;
+    shareDiceValue: (value: number) => void;
+    sendBobSuccess: (gameType: string) => void;
     disconnectWaitingRoom: () => void;
 }
 
@@ -79,15 +99,27 @@ const SocketContext = createContext<SocketContextType>({
     },
     sendEvent: () => {
     },
+    measurePhotons: () => {
+    },
     sendPhotons: () => {
     },
     sendCipher: () => {
     },
     shareBases: () => {
     },
+    shareBits: () => {
+    },
+    sharePreference: () => {
+    },
     shareKey: () => {
     },
+    shareIndices: () => {
+    },
+    shareDecision: () => {
+    },
     shareValidation: () => {
+    },
+    shareDiceValue: () => {
     },
     disconnectWaitingRoom: () => {
     },
@@ -301,7 +333,8 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
             setPlayRoomConnecting(false);
         };
 
-        socketInstance.onclose = () => {
+        socketInstance.onclose = (event: any) => {
+            console.log(event);
             setIsPlayRoomConnected(false);
             setPlayRoomConnecting(false);
         };
@@ -311,6 +344,7 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
             const data = JSON.parse(json.data)['payload'];
             const message = data['message'];
             const event = data['event'];
+            console.log(event);
 
             switch (event) {
 
@@ -323,6 +357,85 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                         router.replace('/e91/play')
                     }
                     
+                    break;
+                
+                case A_MEASURE_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'A') {
+                        console.log('receiving bits:' + message.bits)
+                        useE91RoomStore.getState().setAliceBits(message.bits.split(''));
+                    } else {
+                        useE91ProgressStore.getState().pushLines([
+                            {
+                                content: 'component.e91.aliceMeasured',
+                            },
+                        ]);
+                    }
+                    break;
+                    
+                case B_MEASURE_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'B') {
+                        useE91RoomStore.getState().setBobBits(message.bits.split(''));
+                    } else {
+                        useE91ProgressStore.getState().pushLines([
+                            {
+                                content: 'component.e91.bobMeasured',
+                            },
+                        ]);
+                    }
+                    break;
+
+                case A_PREFERENCE_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'B') {
+                        useE91RoomStore.getState().setAlicePreference(message.useValidBits);
+                    }
+                    break;
+                    
+                case B_PREFERENCE_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'A') {
+                        useE91RoomStore.getState().setBobPreference(message.useValidBits);
+                    }
+                    break;
+                
+                case A_DICE_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'B') {
+                        useE91RoomStore.getState().setAliceDiceRoll(message.value);
+                    }
+                    break;
+
+                case B_DICE_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'A') {
+                        useE91RoomStore.getState().setBobDiceRoll(message.value);
+                    }
+                    break;
+
+                case A_BITS_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'B') {
+                        useE91RoomStore.getState().setAliceBits(message.bits);
+                    }
+                    break;
+
+                case B_BITS_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'A') {
+                        useE91RoomStore.getState().setBobBits(message.bits);
+                    }
+                    break;
+
+                case A_DECISION_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'B') {
+                        useE91RoomStore.getState().setSecuredDecision(message.decision);
+                    }
+                    break;
+
+                case B_DECISION_EVENT:
+                    if (usePlayerStore.getState().playerRole === 'A') {
+                        useE91RoomStore.getState().setSecuredDecision(message.decision);
+                    }
+                    break;
+
+                case VALIDATION_INDICES_EVENT:
+                    console.log('validation indices: ' + message.validationIndices)
+                    useE91RoomStore.getState().setValidationIndices(message.validationIndices)
+                    useE91GameStore.getState().setValidationBitsLength(message.validationIndices.length);
                     break;
 
                 case A_PHOTONS_EVENT:
@@ -342,43 +455,56 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                     break;
 
                 case B_BASES_EVENT:
-                    if (usePlayerStore.getState().playerRole === 'A') {
-                        useBB84RoomStore.getState().setBobBases(message.bases);
-                        const aliceBases = useBB84RoomStore.getState().aliceBases;
-                        shareBases(aliceBases,
-                            A_BASES_EVENT, socketInstance);
-                        useBB84ProgressStore.getState().setBb84Tab('basis');
-                        useBB84ProgressStore.getState()
-                            .setStep(BB84GameStep.BASIS);
-                        useBB84ProgressStore.getState().pushLines([
-                            {
-                                content: 'component.aliceExchange.basesArrived',
-                            },
-                            {
-                                title: 'component.game.step2',
-                                content: 'component.basis.validate',
-                            },
-                        ]);
-                    }
+                    if (gameType === 'bb84') {
+                        if (usePlayerStore.getState().playerRole === 'A') {
+                            useBB84RoomStore.getState().setBobBases(message.bases);
+                            const aliceBases = useBB84RoomStore.getState().aliceBases;
+                            shareBases(aliceBases,
+                                A_BASES_EVENT, socketInstance);
+                            useBB84ProgressStore.getState().setBb84Tab('basis');
+                            useBB84ProgressStore.getState()
+                                .setStep(BB84GameStep.BASIS);
+                            useBB84ProgressStore.getState().pushLines([
+                                {
+                                    content: 'component.aliceExchange.basesArrived',
+                                },
+                                {
+                                    title: 'component.game.step2',
+                                    content: 'component.basis.validate',
+                                },
+                            ]);
+                        }
+                    } else if (gameType === 'e91') {
+                        if (usePlayerStore.getState().playerRole === 'A') {
+                            useE91RoomStore.getState().setBobBases(message.bases);
+                        }
+                    }                   
                     break;
 
                 case A_BASES_EVENT:
-                    if (usePlayerStore.getState().playerRole === 'B') {
-                        useBB84RoomStore.getState()
-                            .setAliceBases(message.bases);
-                        useBB84ProgressStore.getState().setBb84Tab('basis');
-                        useBB84ProgressStore.getState()
-                            .setStep(BB84GameStep.BASIS);
-                        useBB84ProgressStore.getState().pushLines([
-                            {
-                                content: 'component.bobExchange.basesArrived',
-                            },
-                            {
-                                title: 'component.game.step3',
-                                content: 'component.basis.validate',
-                            },
-                        ]);
+                    if (gameType === 'bb84') {
+                        if (usePlayerStore.getState().playerRole === 'B') {
+                            useBB84RoomStore.getState()
+                                .setAliceBases(message.bases);
+                            useBB84ProgressStore.getState().setBb84Tab('basis');
+                            useBB84ProgressStore.getState()
+                                .setStep(BB84GameStep.BASIS);
+                            useBB84ProgressStore.getState().pushLines([
+                                {
+                                    content: 'component.bobExchange.basesArrived',
+                                },
+                                {
+                                    title: 'component.game.step3',
+                                    content: 'component.basis.validate',
+                                },
+                            ]);
+                        }
+                    } else if (gameType === 'e91') {
+                        if (usePlayerStore.getState().playerRole === 'B') {
+                            useE91RoomStore.getState().setAliceBases(message.bases);
+                        }
                     }
+                    
                     break;
 
                 case A_KEY_EVENT:
@@ -499,54 +625,110 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                     break;
 
                 case A_CIPHER_EVENT:
-                    useBB84RoomStore.getState().setAliceCipher(message.cipher);
-                    if (usePlayerStore.getState().playerRole === 'A') {
-                        useBB84ProgressStore.getState().pushLines([
-                            {
-                                content: 'component.messaging.alice.sent',
-                            },
-                        ]);
+                    if (gameType === 'e91') {
+                        useE91RoomStore.getState().setAliceCipher(message.cipher);
+                        if (usePlayerStore.getState().playerRole === 'A') {
+                            useE91ProgressStore.getState().pushLines([
+                                {
+                                    content: 'component.messaging.alice.sent',
+                                },
+                            ]);
+                        }
+                        if (usePlayerStore.getState().playerRole === 'B' &&
+                            useE91ProgressStore.getState().e91Tab ===
+                            'messaging') {
+                            useE91ProgressStore.getState().pushLines([
+                                {
+                                    content: 'component.messaging.bob.arrived',
+                                },
+                                {
+                                    content: 'component.messaging.bob.decrypt',
+                                },
+                            ]);
+                        }
+
+
+                    } else if (gameType === 'bb84') {
+                        useBB84RoomStore.getState().setAliceCipher(message.cipher);
+                        if (usePlayerStore.getState().playerRole === 'A') {
+                            useBB84ProgressStore.getState().pushLines([
+                                {
+                                    content: 'component.messaging.alice.sent',
+                                },
+                            ]);
+                        }
+                        if (usePlayerStore.getState().playerRole === 'B' &&
+                            useBB84ProgressStore.getState().bb84Tab ===
+                            'messaging') {
+                            useBB84ProgressStore.getState().pushLines([
+                                {
+                                    content: 'component.messaging.bob.arrived',
+                                },
+                                {
+                                    content: 'component.messaging.bob.decrypt',
+                                },
+                            ]);
+                        }
                     }
-                    if (usePlayerStore.getState().playerRole === 'B' &&
-                        useBB84ProgressStore.getState().bb84Tab ===
-                        'messaging') {
-                        useBB84ProgressStore.getState().pushLines([
-                            {
-                                content: 'component.messaging.bob.arrived',
-                            },
-                            {
-                                content: 'component.messaging.bob.decrypt',
-                            },
-                        ]);
-                    }
+                    
                     break;
 
                 case B_SUCCESS_EVENT:
-                    if (usePlayerStore.getState().playerRole === 'A') {
-                        useBB84ProgressStore.getState().pushLines([
-                            {
-                                title: 'component.messaging.congratulations',
-                                content: 'component.messaging.alice.end',
-                            },
-                        ]);
+                    if (gameType === 'e91') {
+                        if (usePlayerStore.getState().playerRole === 'A') {
+                            useE91ProgressStore.getState().pushLines([
+                                {
+                                    title: 'component.messaging.congratulations',
+                                    content: 'component.messaging.alice.end',
+                                },
+                            ]);
+                        }
+                        useE91RoomStore.getState().setGameSuccess(true);
+                        clearE91LocalStorage();
+
+                    } else if (gameType === 'bb84') {
+                        if (usePlayerStore.getState().playerRole === 'A') {
+                            useBB84ProgressStore.getState().pushLines([
+                                {
+                                    title: 'component.messaging.congratulations',
+                                    content: 'component.messaging.alice.end',
+                                },
+                            ]);
+                        }
+                        useBB84RoomStore.getState().setGameSuccess(true);
+                        clearBB84LocalStorage();
                     }
-                    useBB84RoomStore.getState().setGameSuccess(true);
-                    clearBB84LocalStorage();
+                    
                     break;
 
                 case RESTART_WITHOUT_EVE_EVENT:
-                    localStorage.removeItem('bb84PhotonNumber');
-                    localStorage.setItem('bb84GameData', JSON.stringify({}));
-                    localStorage.removeItem('bb84Step');
-                    localStorage.removeItem('bb84Tab');
-                    localStorage.removeItem('bb84DisplayedLines');
-                    toast.message('Game restarted', {
-                        description: localize(
-                            'component.validation.gameRestarted'),
-                    });
-                    useBB84RoomStore.getState().resetRoom();
-                    useBB84RoomStore.getState().setEvePresent(false);
-                    useBB84ProgressStore.getState().resetProgress();
+                    if (gameType === 'e91') {
+                        localStorage.removeItem('e91PhotonNumber');
+                        localStorage.setItem('e91GameData', JSON.stringify({}));
+                        localStorage.removeItem('e91Step');
+                        localStorage.removeItem('e91Tab');
+                        localStorage.removeItem('e91DisplayedLines');
+                        toast.message('Game restarted', {
+                            description: localize(
+                                'component.validation.gameRestarted'),
+                        });
+                        useE91RoomStore.getState().resetRoom();
+                        useE91RoomStore.getState().setEvePresent(false);
+                        useE91ProgressStore.getState().resetProgress();
+                    } else if (gameType === 'bb84') {
+                        localStorage.removeItem('bb84PhotonNumber');
+                        localStorage.setItem('bb84GameData', JSON.stringify({}));
+                        localStorage.removeItem('bb84Step');
+                        localStorage.removeItem('bb84Tab');
+                        localStorage.removeItem('bb84DisplayedLines');
+                        toast.message('Game restarted', {
+                            description: localize(
+                                'component.validation.gameRestarted'),
+                        });
+                        useBB84RoomStore.getState().resetRoom();
+                        useBB84RoomStore.getState().setEvePresent(false);
+                        useBB84ProgressStore.getState().resetProgress();
+                    }
                     break;
 
                 default:
@@ -595,8 +777,30 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
         if (message) {
             payload.message = {...message};
         }
+        console.log("Sending event:", payload);
+        if ((playRoomSocket as any).readyState !== WebSocket.OPEN) {
+            console.error("WebSocket is not open. Current state:", (playRoomSocket as any).readyState);
+        } else {
+            console.log("WebSocket is open, sending message.");
+        }
+        
         (playRoomSocket as any).send(JSON.stringify(payload));
     };
+
+    const measurePhotons = (bases: string[]) => {
+        const playerRole = usePlayerStore.getState().playerRole;
+        if (playerRole === 'A') {
+            sendEvent(A_MEASURE_EVENT, {
+                bases,
+                eve_present: useE91RoomStore.getState().evePresent
+            });
+        } else {
+            sendEvent(B_MEASURE_EVENT, {
+                bases,
+                eve_present: useE91RoomStore.getState().evePresent
+            });
+        }
+    }
 
     const sendPhotons = (photons: number[]) => {
         sendEvent(A_PHOTONS_EVENT, {photons});
@@ -606,10 +810,10 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
         sendEvent(A_CIPHER_EVENT, {cipher});
     };
 
-    const sendBobSuccess = () => {
+    const sendBobSuccess = (gameType: string) => {
         sendEvent(B_SUCCESS_EVENT, {
-            game_code: useBB84GameStore.getState().gameCode,
-            player_name: usePlayerStore.getState().playerName,
+            game_code: gameType === 'e91' ? useE91GameStore.getState().gameCode : useBB84GameStore.getState().gameCode,
+            player_name: usePlayerStore.getState().playerName 
         });
     };
 
@@ -618,6 +822,20 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
             event,
             message: {
                 bases,
+            },
+        };
+        if (socket) {
+            socket.send(JSON.stringify(payload));
+            return;
+        }
+        (playRoomSocket as any).send(JSON.stringify(payload));
+    };
+
+    const shareBits = (bits: string[], event: string, socket?: any) => {
+        const payload = {
+            event,
+            message: {
+                bits,
             },
         };
         if (socket) {
@@ -649,6 +867,31 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
             A_VALIDATED_EVENT :
             B_VALIDATED_EVENT;
         sendEvent(event, {valid});
+    };
+
+    const shareIndices = (validationIndices: number[]) => {
+        sendEvent(VALIDATION_INDICES_EVENT, {validationIndices});
+    };
+
+    const shareDecision = (decision: boolean) => {
+        const event = usePlayerStore.getState().playerRole === 'A' ?
+            A_DECISION_EVENT :
+            B_DECISION_EVENT;
+        sendEvent(event, {decision});
+    };
+
+    const sharePreference = (useValidBits: boolean) => {
+        const event = usePlayerStore.getState().playerRole === 'A' ?
+            A_PREFERENCE_EVENT :
+            B_PREFERENCE_EVENT;
+        sendEvent(event, {useValidBits: useValidBits});
+    };
+
+    const shareDiceValue = (value: number) => {
+        const event = usePlayerStore.getState().playerRole === 'A' ?
+            A_DICE_EVENT :
+            B_DICE_EVENT;
+        sendEvent(event, {value});
     };
 
     const disconnectWaitingRoom = () => {
@@ -689,12 +932,18 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                 connectToPlayRoom: connectToPlayRoom,
                 startGame,
                 sendEvent,
+                measurePhotons,
                 sendPhotons,
                 sendCipher,
                 shareBases,
+                shareBits,
                 shareKey,
+                shareIndices,
+                sharePreference,
+                shareDecision,
                 sendBobSuccess,
                 shareValidation,
+                shareDiceValue,
                 disconnectWaitingRoom,
             }}>
             {children}

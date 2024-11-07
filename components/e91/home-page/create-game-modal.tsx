@@ -34,7 +34,6 @@ const CreateGameModal = ({
                          }: {
     connecting: boolean, creatingGame: boolean, onCreateGame: (photonNumber: number,
                                                                eve: boolean,
-                                                               validationBits: number,
                                                                evePercentage: number) => void
 }) => {
 
@@ -52,10 +51,6 @@ const CreateGameModal = ({
         eve: z.boolean({
             required_error: localize('component.main.pinRequired'),
         }).default(false),
-        validationBits: z.coerce.number({
-            invalid_type_error: localize('component.createGame.numbersOnly'),
-        })
-            .int(),
         evePercentage: z.coerce.number({
             invalid_type_error: localize(
                 'component.createGame.evePercentage.invalidType'),
@@ -80,12 +75,6 @@ const CreateGameModal = ({
         {
             message: localize('component.createGame.keyMin'),
             path: ['photonNumber'],
-        }).refine(schema => ((schema.eve &&
-            (schema.validationBits > 0 && schema.validationBits <=
-                schema.photonNumber / 2)) || !schema.eve),
-        {
-            message: localize('component.createGame.validationLength'),
-            path: ['validationBits'],
         });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -93,7 +82,6 @@ const CreateGameModal = ({
         defaultValues: {
             photonNumber: 10,
             eve: false,
-            validationBits: 0,
             evePercentage: 0.5,
         },
     });
@@ -129,12 +117,10 @@ const CreateGameModal = ({
                                       ({
                                            photonNumber,
                                            eve,
-                                           validationBits,
                                            evePercentage,
                                        }) => onCreateGame(
                                           photonNumber,
                                           eve,
-                                          validationBits,
                                           evePercentage))}
                             >
                                 <FormField
@@ -180,28 +166,6 @@ const CreateGameModal = ({
                                         </FormItem>
                                     )}
                                 />
-                                {eveChecked && <FormField
-                                    control={form.control}
-                                    name="validationBits"
-                                    render={({field}) => (
-                                        <FormItem
-                                            className="space-y-0 flex gap-x-5 items-center">
-                                            <FormLabel
-                                                className="text-nowrap col-span-1"
-                                            >{localize(
-                                                'component.createGame.validationDescription')}</FormLabel>
-                                            <FormControl className="mx-2">
-                                                <Input
-                                                    // type={'number'}
-                                                    maxLength={2}
-                                                    placeholder="10"
-                                                    className="text-center w-[50px]"
-                                                    {...field} />
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                    )}
-                                />}
                                 {eveChecked && <FormField
                                     control={form.control}
                                     name="evePercentage"
