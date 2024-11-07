@@ -1,25 +1,24 @@
 'use client';
 
-import React, {useEffect} from 'react';
+import E91Progression from '@/components/e91/play-page/e91-progression';
+import BasisTab from '@/components/e91/play-page/tabs/basis-tab';
+import MeasurementTab from '@/components/e91/play-page/tabs/measurement-tab';
+import MessagingTab from '@/components/e91/play-page/tabs/messaging-tab';
+import ValidationTab from '@/components/e91/play-page/tabs/validation-tab';
+import isConnected from '@/components/hoc/is-connected';
+import { useLanguage } from '@/components/providers/language-provider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+import useE91GameStore from '@/store/e91/e91-game-store';
+import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
+import useE91RoomStore from '@/store/e91/e91-room-store';
 import usePlayerStore from '@/store/player-store';
-import AliceExchangeTab
-    from '@/components/bb84/play-page/tabs/alice-exchange-tab';
-import useBB84GameStore from '@/store/bb84/bb84-game-store';
-import {useLanguage} from '@/components/providers/language-provider';
-import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
-import BobExchangeTab from '@/components/bb84/play-page/tabs/bob-exchange-tab';
 import {
     Minus,
-    MoveHorizontal, MoveDiagonal2, MoveDiagonal, MoveVertical,
+    Tally1, Tally2, Tally3, Tally4,
 } from 'lucide-react';
-import GameProgression from '@/components/shared/game-progression';
-import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import BasisTab from '@/components/bb84/play-page/tabs/basis-tab';
-import MessagingTab from '@/components/bb84/play-page/tabs/messaging-tab';
-import isConnected from '@/components/hoc/is-connected';
-import ValidationTab from '@/components/bb84/play-page/tabs/validation-tab';
-import {cn} from '@/lib/utils';
-import Bb84Progression from '@/components/bb84/play-page/bb84-progression';
+import { useEffect } from 'react';
+import CHSHTab from './tabs/CHSH-tab';
 
 
 const Game = () => {
@@ -28,35 +27,37 @@ const Game = () => {
 
         [
             // eslint-disable-next-line react/jsx-key
-            <Minus/>, <MoveHorizontal/>, <MoveVertical/>, <MoveDiagonal/>,
+            <Minus/>, <Tally1/>, <Tally2/>, <Tally3/>,
             // eslint-disable-next-line react/jsx-key
-            <MoveDiagonal2/>];
+            <Tally4/>];
 
     const {localize} = useLanguage();
-    const {step, displayedLines, bb84Tab} = useBB84ProgressStore();
-    const {pushLines, setBb84Tab} = useBB84ProgressStore();
+    const {step, displayedLines, e91Tab} = useE91ProgressStore();
+    const {pushLines, setE91Tab} = useE91ProgressStore();
     const {playerRole, playerName} = usePlayerStore();
-    const {photonNumber, gameHasEve} = useBB84GameStore();
+    const {photonNumber, gameHasEve} = useE91GameStore();
+    const {utilizeValidBits} = useE91RoomStore();
 
     useEffect(() => {
         if (displayedLines.length === 0) {
             if (playerRole === 'A') {
                 pushLines([
                     {
-                        title: 'component.exchange.welcome',
+                        title: 'component.e91.measurement.welcome',
                     },
                     {
                         title: 'component.game.step1',
-                        content: 'component.aliceExchange.start',
+                        content: 'component.e91.measurement.start',
                     },
                 ]);
             } else if (playerRole === 'B') {
                 pushLines([
                     {
-                        title: 'component.exchange.welcome',
+                        title: 'component.e91.measurement.welcome',
                     },
                     {
-                        content: 'component.bobExchange.waiting',
+                        title: 'component.game.step1',
+                        content: 'component.e91.measurement.start',
                     },
                 ]);
             }
@@ -79,13 +80,13 @@ const Game = () => {
                             'Alice' : 'Bob'}</span></p>
                         <Tabs
                             className="overflow-y-auto max-h-[92%] rounded-lg"
-                            value={bb84Tab}
-                            onValueChange={(value) => setBb84Tab(value)}>
+                            value={e91Tab}
+                            onValueChange={(value) => setE91Tab(value)}>
                             <TabsList className={cn('w-full grid sticky h-fit',
                                 gameHasEve ? 'grid-cols-4' : 'grid-cols-3')}>
-                                <TabsTrigger value={'exchange'}><p
+                                <TabsTrigger value={'measurement'}><p
                                     className={'text-wrap text-md md:text-lg'}>{localize(
-                                    'component.game.tabs1')}</p></TabsTrigger>
+                                    'component.e91.measurement.tab')}</p></TabsTrigger>
                                 <TabsTrigger value={'basis'}
                                              disabled={step < 1}>
                                     <p className={'text-wrap text-md md:text-lg'}>{localize(
@@ -103,17 +104,14 @@ const Game = () => {
                                         'component.game.tabs3')}</p>
                                 </TabsTrigger>
                             </TabsList>
-                            <TabsContent value={'exchange'}>
-                                {playerRole === 'A' ?
-                                    <AliceExchangeTab photonNumber={photonNumber}
-                                                      polarIcons={polarIcons}/> :
-                                    <BobExchangeTab photonNumber={photonNumber}/>}
+                            <TabsContent value={'measurement'}>
+                                <MeasurementTab photonNumber={photonNumber} polarIcons={polarIcons} playerRole={playerRole}/> 
                             </TabsContent>
                             <TabsContent value={'basis'}>
-                                <BasisTab playerRole={playerRole}/>
+                                <BasisTab playerRole={playerRole} polarIcons={polarIcons}/>
                             </TabsContent>
                             {gameHasEve && <TabsContent value={'validation'}>
-                                <ValidationTab playerRole={playerRole}/>
+                                {utilizeValidBits ? <ValidationTab playerRole={playerRole}/> : <CHSHTab playerRole={playerRole} polarIcons={polarIcons}/>}
                             </TabsContent>}
                             <TabsContent value={'messaging'}>
                                 <MessagingTab playerRole={playerRole}/>
@@ -122,7 +120,7 @@ const Game = () => {
                     </div>
                     <div
                         className="hidden md:block md:w-[50%] md:h-full md:ml-1">
-                        <Bb84Progression/>
+                        <E91Progression/>
                     </div>
                 </>}
         </div>

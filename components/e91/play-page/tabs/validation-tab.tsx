@@ -1,3 +1,7 @@
+import { useLanguage } from '@/components/providers/language-provider';
+import { useSocket } from '@/components/providers/socket-provider';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
     Table,
     TableBody,
@@ -6,69 +10,67 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import useBB84RoomStore from '@/store/bb84/bb84-room-store';
-import {Input} from '@/components/ui/input';
-import React from 'react';
-import {Button} from '@/components/ui/button';
-import {CheckCircle2, XCircle} from 'lucide-react';
-import {useLanguage} from '@/components/providers/language-provider';
+import useE91GameStore from '@/store/e91/e91-game-store';
+import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
+import useE91RoomStore from '@/store/e91/e91-room-store';
 import usePlayerStore from '@/store/player-store';
-import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import {BB84GameStep, Line} from '@/types';
-import {useSocket} from '@/components/providers/socket-provider';
-import useBB84GameStore from '@/store/bb84/bb84-game-store';
+import { E91GameStep, Line } from '@/types';
+import { CheckCircle2, XCircle } from 'lucide-react';
+
 
 export const moveToExchangeTab = () => {
 
     const playerRole = usePlayerStore.getState().playerRole;
-    const aliceCipherLength = useBB84RoomStore.getState().aliceCipher.length;
 
     const pushLines = (lines: Line[]) => {
-        useBB84ProgressStore.getState().pushLines(lines);
+        useE91ProgressStore.getState().pushLines(lines);
     };
 
     if (playerRole === 'B') {
         const lines = [
-            { content: 'component.messaging.bob.start' },
+            { 
+                title: 'component.game.step3',
+                content: 'component.messaging.bob.start' 
+            }
         ];
-        if (aliceCipherLength > 0) {
-            lines.push(
-                { content: 'component.messaging.bob.arrived' },
-                { content: 'component.messaging.bob.decrypt' }
-            );
-        }
         pushLines(lines);
     } else {
         pushLines([
-            { content: 'component.messaging.alice.start' },
-            { title: 'component.game.step3', content: 'component.messaging.alice.last' }
+            { 
+                title: 'component.game.step3', 
+                content: 'component.messaging.alice.last' 
+            }
         ]);
     }
 
-    useBB84ProgressStore.getState().setBb84Tab('messaging');
-    useBB84ProgressStore.getState().setStep(BB84GameStep.MESSAGING);
+    useE91ProgressStore.getState().setE91Tab('messaging');
+    useE91ProgressStore.getState().setStep(E91GameStep.MESSAGING);
 };
 
 const ValidationTab = ({playerRole}: { playerRole: string }) => {
 
-    const {shareValidation} = useSocket();
     const {localize} = useLanguage();
 
     const {
-        keyBits,
-        partnerBits,
+        aliceValidBits,
+        bobValidBits,
         validationIndices,
         validatedByPartner,
         validated,
-    } = useBB84RoomStore();
-    const {setValidated} = useBB84RoomStore();
+    } = useE91RoomStore();
+    const {setValidated, setAliceValidBits, setBobValidBits, setEveSpotted} = useE91RoomStore();
 
-    const {pushLines} = useBB84ProgressStore();
+    const {
+        pushLines,
+    } = useE91ProgressStore();
+
+    const keyBits = playerRole === 'A' ? aliceValidBits : bobValidBits;
+    const partnerBits = playerRole === 'A' ? bobValidBits : aliceValidBits;
 
     const validationKeyBits = validationIndices.map(index => keyBits[index]);
     const validationPartnerBits = validationIndices.map(
         index => partnerBits[index]);
-    const validationBitsLength = useBB84GameStore(
+    const validationBitsLength = useE91GameStore(
         state => state.validationBitsLength);
 
     const validate = () => {
@@ -94,9 +96,15 @@ const ValidationTab = ({playerRole}: { playerRole: string }) => {
                 return;
             }
             pushLines([{ content: 'component.validationTab.found' }]);
+            setValidated(true);
+            setEveSpotted(true);
+            return;
         }
-        shareValidation(isValid);
         setValidated(true);
+        const filteredAliceValidBits = aliceValidBits.filter((_, index) => !validationIndices.includes(index));
+        const filteredBobValidBits = bobValidBits.filter((_, index) => !validationIndices.includes(index));
+        setAliceValidBits(filteredAliceValidBits);
+        setBobValidBits(filteredBobValidBits);
     };
 
     return (

@@ -1,42 +1,45 @@
+import { useLanguage } from '@/components/providers/language-provider';
+import { useSocket } from '@/components/providers/socket-provider';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
     Table,
+    TableBody, TableCell,
+    TableHead,
     TableHeader,
     TableRow,
-    TableHead,
-    TableBody, TableCell,
 } from '@/components/ui/table';
-import React, {useState} from 'react';
-import {CheckCircle2, Send} from 'lucide-react';
-import useBB84RoomStore from '@/store/bb84/bb84-room-store';
-import {Input} from '@/components/ui/input';
-import {cn} from '@/lib/utils';
-import {toast} from 'sonner';
-import {Button} from '@/components/ui/button';
-import {useLanguage} from '@/components/providers/language-provider';
-import {useSocket} from '@/components/providers/socket-provider';
-import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import {forbiddenSymbols} from '@/lib/utils';
+import { cn, forbiddenSymbols } from '@/lib/utils';
+import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
+import useE91RoomStore from '@/store/e91/e91-room-store';
+import { CheckCircle2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 const MessagingTab = ({playerRole}: { playerRole: string }) => {
 
     const {localize} = useLanguage();
     const {sendCipher, sendBobSuccess} = useSocket();
 
-    const {pushLines} = useBB84ProgressStore();
+    const {pushLines} = useE91ProgressStore();
 
     const {
-        keyBits,
+        aliceValidBits,
         aliceCipher,
         aliceCipherSent,
         gameSuccess,
+        evePresent,
+        eveReadCount,
         message: persistedMessage,
         crypto: persistedCrypto,
-    } = useBB84RoomStore();
+    } = useE91RoomStore();
     const {
         setAliceCipherSent,
         setMessage: setPersistedMessage,
         setCrypto: setPersistedCrypto,
-    } = useBB84RoomStore();
+    } = useE91RoomStore();
+
+    const keyBits = aliceValidBits;
 
     const [message, setMessage] = useState(() => {
         return [...keyBits].map(_ => ({
@@ -53,6 +56,20 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
             error: true,
         }));
     });
+
+    useEffect(() => {
+        if (gameSuccess) {
+            if (evePresent && eveReadCount > 0) {
+                pushLines([
+                    {
+                        title: 'component.e91.evePresent',
+                        content: 'component.e91.evePresent.stats',
+                        extra: `${eveReadCount}`
+                    },
+                ]);
+            }
+        }
+    }, [gameSuccess]);
 
     const onMessageInput = (event: React.ChangeEvent<HTMLInputElement>,
                             index: number) => {
@@ -112,7 +129,7 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
                     },
                 ]);
                 toast.success(localize('component.basis.correct'));
-                sendBobSuccess();
+                sendBobSuccess('e91');
             } else {
                 const payload = crypto.map(({value}) => value);
                 sendCipher(payload);
