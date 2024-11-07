@@ -1,26 +1,26 @@
-import {BB84GameStep, Line} from '@/types';
+import {E91GameStep, Line} from '@/types';
 import {create} from 'zustand';
 
 interface E91ProgressStore {
-    step: BB84GameStep;
+    step: E91GameStep;
     e91Tab: string;
     displayedLines: Line[];
-    setStep: (step: BB84GameStep) => void;
-    setBb84Tab: (tab: string) => void;
+    setStep: (step: E91GameStep) => void;
+    setE91Tab: (tab: string) => void;
     setDisplayedLines: (lines: Line[]) => void;
     pushLines: (lines: Line[]) => void;
     resetProgress: () => void;
 }
 
 export const useE91ProgressStore = create<E91ProgressStore>((set) => ({
-    step: BB84GameStep.EXCHANGE,
-    e91Tab: 'exchange',
+    step: E91GameStep.MEASUREMENT,
+    e91Tab: 'measurement',
     displayedLines: [],
     setStep: (step) => {
         localStorage.setItem('e91Step', JSON.stringify(step));
         set({step});
     },
-    setBb84Tab: (tab) => {
+    setE91Tab: (tab) => {
         localStorage.setItem('e91Tab', tab);
         set({e91Tab: tab});
     },
@@ -34,8 +34,8 @@ export const useE91ProgressStore = create<E91ProgressStore>((set) => ({
         };
     }),
     resetProgress: () => set({
-        e91Tab: 'exchange',
-        step: BB84GameStep.EXCHANGE,
+        e91Tab: 'measurement',
+        step: E91GameStep.MEASUREMENT,
         displayedLines: [],
     }),
 }));
