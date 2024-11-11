@@ -6,14 +6,14 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import Bb84ResultsRow from '@/components/bb84/results-page/bb84-results-row';
+import E91ResultsRow from '@/components/e91/results-page/e91-results-row';
 
 interface ResultsTableProps {
     rooms: any[];
     players: any[];
 }
 
-const Bb84ResultsTable = ({rooms, players}: ResultsTableProps) => {
+const E91ResultsTable = ({rooms, players}: ResultsTableProps) => {
 
     const getPlayerName = (playerId: number) => {
         return players.filter(player => player.id === playerId)[0]?.name;
@@ -38,11 +38,13 @@ const Bb84ResultsTable = ({rooms, players}: ResultsTableProps) => {
                         <TableHead>Room</TableHead>
                         <TableHead>Iteration</TableHead>
                         <TableHead>Eve Present</TableHead>
+                        <TableHead>Eve detected</TableHead>
                         <TableHead>Time</TableHead>
+                        <TableHead>Score</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {sortRooms().map((room, index) => <Bb84ResultsRow key={index}
+                    {sortRooms().map((room, index) => <E91ResultsRow key={index}
                                                                 room={room}
                                                                 player1={getPlayerName(
                                                                     room.player1)}
@@ -55,4 +57,4 @@ const Bb84ResultsTable = ({rooms, players}: ResultsTableProps) => {
     );
 };
 
-export default Bb84ResultsTable;
+export default E91ResultsTable;

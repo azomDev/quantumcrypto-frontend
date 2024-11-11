@@ -5,6 +5,7 @@ import Bb84ResultsTable
     from '@/components/bb84/results-page/bb84-results-table';
 import axios from '@/commons/http';
 import {useRouter} from 'next/navigation';
+import E91ResultsTable from '@/components/e91/results-page/e91-results-table';
 
 interface ResultsTableProps {
     gameType: string,
@@ -25,6 +26,14 @@ const ResultsTable = ({
                     (iter: any) => iter.elapsed_time > 0);
             })}
                                      players={players} {...props} />;
+            break;
+        case 'e91':
+            return <E91ResultsTable rooms={rooms.filter(room => {
+                return room.iterations.some(
+                    (iter: any) => iter.elapsed_time > 0);
+            })}
+                                     players={players} {...props} />;
+            break;
         default:
             return null;
     }
@@ -32,6 +41,7 @@ const ResultsTable = ({
 
 interface GameResultsPageProps {
     params: {
+        gameType: string;
         gameCode: string;
     };
 }
@@ -45,7 +55,7 @@ const GameResultsPage = ({params}: GameResultsPageProps) => {
     const router = useRouter();
 
     const {lastMessage, readyState} = useWebSocket(
-        `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/games/${params.gameCode}/results/`,
+        `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/games/${params.gameType}/${params.gameCode}/results/`,
         {
             onOpen: () => {
                 console.log('Connection opened');
@@ -53,6 +63,7 @@ const GameResultsPage = ({params}: GameResultsPageProps) => {
             },
             onError: (_) => setError(true),
             onMessage: async (event) => {
+                console.log("Raw event data:", event.data);
                 const data = await JSON.parse(
                     (await JSON.parse(event.data)).payload.message);
                 setRooms(data.rooms);

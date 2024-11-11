@@ -35,8 +35,7 @@ const WaitingRoom: React.FC = () => {
     const [copied, setCopied] = useState(false);
 
     const onStartGame = () => {
-        //router.replace(`/games/${gameCode}/results`);
-        router.replace('/');
+        router.replace(`/games/e91/${gameCode}/results`);
         startGame('e91');
     };
 

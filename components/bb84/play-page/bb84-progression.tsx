@@ -50,7 +50,7 @@ const Bb84Progression = () => {
     };
 
     const goToResultsPage = () => {
-        router.replace(`/games/${gameCode}/results`);
+        router.replace(`/games/bb84/${gameCode}/results`);
     };
 
     return (

@@ -10,3 +10,5 @@ export const A_BITS_EVENT = 'A_BITS';
 export const B_BITS_EVENT = 'B_BITS';
 export const A_DECISION_EVENT = 'A_DECISION';
 export const B_DECISION_EVENT = 'B_DECISION';
+export const EVE_SPOTTED_EVENT = 'EVE_SPOTTED';
+export const SCORE_EVENT = 'SCORE';

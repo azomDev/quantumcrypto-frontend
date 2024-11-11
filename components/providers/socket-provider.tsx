@@ -51,6 +51,8 @@ import {
     B_DICE_EVENT,
     B_MEASURE_EVENT,
     B_PREFERENCE_EVENT,
+    EVE_SPOTTED_EVENT,
+    SCORE_EVENT,
     VALIDATION_INDICES_EVENT,
 } from '@/e91-constants';
 
@@ -80,6 +82,8 @@ type SocketContextType = {
     shareDiceValue: (value: number) => void;
     sendBobSuccess: (gameType: string) => void;
     disconnectWaitingRoom: () => void;
+    sendEveSpotted: () => void;
+    saveScore: (score: number) => void;
 }
 
 const SocketContext = createContext<SocketContextType>({
@@ -116,6 +120,10 @@ const SocketContext = createContext<SocketContextType>({
     shareIndices: () => {
     },
     shareDecision: () => {
+    },
+    sendEveSpotted: () => {
+    },
+    saveScore: () => {
     },
     shareValidation: () => {
     },
@@ -792,12 +800,14 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
         if (playerRole === 'A') {
             sendEvent(A_MEASURE_EVENT, {
                 bases,
-                eve_present: useE91RoomStore.getState().evePresent
+                eve_present: useE91RoomStore.getState().evePresent,
+                player_name: usePlayerStore.getState().playerName
             });
         } else {
             sendEvent(B_MEASURE_EVENT, {
                 bases,
-                eve_present: useE91RoomStore.getState().evePresent
+                eve_present: useE91RoomStore.getState().evePresent,
+                player_name: usePlayerStore.getState().playerName
             });
         }
     }
@@ -808,6 +818,17 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
 
     const sendCipher = (cipher: string[]) => {
         sendEvent(A_CIPHER_EVENT, {cipher});
+    };
+
+    const sendEveSpotted = () => {
+        sendEvent(EVE_SPOTTED_EVENT);
+    };
+
+    const saveScore = (score: number) => {
+        sendEvent(SCORE_EVENT, {
+            score,
+            player_name: usePlayerStore.getState().playerName
+        });
     };
 
     const sendBobSuccess = (gameType: string) => {
@@ -936,7 +957,9 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                 sendPhotons,
                 sendCipher,
                 shareBases,
+                saveScore,
                 shareBits,
+                sendEveSpotted,
                 shareKey,
                 shareIndices,
                 sharePreference,

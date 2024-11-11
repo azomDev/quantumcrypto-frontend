@@ -50,7 +50,7 @@ const E91Progression = () => {
     };
 
     const goToResultsPage = () => {
-        router.replace(`/games/${gameCode}/results`);
+        router.replace(`/games/e91/${gameCode}/results`);
     };
 
     return (

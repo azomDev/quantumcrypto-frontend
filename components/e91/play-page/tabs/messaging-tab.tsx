@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 const MessagingTab = ({playerRole}: { playerRole: string }) => {
 
     const {localize} = useLanguage();
-    const {sendCipher, sendBobSuccess} = useSocket();
+    const {sendCipher, sendBobSuccess, saveScore} = useSocket();
 
     const {pushLines} = useE91ProgressStore();
 
@@ -30,6 +30,7 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
         gameSuccess,
         evePresent,
         eveReadCount,
+        eveSpotted,
         message: persistedMessage,
         crypto: persistedCrypto,
     } = useE91RoomStore();
@@ -68,8 +69,22 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
                     },
                 ]);
             }
+            saveScore(calculateScore());
+
         }
     }, [gameSuccess]);
+
+    const calculateScore = () => {
+        let score = 0;
+    
+        score += aliceValidBits.length * 5;
+
+        if (!eveSpotted && evePresent) {
+            score -= 10;
+        }
+    
+        return score;
+    };
 
     const onMessageInput = (event: React.ChangeEvent<HTMLInputElement>,
                             index: number) => {
