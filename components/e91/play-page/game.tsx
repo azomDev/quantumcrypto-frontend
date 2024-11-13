@@ -27,9 +27,13 @@ const Game = () => {
 
         [
             // eslint-disable-next-line react/jsx-key
-            <Minus/>, <Tally1/>, <Tally2/>, <Tally3/>,
-            // eslint-disable-next-line react/jsx-key
-            <Tally4/>];
+            <Minus/>, 
+            <span style={{ fontSize: "24px" }}>a</span>,
+            <span style={{ fontSize: "24px" }}>b</span>, 
+            <span style={{ fontSize: "24px" }}>a'</span>,
+            <span style={{ fontSize: "24px" }}>b'</span>
+            
+        ];
 
     const {localize} = useLanguage();
     const {step, displayedLines, e91Tab} = useE91ProgressStore();
