@@ -18,6 +18,10 @@ import { E91GameStep, Line } from '@/types';
 import * as d3 from 'd3';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { useDrag, DndProvider, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import clsx from 'clsx';
+import GraphPopup from '../graphPopup';
 
 
 export const moveToExchangeTab = () => {
@@ -49,16 +53,77 @@ export const moveToExchangeTab = () => {
     useE91ProgressStore.getState().setStep(E91GameStep.MESSAGING);
 };
 
+const DraggableButton = ({ index, value, setIsDragging}: { index: number, value: any, setIsDragging: React.Dispatch<React.SetStateAction<boolean>>}) => {
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: 'BUTTON',
+        item: { index, value },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }));
+
+    useEffect(() => {
+        setIsDragging(isDragging);  
+    }, [isDragging, setIsDragging]);
+
+    return (
+        <Button
+            ref={drag}
+            variant="outline"
+            className={`w-10 h-10 mx-1 bg-gray-600 rounded-full text-lg text-center cursor-move ${isDragging ? "opacity-50" : ""}`}
+            size="icon"
+        >
+            {value}
+        </Button>
+    );
+};
+
+const DropZone = ({ onDrop, backgroundColor, label }: { onDrop: (index: number, value: number) => void, backgroundColor: string, label: string }) => {
+    const [{ isOver }, drop] = useDrop(() => ({
+        accept: 'BUTTON',
+        drop: (item: { index: number, value: string }) => onDrop(item.index, item.value === '+1' ? 1 : -1),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    }));
+
+    return (
+        <div
+            ref={drop}
+            style={{
+                backgroundColor: isOver ? 'lightgray' : backgroundColor,
+                border: "1px solid var(--border-color)", 
+            }}
+            className="flex items-center justify-center h-full w-full text-white font-bold"
+        >
+            {label}
+        </div>
+
+    );
+};
+
+
 const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any[]}) => {
     const [sValues, setSValues] = useState<number[]>([]);
-    const [flashing, setFlashing] = useState(false);
     const [restartModalOpen, setRestartModalOpen] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [sValueStarted, setSvalueStarted] = useState(false);
 
     const [espAB, setEspAB] = useState<number[]>([]);  
     const [espApB, setEspApB] = useState<number[]>([]); 
     const [espApBp, setEspApBp] = useState<number[]>([]); 
     const [espABp, setEspABp] = useState<number[]>([]); 
+
+    const [isDragging, setIsDragging] = useState(false);
+
+    const [isPopupVisible, setPopupVisible] = useState(false);
+
+    const onShowGraph = () => {
+      setPopupVisible(true);
+    };
+  
+    const closePopup = () => {
+      setPopupVisible(false);
+    };
 
     const calculateAverage = (arr: number[]) => {
         if (arr.length === 0) return 0;
@@ -66,6 +131,9 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
         return sum / arr.length; 
     };
     const sValue = calculateAverage(espAB) + calculateAverage(espApB) + calculateAverage(espApBp) - calculateAverage(espABp);
+
+    const [buttonState, setButtonState] = useState<{ [key: number]: { color: string, value: string } }>({});
+
 
     const {localize} = useLanguage();
 
@@ -96,6 +164,17 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
     } = useE91ProgressStore();
 
     useEffect(() => {
+        if (sValueStarted) {
+            const sValue = calculateAverage(espAB) 
+                        + calculateAverage(espApB) 
+                        + calculateAverage(espApBp) 
+                        - calculateAverage(espABp);
+        
+            setSValues((prevSValues) => [...prevSValues, sValue]);
+        }
+      }, [espAB, espApB, espApBp, espABp]);
+
+    useEffect(() => {
         if (securedDecision !== null) {
             let partnerName = playerRole === 'B' ? 'Alice': 'Bob';
             if (securedDecision) {
@@ -118,23 +197,6 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
              
         }
     }, [securedDecision]);
-
-    const handleNext = () => {
-        setIsDisabled(true);
-        if (aliceInvalidBases.length !== 0) {
-            setFlashing(true);
-            setTimeout(() => {
-                setFlashing(false);
-                calculateSValue(aliceInvalidBases[0], bobInvalidBases[0], aliceInvalidBits[0], bobInvalidBits[0]); 
-                setSValues(prevSValues => [...prevSValues, Math.abs(sValue)]);
-                setAliceInvalidBits(aliceInvalidBits.slice(1)); 
-                setAliceInvalidBases(aliceInvalidBases.slice(1));
-                setBobInvalidBits(bobInvalidBits.slice(1)); 
-                setBobInvalidBases(bobInvalidBases.slice(1));
-                setIsDisabled(false);
-            }, 250); 
-        }       
-    };
 
     const calculateSValue = (aliceBase: string, bobBase: string, aliceBit: string, bobBit: string) => {
         let result = 0;
@@ -181,66 +243,50 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
         setRestartModalOpen(false);
     };
 
-    useEffect(() => {
-        const width = 800;
-        const height = 400;
-        const margin = { top: 20, right: 20, bottom: 40, left: 40 };
-
-        const svg = d3.select("#sGraph")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom);
-
-        const graph = svg.append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-        
-        const xScale = d3.scaleLinear().domain([0, 50]).range([0, width]);
-        const yScale = d3.scaleLinear().domain([0, 4]).range([height, 0]);
-
-        graph.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .call(d3.axisBottom(xScale).ticks(10))
-            .append("text")
-            .attr("fill", "white")
-            .attr("x", width / 2)
-            .attr("y", 30)
-            .attr("text-anchor", "middle")
-            .text("Photon Count"); 
-
-        graph.append("g")
-            .call(d3.axisLeft(yScale).ticks(8)) 
-            .append("text")
-            .attr("fill", "white")
-            .attr("transform", "rotate(-90)")
-            .attr("x", -height / 2)
-            .attr("y", -30)
-            .attr("text-anchor", "middle")
-            .text("S Value"); 
-
-        graph.selectAll(".dot")
-            .data(sValues)
-            .join("circle")
-            .attr("class", "dot")
-            .attr("cx", (d, i) => xScale(i + 1))
-            .attr("cy", d => yScale(d))
-            .attr("r", 3)
-            .attr("fill", "white");
-
-        svg.append("line")
-            .attr("x1", 0)
-            .attr("x2", width)
-            .attr("y1", yScale(2 * Math.sqrt(2)))
-            .attr("y2", yScale(2 * Math.sqrt(2)))
-            .style("stroke", "red")
-            .style("stroke-dasharray", "4");
-
-        graph.append("text")
-            .attr("x", width - 50)
-            .attr("y", yScale(2 * Math.sqrt(2)) - 5)
-            .attr("fill", "red")
-            .attr("font-size", "14px")
-            .attr("text-anchor", "end")
-            .text("2√2 Threshold");
-    }, [sValues]);
+    const handleDrop = (zone: string, index: number, value: number) => {
+        let correctValue = aliceInvalidBits[index] === bobInvalidBits[index] ? 1 : -1
+        setIsDragging(false);  
+        setSvalueStarted(true);
+        switch (zone) {
+            case 'AB':
+                if ((aliceInvalidBases[index] === '1' && bobInvalidBases[index] === '2') && (value === correctValue)) {
+                    setEspAB((prev) => [...prev, value]);
+                    setButtonState((prev) => ({
+                        ...prev,
+                        [index]: { color: 'blue', value: value === 1 ? '+1' : '-1' },
+                    }));
+                }
+                break;
+            case 'ApB':
+                if ((aliceInvalidBases[index] === '3' && bobInvalidBases[index] === '2') && (value === correctValue)) {
+                    setEspApB((prev) => [...prev, value]);
+                    setButtonState((prev) => ({
+                        ...prev,
+                        [index]: { color: 'green', value: value === 1 ? '+1' : '-1' },
+                    }));
+                }
+                break;
+            case 'ApBp':
+                if ((aliceInvalidBases[index] === '3' && bobInvalidBases[index] === '4') && (value === correctValue)) {
+                    setEspApBp((prev) => [...prev, value]);
+                    setButtonState((prev) => ({
+                        ...prev,
+                        [index]: { color: 'yellow', value: value === 1 ? '+1' : '-1' },
+                    }));
+                }
+                break;
+            case 'ABp':
+                if ((aliceInvalidBases[index] === '1' && bobInvalidBases[index] === '4') && (value === correctValue)) {
+                    setEspABp((prev) => [...prev, value]);
+                    setButtonState((prev) => ({
+                        ...prev,
+                        [index]: { color: 'rose', value: value === 1 ? '+1' : '-1' },
+                    }));
+                }
+                break;
+        }
+    };
+    
 
     return (
         <>
@@ -251,64 +297,96 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                                    'component.e91.restart.unsecured.description')}
                                onConfirm={restartGame}/>
         <div className="block border text-card-foreground border-secondary bg-card shadow-lg rounded-lg">
-            <div style={{minHeight:"350px", maxHeight:"350px", overflow:"auto"}}>
-                <Table className="w-full">
-                    <TableHeader className="bg-card top-0 sticky">
-                        <TableRow className="text-sm md:text-md border-secondary">
-                            <TableHead colSpan={2} className="text-center rounded-tl-lg">
-                                Alice
-                            </TableHead>
-                            <TableHead colSpan={2} className="text-center rounded-tr-lg">
-                                Bob
-                            </TableHead>
-                        </TableRow>
+            <DndProvider backend={HTML5Backend}>
+                <div style={{minHeight:"500px", maxHeight:"500px", overflow: isDragging ? "hidden" : "auto"}}>
+                    <Table className="w-full">
+                        <TableHeader className="bg-card top-0 sticky">
                             <TableRow className="text-sm md:text-md border-secondary">
-                            <TableHead className="text-center">Base</TableHead>
-                            <TableHead className="text-center">Photon</TableHead>
-                            <TableHead className="text-center">Base</TableHead>
-                            <TableHead className="text-center">Photon</TableHead>
-                        </TableRow>
-                    </TableHeader>               
-                    <TableBody>
-                        {aliceInvalidBases.map((_, index) => (
-                            <TableRow key={index} className={`text-center border-secondary ${index === 0 && flashing ? "flash-delete" : ""}`}>
-                                <TableCell>           
-                                    <Button variant="outline"
-                                        disabled={true}
-                                        className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"
-                                        size="icon">
-                                        {polarIcons[parseInt(aliceInvalidBases[index])]}                 
-                                    </Button>                          
-                                </TableCell>
-                                <TableCell>
-                                    <Input disabled value={aliceInvalidBits[index]} className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"/>
-                                </TableCell>
-                                <TableCell>
-                                    <Button variant="outline"
-                                        disabled={true}
-                                        className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"
-                                        size="icon">
-                                        {polarIcons[parseInt(bobInvalidBases[index])]}                 
-                                    </Button> 
-                                </TableCell>
-                                <TableCell>
-                                    <Input disabled value={bobInvalidBits[index]} className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"/>
-                                </TableCell>
+                                <TableHead colSpan={2} className="text-center rounded-tl-lg">
+                                    Alice
+                                </TableHead>
+                                <TableHead colSpan={2} className="text-center rounded-tr-lg">
+                                    Bob
+                                </TableHead>
+                                <TableHead colSpan={2} className="text-center rounded-tr-lg">
+                                </TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>               
-                </Table>
-            </div>
-            <div className="flex justify-center p-4">                          
-                <Button onClick={handleNext} disabled={isDisabled} variant="secondary">Next</Button>
-            </div>
-            <div className="flex justify-end p-4">              
-                <Button onClick={onSecure} variant="default">Secure</Button>
-                <Button onClick={onUnsecure} variant="destructive">Not Secure</Button>
-            </div>
-            <div className="p-6 bg-background border-t border-secondary mt-4 rounded-b-lg">
-                <h2 className="text-center font-bold mb-4">CHSH Graph</h2>
-                <svg id="sGraph" className="block mx-auto"></svg>
+                                <TableRow className="text-sm md:text-md border-secondary">
+                                <TableHead className="text-center">Base</TableHead>
+                                <TableHead className="text-center">Photon</TableHead>
+                                <TableHead className="text-center">Base</TableHead>
+                                <TableHead className="text-center">Photon</TableHead>
+                                <TableHead className="text-center">Values</TableHead>
+                            </TableRow>
+                        </TableHeader>               
+                        <TableBody>
+                            {aliceInvalidBases.map((_, index) => (
+                                <TableRow key={index} className={`text-center border-secondary`}>
+                                    <TableCell>           
+                                        <Button variant="outline"
+                                            disabled={true}
+                                            className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"
+                                            size="icon">
+                                            {polarIcons[parseInt(aliceInvalidBases[index])]}                 
+                                        </Button>                          
+                                    </TableCell>
+                                    <TableCell>
+                                        <Input disabled value={aliceInvalidBits[index]} className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"/>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button variant="outline"
+                                            disabled={true}
+                                            className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"
+                                            size="icon">
+                                            {polarIcons[parseInt(bobInvalidBases[index])]}                 
+                                        </Button> 
+                                    </TableCell>
+                                    <TableCell>
+                                        <Input disabled value={bobInvalidBits[index]} className="w-10 text-lg text-center mx-auto disabled:opacity-100 disabled:bg-background disabled:cursor-default"/>
+                                    </TableCell>
+                                    <TableCell className="flex gap-1 justify-center">
+                                        {buttonState[index] ? (
+                                            <Button
+                                                variant="outline"
+                                                className={clsx(`w-10 h-10 mx-1 rounded-full text-lg text-center`, `bg-${buttonState[index].color}-500`)}
+                                                size="icon"
+                                            >
+                                                {buttonState[index].value}
+                                            </Button>
+                                        ) : (
+                                            <>
+                                                 <DraggableButton index={index} value="+1" setIsDragging={setIsDragging}/>
+                                                 <DraggableButton index={index} value="-1" setIsDragging={setIsDragging}/>
+                                            </>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>               
+                    </Table>
+                </div>
+                <div className="flex justify-center p-4">                          
+                    <Button onClick={onShowGraph} variant="secondary">Show Graph</Button>
+                    <GraphPopup isVisible={isPopupVisible} onClose={closePopup} sValues={sValues} />
+                </div>
+                <div className="flex justify-end p-4">              
+                    <Button onClick={onSecure} variant="default">Secure</Button>
+                    <Button onClick={onUnsecure} variant="destructive">Not Secure</Button>
+                </div>
+                <div className="grid grid-cols-2 grid-rows-2 h-64 w-full border border-secondary rounded-lg overflow-hidden mt-4 gap-0">
+                    <DropZone onDrop={(index, value) => handleDrop('AB', index, value)} backgroundColor="blue" label="A-B" />
+                    <DropZone onDrop={(index, value) => handleDrop('ApB', index, value)} backgroundColor="green" label="A'-B" />
+                    <DropZone onDrop={(index, value) => handleDrop('ABp', index, value)} backgroundColor="red" label="A-B'" />
+                    <DropZone onDrop={(index, value) => handleDrop('ApBp', index, value)} backgroundColor="orange" label="A'-B'" />
+                </div>
+            </DndProvider>
+            <div className="p-6 bg-background border-t border-secondary rounded-b-lg text-5xl font-bold text-center mt-2">
+                S = 
+                <span style={{ color: "blue" }}> E(a, b) [{calculateAverage(espAB)}] </span> + 
+                <span style={{ color: "green" }}> E(a', b) [{calculateAverage(espApB)}] </span> -
+                <span style={{ color: "red" }}> E(a, b') [{calculateAverage(espABp)}] </span> +              
+                <span style={{ color: "orange" }}> E(a', b') [{calculateAverage(espApBp)}] </span>
+                = {sValue}
             </div>
         </div>
         </>

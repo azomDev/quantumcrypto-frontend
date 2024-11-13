@@ -31,6 +31,8 @@
     "next": "14.0.4",
     "next-themes": "^0.2.1",
     "react": "^18",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
     "react-loading-icons": "^1.1.0",
