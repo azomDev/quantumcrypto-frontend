@@ -19,6 +19,7 @@ import usePlayerStore from '@/store/player-store';
 import {Copy} from 'lucide-react';
 import isConnected from '@/components/hoc/is-connected';
 import {JOIN_EVENT} from '@/bb84-constants';
+import { recordGameStats } from '@/app/(main)/services/api'
 
 const WaitingRoom: React.FC = () => {
 
@@ -35,6 +36,7 @@ const WaitingRoom: React.FC = () => {
     const [copied, setCopied] = useState(false);
 
     const onStartGame = () => {
+        recordGameStats('bb84', playerCount);
         router.replace(`/games/bb84/${gameCode}/results`);
         startGame('bb84');
     };
