@@ -15,13 +15,14 @@ import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
 import useE91RoomStore from '@/store/e91/e91-room-store';
 import usePlayerStore from '@/store/player-store';
 import { E91GameStep, Line } from '@/types';
-import * as d3 from 'd3';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useDrag, DndProvider, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import clsx from 'clsx';
 import GraphPopup from '../graphPopup';
+import { clearE91LocalStorage } from '@/lib/utils';
+import { RESTART_WITHOUT_EVE_EVENT } from '@/bb84-constants';
 
 
 export const moveToExchangeTab = () => {
@@ -89,18 +90,20 @@ const DropZone = ({ onDrop, backgroundColor, label }: { onDrop: (index: number, 
 
     return (
         <div
-            ref={drop}
-            style={{
-                backgroundColor: isOver ? 'lightgray' : backgroundColor,
-                border: "1px solid var(--border-color)", 
-            }}
-            className="flex items-center justify-center h-full w-full text-white font-bold"
+          ref={drop}
+          style={{
+            backgroundColor: isOver ? '#d1d5db' : backgroundColor, 
+            border: '2px solid var(--border-color)',
+          }}
+          className="flex flex-col justify-center items-center w-full h-full rounded-lg shadow-lg p-2 transition-all"
         >
-            {label}
+          <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-md">
+            <span className="text-gray-700 font-medium text-xl">{label}</span>
+          </div>
+          <span className="mt-2 text-sm font-semibold text-gray-800">Drop Here</span>
         </div>
-
-    );
-};
+      );
+    };
 
 
 const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any[]}) => {
@@ -116,6 +119,8 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
     const [isDragging, setIsDragging] = useState(false);
 
     const [isPopupVisible, setPopupVisible] = useState(false);
+
+    const [buttonsActivated, setButtonsActivated] = useState(true);
 
     const onShowGraph = () => {
       setPopupVisible(true);
@@ -137,7 +142,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
 
     const {localize} = useLanguage();
 
-    const {shareDecision} = useSocket();
+    const {shareDecision, saveScore, restartGameWithoutEve} = useSocket();
 
     const {
         aliceInvalidBits,
@@ -146,6 +151,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
         bobInvalidBases,
         securedDecision,
         evePresent,
+        eveSpotted,
     } = useE91RoomStore();
 
 
@@ -156,6 +162,8 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
         setBobInvalidBases,
         resetRoom,
         setGameSuccess,
+        setEveSpotted,
+        setValidated
     } = useE91RoomStore();
 
     const {
@@ -170,7 +178,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                         + calculateAverage(espApBp) 
                         - calculateAverage(espABp);
         
-            setSValues((prevSValues) => [...prevSValues, sValue]);
+            setSValues((prevSValues) => [...prevSValues, Math.abs(sValue)]);
         }
       }, [espAB, espApB, espApBp, espABp]);
 
@@ -183,7 +191,16 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
             } else {
                 toast(localize('component.e91.decsion.unsecured') + `${partnerName}`);
                 if (evePresent) {
-                    setRestartModalOpen(true);
+                    pushLines([
+                        {
+                            title: 'component.e91.restart.unsecured',
+                            content: 'component.e91.restart.unsecured.description'
+                        }
+                    ]);
+                    setButtonsActivated(false);
+                    setEveSpotted(true);
+                    setValidated(true);
+                    //setRestartModalOpen(true);
                 } else {
                     pushLines([
                         {
@@ -191,7 +208,10 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                             content: 'component.e91.gameLoss'
                         }
                     ]);
+                    setButtonsActivated(false);
+                    saveScore(0);
                     setGameSuccess(true);
+                    clearE91LocalStorage();
                 }
             }
              
@@ -224,7 +244,16 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
     const onUnsecure = () => {
         shareDecision(false);
         if (evePresent) {
-            setRestartModalOpen(true);
+            pushLines([
+                {
+                    title: 'component.e91.restart.unsecured',
+                    content: 'component.e91.restart.unsecured.description'
+                }
+            ]);
+            setButtonsActivated(false);
+            setEveSpotted(true);
+            setValidated(true);
+            //setRestartModalOpen(true);
         } else {
             pushLines([
                 {
@@ -232,15 +261,12 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                     content: 'component.e91.gameLoss'
                 }
             ]);
+            setButtonsActivated(false);
+            saveScore(0);
             setGameSuccess(true);
+            clearE91LocalStorage();
         }
 
-    };
-
-    const restartGame = () => {
-        resetRoom();
-        resetProgress();
-        setRestartModalOpen(false);
     };
 
     const handleDrop = (zone: string, index: number, value: number) => {
@@ -253,7 +279,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                     setEspAB((prev) => [...prev, value]);
                     setButtonState((prev) => ({
                         ...prev,
-                        [index]: { color: 'blue', value: value === 1 ? '+1' : '-1' },
+                        [index]: { color: 'bg-green-800', value: value === 1 ? '+1' : '-1' },
                     }));
                 }
                 break;
@@ -262,7 +288,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                     setEspApB((prev) => [...prev, value]);
                     setButtonState((prev) => ({
                         ...prev,
-                        [index]: { color: 'green', value: value === 1 ? '+1' : '-1' },
+                        [index]: { color: 'bg-green-200', value: value === 1 ? '+1' : '-1' },
                     }));
                 }
                 break;
@@ -271,7 +297,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                     setEspApBp((prev) => [...prev, value]);
                     setButtonState((prev) => ({
                         ...prev,
-                        [index]: { color: 'yellow', value: value === 1 ? '+1' : '-1' },
+                        [index]: { color: 'bg-blue-800', value: value === 1 ? '+1' : '-1' },
                     }));
                 }
                 break;
@@ -280,7 +306,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                     setEspABp((prev) => [...prev, value]);
                     setButtonState((prev) => ({
                         ...prev,
-                        [index]: { color: 'rose', value: value === 1 ? '+1' : '-1' },
+                        [index]: { color: 'bg-blue-300', value: value === 1 ? '+1' : '-1' },
                     }));
                 }
                 break;
@@ -295,10 +321,10 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                                    'component.e91.restart.unsecured')}
                                description={localize(
                                    'component.e91.restart.unsecured.description')}
-                               onConfirm={restartGame}/>
+                               onConfirm={restartGameWithoutEve}/>
         <div className="block border text-card-foreground border-secondary bg-card shadow-lg rounded-lg">
             <DndProvider backend={HTML5Backend}>
-                <div style={{minHeight:"500px", maxHeight:"500px", overflow: isDragging ? "hidden" : "auto"}}>
+                <div style={{minHeight:"300px", maxHeight:"500px", overflow: isDragging ? "hidden" : "auto"}}>
                     <Table className="w-full">
                         <TableHeader className="bg-card top-0 sticky">
                             <TableRow className="text-sm md:text-md border-secondary">
@@ -316,7 +342,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                                 <TableHead className="text-center">Photon</TableHead>
                                 <TableHead className="text-center">Base</TableHead>
                                 <TableHead className="text-center">Photon</TableHead>
-                                <TableHead className="text-center">Values</TableHead>
+                                <TableHead className="text-center">{localize('component.e91.text.values')}</TableHead>
                             </TableRow>
                         </TableHeader>               
                         <TableBody>
@@ -348,7 +374,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                                         {buttonState[index] ? (
                                             <Button
                                                 variant="outline"
-                                                className={clsx(`w-10 h-10 mx-1 rounded-full text-lg text-center`, `bg-${buttonState[index].color}-500`)}
+                                                className={clsx(`w-10 h-10 mx-1 rounded-full text-lg text-center`, `${buttonState[index].color}`)}
                                                 size="icon"
                                             >
                                                 {buttonState[index].value}
@@ -366,27 +392,67 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                     </Table>
                 </div>
                 <div className="flex justify-center p-4">                          
-                    <Button onClick={onShowGraph} variant="secondary">Show Graph</Button>
-                    <GraphPopup isVisible={isPopupVisible} onClose={closePopup} sValues={sValues} />
+                    <Button onClick={onShowGraph} variant="secondary">{localize('component.e91.button.showGraph')}</Button>
+                    <GraphPopup isVisible={isPopupVisible} onClose={closePopup} sValues={sValues} photonNumber={aliceInvalidBases.length}/>
                 </div>
                 <div className="flex justify-end p-4">              
-                    <Button onClick={onSecure} variant="default">Secure</Button>
-                    <Button onClick={onUnsecure} variant="destructive">Not Secure</Button>
+                    <Button onClick={onSecure} variant="default" disabled={!buttonsActivated}>{localize('component.e91.button.secure')}</Button>
+                    <Button onClick={onUnsecure} variant="destructive" disabled={!buttonsActivated}>{localize('component.e91.button.unsecure')}</Button>
                 </div>
-                <div className="grid grid-cols-2 grid-rows-2 h-64 w-full border border-secondary rounded-lg overflow-hidden mt-4 gap-0">
-                    <DropZone onDrop={(index, value) => handleDrop('AB', index, value)} backgroundColor="blue" label="A-B" />
-                    <DropZone onDrop={(index, value) => handleDrop('ApB', index, value)} backgroundColor="green" label="A'-B" />
-                    <DropZone onDrop={(index, value) => handleDrop('ABp', index, value)} backgroundColor="red" label="A-B'" />
-                    <DropZone onDrop={(index, value) => handleDrop('ApBp', index, value)} backgroundColor="orange" label="A'-B'" />
+                <div className="flex justify-around items-center h-64 w-full border border-secondary rounded-lg mt-4 gap-4">
+                    <DropZone 
+                        onDrop={(index, value) => handleDrop('AB', index, value)} 
+                        backgroundColor="#2C6E49" 
+                        label="a|b" 
+                    />
+                    <DropZone 
+                        onDrop={(index, value) => handleDrop('ApB', index, value)} 
+                        backgroundColor="#88D4AB" 
+                        label="a'|b" 
+                    />
+                    <DropZone 
+                        onDrop={(index, value) => handleDrop('ABp', index, value)} 
+                        backgroundColor="#80d1ef" 
+                        label="a|b'" 
+                    />
+                    <DropZone 
+                        onDrop={(index, value) => handleDrop('ApBp', index, value)} 
+                        backgroundColor="#0a629e" 
+                        label="a'|b'" 
+                    />
                 </div>
             </DndProvider>
-            <div className="p-6 bg-background border-t border-secondary rounded-b-lg text-5xl font-bold text-center mt-2">
-                S = 
-                <span style={{ color: "blue" }}> E(a, b) [{calculateAverage(espAB)}] </span> + 
-                <span style={{ color: "green" }}> E(a', b) [{calculateAverage(espApB)}] </span> -
-                <span style={{ color: "red" }}> E(a, b') [{calculateAverage(espABp)}] </span> +              
-                <span style={{ color: "orange" }}> E(a', b') [{calculateAverage(espApBp)}] </span>
-                = {sValue}
+            <div className="p-6 bg-background border-t border-secondary rounded-b-lg text-center mt-4">
+                <table className="w-full table-auto border-collapse border border-secondary">
+                    <thead>
+                        <tr className="bg-secondary text-white text-lg">
+                            <th className="border border-secondary p-2">E(a, b)</th>
+                            <th className="border border-secondary p-2">E(a', b)</th>
+                            <th className="border border-secondary p-2">E(a, b')</th>
+                            <th className="border border-secondary p-2">E(a', b')</th>
+                            <th className="border border-secondary p-2">S</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr className="text-xl">
+                        <td className="border border-secondary p-2 text-3xl" style={{ color: '#2C6E49' }}>
+                            {calculateAverage(espAB)}
+                        </td>
+                        <td className="border border-secondary p-2 text-3xl" style={{ color: '#88D4AB' }}>
+                            {calculateAverage(espApB)}
+                        </td>
+                        <td className="border border-secondary p-2 text-3xl" style={{ color: '#80d1ef' }}>
+                            {calculateAverage(espABp)}
+                        </td>
+                        <td className="border border-secondary p-2 text-3xl" style={{ color: '#0a629e' }}>
+                            {calculateAverage(espApBp)}
+                        </td>
+                        <td className="border border-secondary p-2 text-3xl font-bold">
+                            {sValue}
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         </>

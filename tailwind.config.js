@@ -8,10 +8,10 @@ module.exports = {
         './src/**/*.{ts,tsx}',
     ],
     safelist: [
-        'bg-yellow-500',
-        'bg-rose-500',
-        'bg-green-500',
-        'bg-blue-500'
+        'bg-blue-300',
+        'bg-blue-800',
+        'bg-green-300',
+        'bg-green-800'
     ],
     prefix: "",
     theme: {
