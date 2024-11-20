@@ -359,7 +359,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.decsion.unsecured': 'Channel has been declared compromised by ',
         'component.e91.decsion.secured': 'Channel has been declared secure by ',
         'component.e91.restart.unsecured': 'Channel compromised',
-        'component.e91.restart.unsecured.description': 'Eve has been found out',
+        'component.e91.restart.unsecured.description': ' Eve has been found out',
         'component.e91.gameLoss.title': 'You lose!',
         'component.e91.gameLoss': ' Eve did not interfere on this channel',
         'component.e91.steps.step1': ' for all photons, the resulting measurements of 0s and 1s will' +
@@ -385,6 +385,16 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.highlights.highlight6Bob': 'Decrypt Alice\'s message',
         'component.e91.steps.step6Bob': ' using' +
         ' your key.',
+        'component.e91.validation.invalid.start': 'Drag the correct value (+1 or -1) to the corresponding box for each photon\'s measurements',
+        'component.e91.basisDesc': ' (a, b, a\', b\')',
+        'component.e91.button.secure': 'Secure',
+        'component.e91.button.unsecure': 'Not secure',
+        'component.e91.button.showGraph': 'Show graph',
+        'component.e91.text.values': 'Values',
+        'component.e91.graph.values': 'S Values',
+        'component.e91.graph.title': 'CHSH Graph',
+        'component.e91.text.seeResults': 'See Results',
+        
 
 
     },
