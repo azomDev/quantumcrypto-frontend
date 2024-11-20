@@ -36,7 +36,6 @@ const E91ResultsTable = ({rooms, players}: ResultsTableProps) => {
                 <TableHeader className="bg-card top-0 sticky">
                     <TableRow className="text-sm md:text-lg">
                         <TableHead>Room</TableHead>
-                        <TableHead>Iteration</TableHead>
                         <TableHead>Eve Present</TableHead>
                         <TableHead>Eve detected</TableHead>
                         <TableHead>Time</TableHead>

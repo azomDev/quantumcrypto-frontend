@@ -12,9 +12,6 @@ const E91ResultsRow = ({room, player1, player2}: E91ResultsRowProps) => {
         <TableRow>
             <TableCell>{`${player1} - ${player2}`}</TableCell>
             <TableCell>{room.iterations.map(
-                (_: any, index: number) => <p key={index}>{index +
-                    1}</p>)}</TableCell>
-            <TableCell>{room.iterations.map(
                 ({eve_present}: any, index: number) => <p
                     key={index}>{eve_present ? 'Yes' : 'No'}</p>)}</TableCell>
             <TableCell>{room.iterations.map(
