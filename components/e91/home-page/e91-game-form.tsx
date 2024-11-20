@@ -243,7 +243,7 @@ const E91Main: React.FC = () => {
                             {localize('general.close')}
                         </AlertDialogCancel>
                         <AlertDialogAction onClick={onRejoin}>
-                            {localize('component.e91.gameFound.action')}
+                            {localize('component.bb84.gameFound.action')}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

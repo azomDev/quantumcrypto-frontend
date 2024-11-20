@@ -175,7 +175,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                                     <p>{localize(
                                         'component.aliceGame.basis')}</p>
                                     <p>{localize(
-                                        'component.aliceGame.basisDesc')}</p>
+                                        'component.e91.basisDesc')}</p>
                                 </div>
                                 <Button size="sm"
                                         disabled={photonsMeasured}
@@ -224,14 +224,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                     ))}
                 </TableBody>
             </Table>
-            <div
-                className="fixed bottom-3 right-3 md:hidden">
-                <Button onClick={onMeasurement} size={'icon'}
-                        disabled={photonsMeasured}>
-                    <CheckCircle2/>
-                </Button>
-            </div>
-            <div className="hidden md:block fixed right-6 bottom-6 shadow-xl">
+            <div className="md:block fixed right-6 bottom-6 shadow-xl">
                 <Button disabled={!validateForm || photonsMeasured} size="lg"
                         onClick={onMeasurement}
                         className="text-lg font-bold">
@@ -239,7 +232,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                 </Button>
             </div>
             {photonsRevealed && (
-                <div className="fixed bottom-12 right-3 md:bottom-6 md:right-6">
+                <div className="md:block fixed right-6 bottom-6 shadow-xl">
                     <Button size="lg" className="text-lg font-bold"
                             onClick={onShare}>
                         {localize('component.e91.shareBases')}
