@@ -15,7 +15,7 @@ import useE91GameStore from '@/store/e91/e91-game-store';
 const E91Progression = () => {
 
     const {localize} = useLanguage();
-    const {sendEvent} = useSocket();
+    const {sendEvent, restartGameWithoutEve} = useSocket();
     const router = useRouter();
 
     const {gameCode} = useE91GameStore();
@@ -45,10 +45,6 @@ const E91Progression = () => {
         );
     });
 
-    const restartGameWithoutEve = () => {
-        sendEvent(RESTART_WITHOUT_EVE_EVENT);
-    };
-
     const goToResultsPage = () => {
         router.replace(`/games/e91/${gameCode}/results`);
     };
@@ -69,7 +65,7 @@ const E91Progression = () => {
                         className="font-bold text-highlight"> {partnerName}</span>
                 </p>
                 <div className="w-full h-fit mb-1 flex justify-center">
-                    <Button onClick={goToResultsPage}>See Results</Button>
+                    <Button onClick={goToResultsPage}>{localize('component.e91.text.seeResults')}</Button>
                 </div>
             </div>}
         </GameProgression>

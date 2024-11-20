@@ -79,6 +79,7 @@ type SocketContextType = {
     shareDecision: (decision: boolean) => void;
     sharePreference: (useValidBits: boolean) => void;
     shareValidation: (valid: boolean) => void;
+    restartGameWithoutEve: () => void;
     shareDiceValue: (value: number) => void;
     sendBobSuccess: (gameType: string) => void;
     disconnectWaitingRoom: () => void;
@@ -124,6 +125,8 @@ const SocketContext = createContext<SocketContextType>({
     sendEveSpotted: () => {
     },
     saveScore: () => {
+    },
+    restartGameWithoutEve: () => {
     },
     shareValidation: () => {
     },
@@ -827,7 +830,8 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
     const saveScore = (score: number) => {
         sendEvent(SCORE_EVENT, {
             score,
-            player_name: usePlayerStore.getState().playerName
+            player_name: usePlayerStore.getState().playerName,
+            game_code: useE91GameStore.getState().gameCode
         });
     };
 
@@ -888,6 +892,10 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
             A_VALIDATED_EVENT :
             B_VALIDATED_EVENT;
         sendEvent(event, {valid});
+    };
+
+    const restartGameWithoutEve = () => {
+        sendEvent(RESTART_WITHOUT_EVE_EVENT, {player_name: usePlayerStore.getState().playerName});
     };
 
     const shareIndices = (validationIndices: number[]) => {
@@ -966,6 +974,7 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                 shareDecision,
                 sendBobSuccess,
                 shareValidation,
+                restartGameWithoutEve,
                 shareDiceValue,
                 disconnectWaitingRoom,
             }}>

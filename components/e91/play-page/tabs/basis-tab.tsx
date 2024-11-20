@@ -74,6 +74,7 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
         bobDiceRoll,
         reroll,
         evePresent,
+        conflict
     } = useE91RoomStore();
 
     const { setValidationBitsLength } = useE91GameStore();
@@ -125,14 +126,19 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
 
 
     useEffect(() => {
-        if (utilizeValidBits !== null && !utilizeValidBits) {
+        if (diceRollWinner === null && utilizeValidBits !== null && !utilizeValidBits) {
+            pushLines([
+                {
+                    content: 'component.e91.validation.invalid.start'
+                }
+            ]);
             setStep(E91GameStep.VALIDATION);
             setE91Tab('validation');  
         }
     }, [utilizeValidBits]);
 
     useEffect(() => {
-        if (choicesSubmitted) {
+        if (choicesSubmitted && (conflict || utilizeValidBits)) {
             pushLines([
                 {
                     content: 'component.e91.dicePurpose'
@@ -156,6 +162,12 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                         pushLines([
                             {
                                 content: 'component.e91.choose.valid'
+                            }
+                        ]);
+                    } else {
+                        pushLines([
+                            {
+                                content: 'component.e91.validation.invalid.start'
                             }
                         ]);
                     }
@@ -202,7 +214,13 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                                 content: 'component.e91.awating.alice.bitPreference'
                             }
                         ]);
-                    } 
+                    } else {
+                        pushLines([
+                            {
+                                content: 'component.e91.validation.invalid.start'
+                            }
+                        ]);
+                    }
                 }
             }                     
         }
@@ -405,16 +423,7 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                 </Table>
                 {!compared && invalidBitsRemoved && (
                     <div
-                        className="fixed bottom-5 right-3 md:hidden">
-                        <Button size={'icon'} disabled={keyBits.length > 0}
-                        onClick={onValidate}>
-                        <CheckCircle2/>
-                        </Button>
-                    </div>
-                )}
-                {!compared && invalidBitsRemoved && (
-                    <div
-                        className="hidden md:block fixed right-6 bottom-6 shadow-xl">
+                        className="md:block fixed right-6 bottom-6 shadow-xl">
                         <Button size="lg"
                                 disabled={keyBits.length > 0}
                                 onClick={onValidate}
@@ -425,7 +434,7 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                 )}
                 {compared && !gameHasEve && (
                     <div
-                        className="hidden md:block fixed right-6 bottom-6 shadow-xl">
+                        className="md:block fixed right-6 bottom-6 shadow-xl">
                         <Button size="lg"
                                 onClick={onMoveToMessaging}
                                 className="text-lg font-bold">
@@ -479,7 +488,7 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                     </div>
                 )}
                 {bothBasesSet && !invalidBitsRemoved && (
-                    <div className="fixed bottom-12 right-3 md:bottom-6 md:right-6">
+                    <div className="md:block fixed right-6 bottom-6 shadow-xl">
                         <Button size="lg" className="text-lg font-bold"
                                 onClick={removeIncompatibleBases}>
                             {localize('component.e91.removeIncompatibleBases')}
