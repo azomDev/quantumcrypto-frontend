@@ -394,6 +394,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.graph.values': 'S Values',
         'component.e91.graph.title': 'CHSH Graph',
         'component.e91.text.seeResults': 'See Results',
+        'component.quantumCrypto.gamesPlayed': 'Total games played: '
         
 
 
