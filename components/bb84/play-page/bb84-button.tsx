@@ -11,7 +11,8 @@ const Bb84Button = () => {
     return (
         <Link href={'/bb84'}>
             <h1 className="font-bold text-4xl text-primary"
-                onClick={() => playRoomSocket.close()}>BB84</h1>
+                // onClick={() => playRoomSocket.close()}
+            >BB84</h1>
         </Link>
     );
 };

@@ -12,7 +12,7 @@ import React, {useState} from 'react';
 import {CheckCircle2} from 'lucide-react';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {Input} from '@/components/ui/input';
-import {cn} from '@/lib/utils';
+import {cn} from '@/lib/bb84/utils';
 import {toast} from 'sonner';
 import {Button} from '@/components/ui/button';
 import {useLanguage} from '@/components/providers/language-provider';
@@ -23,6 +23,8 @@ import {useSocket} from '@/components/providers/socket-provider';
 import GameRestartDialog
     from '@/components/bb84/play-page/game-restart-dialog';
 import {BB84GameStep} from '@/types';
+import {getValidBits, mimicEveIntercept} from '@/lib/bb84/solo-player';
+import {generateUniqueRandomList} from '@/lib/utils';
 
 const BasisTab = ({playerRole}: { playerRole: string }) => {
 
@@ -48,7 +50,13 @@ const BasisTab = ({playerRole}: { playerRole: string }) => {
         aliceBits,
         bobMeasurements,
         keyBits,
+        setPartnerBits,
+        setValidationIndices,
+        setAliceCipher,
+        setAliceCipherSolo,
     } = useBB84RoomStore();
+
+    const {playingSolo} = usePlayerStore();
 
     const {validationBitsLength, gameHasEve} = useBB84GameStore();
 
@@ -109,8 +117,34 @@ const BasisTab = ({playerRole}: { playerRole: string }) => {
                 return;
             }
             setKeyBits(keyBits);
-            shareKey(keyBits);
+            if (!playingSolo) {
+                shareKey(keyBits);
+            }
             if (gameHasEve) {
+                if (playingSolo) {
+                    const max = keyBits.length - 1;
+                    const min = 0;
+                    const validationIndices = generateUniqueRandomList(min,
+                        max, validationBitsLength);
+                    let partnerBits: string[];
+                    if (playerRole === 'A') {
+                        partnerBits =
+                            getValidBits(bobMeasurements, bobBases,
+                                aliceBases);
+                    } else {
+                        partnerBits =
+                            getValidBits(aliceBits, bobBases, aliceBases);
+                    }
+                    console.log('My bits', keyBits);
+                    console.log('Other bits', partnerBits);
+                    setPartnerBits(partnerBits);
+                    setValidationIndices(validationIndices);
+                    const aliceMockCrypto: string[] = [];
+                    keyBits.forEach(() => {
+                        aliceMockCrypto.push('' + Math.round(Math.random()));
+                    });
+                    setAliceCipherSolo(aliceMockCrypto);
+                }
                 setStep(BB84GameStep.VALIDATION);
                 setBb84Tab('validation');
                 pushLines([
@@ -148,25 +182,28 @@ const BasisTab = ({playerRole}: { playerRole: string }) => {
                 return;
             }
             if (playerRole === 'B') {
-                if (aliceCipher.length > 0) {
-                    pushLines([
-                        {
-                            content: 'component.messaging.bob.start',
-                        },
-                        {
-                            content: 'component.messaging.bob.arrived',
-                        },
-                        {
-                            content: 'component.messaging.bob.decrypt',
-                        },
-                    ]);
-                } else {
+                // If Alice player has already moved to the messaging tab
+                // and sent the message.
+                const aliceMockCrypto: string[] = [];
+                    keyBits.forEach(() => {
+                        aliceMockCrypto.push('' + Math.round(Math.random()));
+                    });
                     pushLines([
                         {
                             content: 'component.messaging.bob.start',
                         },
                     ]);
-                }
+                    setTimeout(() => {
+                        pushLines([
+                            {
+                                content: 'component.messaging.bob.arrived',
+                            },
+                            {
+                                content: 'component.messaging.bob.decrypt',
+                            },
+                        ]);
+                        setAliceCipher(aliceMockCrypto);
+                    }, 2000);
             } else {
                 pushLines([
                     {
@@ -260,7 +297,7 @@ const BasisTab = ({playerRole}: { playerRole: string }) => {
                 <div
                     className="hidden md:block fixed right-6 bottom-6 shadow-xl">
                     <Button size="lg"
-                            disabled={keyBits.length > 0}
+                        disabled={keyBits.length > 0}
                             onClick={onSend}
                             className="text-lg font-bold">
                         {localize('component.basis.validateBtn')}

@@ -14,7 +14,7 @@ import {BB84GameStep} from '@/types';
 import {
     moveToExchangeTab,
 } from '@/components/bb84/play-page/tabs/validation-tab';
-import {clearBB84LocalStorage} from '@/lib/utils';
+import {clearBB84LocalStorage, restartWithoutEve} from '@/lib/bb84/utils';
 import {
     A_BASES_EVENT,
     A_CIPHER_EVENT,
@@ -499,18 +499,11 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                     break;
 
                 case RESTART_WITHOUT_EVE_EVENT:
-                    localStorage.removeItem('bb84PhotonNumber');
-                    localStorage.setItem('bb84GameData', JSON.stringify({}));
-                    localStorage.removeItem('bb84Step');
-                    localStorage.removeItem('bb84Tab');
-                    localStorage.removeItem('bb84DisplayedLines');
                     toast.message('Game restarted', {
                         description: localize(
                             'component.validation.gameRestarted'),
                     });
-                    useBB84RoomStore.getState().resetRoom();
-                    useBB84RoomStore.getState().setEvePresent(false);
-                    useBB84ProgressStore.getState().resetProgress();
+                    restartWithoutEve();
                     break;
 
                 default:

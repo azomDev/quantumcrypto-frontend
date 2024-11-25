@@ -11,12 +11,14 @@ interface BB84RoomStore {
     keyBits: string[];
     partnerBits: string[];
     aliceCipher: string[];
+    aliceCipherSolo: string[];
     aliceCipherSent: boolean;
     gameSuccess: boolean;
     validated: boolean;
     crypto: string[];
     message: string[];
     validatedByPartner: boolean;
+    eveUndetected: boolean;
     setAlicePhotons: (photons: number[]) => void;
     setBobBases: (bases: string[]) => void;
     setAliceBases: (bases: string[]) => void;
@@ -25,6 +27,7 @@ interface BB84RoomStore {
     setKeyBits: (bits: string[]) => void;
     setPartnerBits: (bits: string[]) => void;
     setAliceCipher: (bits: string[]) => void;
+    setAliceCipherSolo: (bits: string[]) => void;
     setAliceCipherSent: (sent: boolean) => void;
     setValidated: (validated: boolean) => void;
     setValidatedByPartner: (validatedByPartner: boolean) => void;
@@ -32,6 +35,7 @@ interface BB84RoomStore {
     setCrypto: (cipher: string[]) => void;
     setMessage: (message: string[]) => void;
     setEvePresent: (evePresent: boolean) => void;
+    setEveUndetected: (eveUndetected: boolean) => void;
     resetRoom: () => void;
     setValidationIndices: (validationIndices: number[]) => void;
     restoreGame: (gameState: any) => void;
@@ -58,12 +62,14 @@ const useBB84RoomStore = create<BB84RoomStore>(set => ({
     keyBits: [],
     partnerBits: [],
     aliceCipher: [],
+    aliceCipherSolo: [],
     aliceCipherSent: false,
     gameSuccess: false,
     validated: false,
     validatedByPartner: false,
     crypto: [],
     message: [],
+    eveUndetected: false,
     setAlicePhotons: photons => updateAndStore('alicePhotons', photons, set),
     setBobBases: bases => updateAndStore('bobBases', bases, set),
     setAliceBases: bases => updateAndStore('aliceBases', bases, set),
@@ -73,6 +79,7 @@ const useBB84RoomStore = create<BB84RoomStore>(set => ({
     setKeyBits: bits => updateAndStore('keyBits', bits, set),
     setPartnerBits: bits => updateAndStore('partnerBits', bits, set),
     setAliceCipher: bits => updateAndStore('aliceCipher', bits, set),
+    setAliceCipherSolo: bits => updateAndStore('aliceCipherSolo', bits, set),
     setAliceCipherSent: sent => updateAndStore('aliceCipherSent', sent, set),
     setGameSuccess: success => updateAndStore('gameSuccess', success, set),
     setValidatedByPartner: validatedByPartner => updateAndStore(
@@ -83,6 +90,8 @@ const useBB84RoomStore = create<BB84RoomStore>(set => ({
     setEvePresent: evePresent => updateAndStore('evePresent', evePresent, set),
     setValidationIndices: validationIndices => updateAndStore(
         'validationIndices', validationIndices, set),
+    setEveUndetected: eveUndetected => updateAndStore('eveUndetected',
+        eveUndetected, set),
     resetRoom: () => set({
         alicePhotons: [],
         bobBases: [],
@@ -92,6 +101,7 @@ const useBB84RoomStore = create<BB84RoomStore>(set => ({
         keyBits: [],
         partnerBits: [],
         aliceCipher: [],
+        aliceCipherSolo: [],
         aliceCipherSent: false,
         gameSuccess: false,
         validated: false,
@@ -99,6 +109,7 @@ const useBB84RoomStore = create<BB84RoomStore>(set => ({
         validationIndices: [],
         crypto: [],
         message: [],
+        eveUndetected: false,
     }),
     restoreGame: gameData => {
         for (const key of Object.keys(gameData)) {
