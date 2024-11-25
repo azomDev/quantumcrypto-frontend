@@ -28,6 +28,7 @@ const WaitingRoom: React.FC = () => {
         isWaitingRoomConnected,
         disconnectWaitingRoom,
         startGame,
+        sendEvent
     } = useSocket();
     const {localize} = useLanguage();
     const router = useRouter();
@@ -35,10 +36,10 @@ const WaitingRoom: React.FC = () => {
     const {playerName, isAdmin} = usePlayerStore();
     const [copied, setCopied] = useState(false);
 
-    const onStartGame = () => {
-        recordGameStats('bb84', playerCount);
+    const onStartGame = async () => {
+        const response = await recordGameStats('bb84', playerCount);
         router.replace(`/games/bb84/${gameCode}/results`);
-        startGame('bb84');
+        startGame('bb84', response.game_id);
     };
 
     useEffect(() => {

@@ -12,3 +12,4 @@ export const A_DECISION_EVENT = 'A_DECISION';
 export const B_DECISION_EVENT = 'B_DECISION';
 export const EVE_SPOTTED_EVENT = 'EVE_SPOTTED';
 export const SCORE_EVENT = 'SCORE';
+export const GAME_ID_EVENT = 'GAME_ID';

@@ -52,9 +52,11 @@ import {
     B_MEASURE_EVENT,
     B_PREFERENCE_EVENT,
     EVE_SPOTTED_EVENT,
+    GAME_ID_EVENT,
     SCORE_EVENT,
     VALIDATION_INDICES_EVENT,
 } from '@/e91-constants';
+import { recordIPAddress } from '@/app/(main)/services/api';
 
 type SocketContextType = {
     waitingRoomSocket: any | null;
@@ -67,7 +69,7 @@ type SocketContextType = {
     playRoomConnecting: boolean;
     connectToWaitingRoom: (data: { gameType: string, gameCode: string, playerName: string, admin: number }) => void;
     connectToPlayRoom: (gameType:string, gameCode:string, role: string, room: string) => void;
-    startGame: (gameType:string) => void;
+    startGame: (gameType:string, id: number) => void;
     sendEvent: (event: string, message?: any) => void;
     measurePhotons: (bases: string[]) => void;
     sendPhotons: (photons: number[]) => void;
@@ -195,6 +197,10 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                     } else if (gameType === 'e91') {
                         useE91GameStore.setState({playerCount: message['count']});
                     }
+                    break;
+                
+                case GAME_ID_EVENT:
+                    recordIPAddress(message['game_id']);
                     break;
 
                 case CONNECTED_EVENT:
@@ -368,6 +374,10 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                         router.replace('/e91/play')
                     }
                     
+                    break;
+
+                case GAME_ID_EVENT:
+                    recordIPAddress(message.game_id);
                     break;
                 
                 case A_MEASURE_EVENT:
@@ -748,12 +758,13 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
         };
     };
 
-    const startGame = (gameType: string) => {
+    const startGame = (gameType: string, id: number) => {
         if (gameType === 'bb84') {
             const payload = {
                 event: START_EVENT,
                 message: {
                     game_code: useBB84GameStore.getState().gameCode,
+                    game_id: id
                 },
             };
             (waitingRoomSocket as any).send(JSON.stringify(payload));
@@ -765,6 +776,7 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                 event: START_EVENT,
                 message: {
                     game_code: useE91GameStore.getState().gameCode,
+                    game_id: id
                 },
             };
             (waitingRoomSocket as any).send(JSON.stringify(payload));

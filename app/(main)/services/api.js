@@ -1,4 +1,6 @@
 import axios from "axios";
+import { GAME_ID_EVENT }from '@/e91-constants';
+
 
 
 export const recordGameStats = async (protocolType, playersCount) => {
@@ -10,6 +12,17 @@ export const recordGameStats = async (protocolType, playersCount) => {
     return response.data;
   } catch (error) {
     console.error("Error recording game stats:", error);
+    throw error;
+  }
+};
+
+export const recordIPAddress = async (gameId) => {
+  try {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/record_player_ip/`, { game_id: gameId });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error adding IP address:", error);
     throw error;
   }
 };
