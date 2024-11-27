@@ -84,7 +84,8 @@ type SocketContextType = {
     restartGameWithoutEve: () => void;
     shareDiceValue: (value: number) => void;
     sendBobSuccess: (gameType: string) => void;
-    disconnectWaitingRoom: () => void;
+    disconnectBB84WaitingRoom: () => void;
+    disconnectE91WaitingRoom: () => void;
     sendEveSpotted: () => void;
     saveScore: (score: number) => void;
 }
@@ -134,7 +135,9 @@ const SocketContext = createContext<SocketContextType>({
     },
     shareDiceValue: () => {
     },
-    disconnectWaitingRoom: () => {
+    disconnectBB84WaitingRoom: () => {
+    },
+    disconnectE91WaitingRoom: () => {
     },
     sendBobSuccess: () => {
     },
@@ -179,7 +182,7 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
             setIsWaitingRoomConnected(false);
             setWaitingRoomConnecting(false);
             setWaitingRoomError(false);
-            useBB84GameStore.setState({players: [], playerCount: 0});
+            gameType === 'bb84' ? useBB84GameStore.setState({players: [], playerCount: 0}): useE91GameStore.setState({players: [], playerCount: 0})           
         };
 
         (socketInstance as any).onmessage = (json: any) => {
@@ -270,6 +273,8 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                     break;
 
                 case TAKEN_NAME_EVENT:
+                    setIsWaitingRoomConnected(false);
+                    setWaitingRoomConnecting(false);
                     toast.error(localize('component.main.takenNameTitle'), {
                         description: localize(
                             'component.main.takenNameDescription'),
@@ -935,7 +940,7 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
         sendEvent(event, {value});
     };
 
-    const disconnectWaitingRoom = () => {
+    const disconnectBB84WaitingRoom = () => {
         if (usePlayerStore.getState().isAdmin) {
             const payload = {
                 event: END_ADMIN_EVENT,
@@ -950,6 +955,29 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                 event: END_PLAYER_EVENT,
                 message: {
                     game_code: useBB84GameStore.getState().gameCode,
+                    player_name: usePlayerStore.getState().playerName,
+                },
+            };
+            (waitingRoomSocket as any).send(JSON.stringify(payload));
+        }
+        (waitingRoomSocket as any).close();
+    };
+
+    const disconnectE91WaitingRoom = () => {
+        if (usePlayerStore.getState().isAdmin) {
+            const payload = {
+                event: END_ADMIN_EVENT,
+                message: {
+                    game_code: useE91GameStore.getState().gameCode,
+                    player_name: usePlayerStore.getState().playerName,
+                },
+            };
+            (waitingRoomSocket as any).send(JSON.stringify(payload));
+        } else {
+            const payload = {
+                event: END_PLAYER_EVENT,
+                message: {
+                    game_code: useE91GameStore.getState().gameCode,
                     player_name: usePlayerStore.getState().playerName,
                 },
             };
@@ -988,7 +1016,8 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                 shareValidation,
                 restartGameWithoutEve,
                 shareDiceValue,
-                disconnectWaitingRoom,
+                disconnectBB84WaitingRoom,
+                disconnectE91WaitingRoom,
             }}>
             {children}
         </SocketContext.Provider>

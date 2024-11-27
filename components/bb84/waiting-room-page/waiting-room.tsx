@@ -26,7 +26,7 @@ const WaitingRoom: React.FC = () => {
     const {
         waitingRoomSocket,
         isWaitingRoomConnected,
-        disconnectWaitingRoom,
+        disconnectBB84WaitingRoom,
         startGame,
         sendEvent
     } = useSocket();
@@ -117,7 +117,7 @@ const WaitingRoom: React.FC = () => {
                 <div className="flex gap-x-4 justify-center">
                     <Button onClick={() => {
                         router.replace('/');
-                        disconnectWaitingRoom();
+                        disconnectBB84WaitingRoom();
                     }
                     } variant="destructive-outline" size="lg">{localize(
                         'component.waitingRoom.exit')}</Button>
@@ -168,7 +168,7 @@ const WaitingRoom: React.FC = () => {
             <div className="mx-auto">
                 <Button onClick={() => {
                     router.replace('/');
-                    disconnectWaitingRoom();
+                    disconnectBB84WaitingRoom();
                 }
                 } variant="destructive-outline" size="lg">{localize(
                     'component.waitingRoom.exit')}</Button>
