@@ -89,6 +89,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.game.tabs2': 'Basis reconciliation',
         'component.game.tabs3': 'Encrypted messaging',
         'component.game.step3': 'Step 3: ',
+        'component.game.step4': 'Step 4: ',
         'component.basis.validate': 'Discard the bits where the bases' +
             ' don\'t match by clicking on them. After discarding them, you' +
             ' will have the secret key.',
@@ -340,7 +341,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.invalidInputRange': 'Number not in valid range',
         'component.e91.shareBases.alice': 'Now share your bases with Bob',
         'component.e91.shareBases.bob': 'Now share your bases with Alice',
-        'component.e91.removeIncompatible': 'Remove the bases that are not compatible with the e91 protocol',
+        'component.e91.classifyBases': 'Categorize each photon\'s measurement bases with the correct type',
         'component.e91.validate': 'Find the bases that do not match by clicking validate button',
         'component.e91.shortKey.restart': 'Your key length is too short, you may restart the game now',
         'component.e91.validOrInvalid': 'You may now decide to proceed using the valid bits or the throwaway bits to secure the key, beware that using valid bits will shorten your final key',

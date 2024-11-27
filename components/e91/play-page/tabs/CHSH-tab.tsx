@@ -36,7 +36,7 @@ export const moveToExchangeTab = () => {
     if (playerRole === 'B') {
         const lines = [
             { 
-                title: 'component.game.step3',
+                title: 'component.game.step4',
                 content: 'component.messaging.bob.start' 
             }
         ];
@@ -44,7 +44,7 @@ export const moveToExchangeTab = () => {
     } else {
         pushLines([
             { 
-                title: 'component.game.step3', 
+                title: 'component.game.step4', 
                 content: 'component.messaging.alice.last' 
             }
         ]);

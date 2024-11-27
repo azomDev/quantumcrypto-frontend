@@ -191,12 +191,29 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                 });
                 setEveReadCount(eveReadAmount);
             }
+            pushLines([
+                {
+                    title: 'component.game.step3',
+                    content: 'component.e91.validation.invalid.start'
+                }
+            ])
             setStep(E91GameStep.VALIDATION);
             setE91Tab('validation');  
         }      
     };
 
     const onMoveToMessaging = () => {
+        const validBitIndices = categoryList
+                .map((field, index) => (field.value === '1' ? index : null))
+                .filter(index => index !== null); 
+    
+            const invalidBitIndices = categoryList
+                .map((field, index) => (field.value === '3' ? index : null))
+                .filter(index => index !== null); 
+    
+            
+        setAliceValidBits(validBitIndices.map(i => aliceBits[i]));
+        setBobValidBits(validBitIndices.map(i => bobBits[i]));
         moveToExchangeTab();
     }
     
@@ -298,6 +315,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                         className="md:block fixed right-6 bottom-6 shadow-xl">
                         <Button size="lg"
                                 onClick={onMoveToMessaging}
+                                disabled={!validateForm}
                                 className="text-lg font-bold">
                             {localize('component.e91.moveToMessaging')}
                         </Button>

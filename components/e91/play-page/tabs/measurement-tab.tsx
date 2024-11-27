@@ -104,7 +104,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
         pushLines([
             {
                 title: 'component.game.step2',
-                content: 'component.e91.removeIncompatible'
+                content: 'component.e91.classifyBases'
             }
         ])       
     }
