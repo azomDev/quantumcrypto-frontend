@@ -18,7 +18,7 @@ import BasisTab from '@/components/bb84/play-page/tabs/basis-tab';
 import MessagingTab from '@/components/bb84/play-page/tabs/messaging-tab';
 import isConnected from '@/components/hoc/is-connected';
 import ValidationTab from '@/components/bb84/play-page/tabs/validation-tab';
-import {cn} from '@/lib/utils';
+import {cn} from '@/lib/bb84/utils';
 import Bb84Progression from '@/components/bb84/play-page/bb84-progression';
 
 

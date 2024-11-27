@@ -2,7 +2,7 @@
 import React from 'react';
 import {ModeToggle} from '@/components/shared/mode-toggle';
 import LanguageToggle from '@/components/shared/language-toggle';
-import {cn} from '@/lib/utils';
+import {cn} from '@/lib/bb84/utils';
 
 const PageSettings = ({className}: { className?: string }) => {
 

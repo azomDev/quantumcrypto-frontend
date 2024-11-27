@@ -20,11 +20,13 @@ import {
 } from '@/components/ui/tooltip';
 import PolarizationTable from '@/components/bb84/play-page/polarization-table';
 import {useLanguage} from '@/components/providers/language-provider';
-import {inputField} from '@/types';
-import {cn, forbiddenSymbols, onBasisInputChange} from '@/lib/utils';
+import {BB84GameStep, inputField} from '@/types';
+import {cn, forbiddenSymbols, onBasisInputChange} from '@/lib/bb84/utils';
 import {useSocket} from '@/components/providers/socket-provider';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
+import usePlayerStore from '@/store/player-store';
+import {simulateBobExchange} from '@/lib/bb84/solo-player';
 
 const AliceExchangeTab = ({photonNumber, polarIcons}: {
     photonNumber: number;
@@ -33,14 +35,21 @@ const AliceExchangeTab = ({photonNumber, polarIcons}: {
 
     const {localize} = useLanguage();
     const {sendPhotons} = useSocket();
-    const {pushLines} = useBB84ProgressStore();
+    const {pushLines, setBb84Tab, setStep} = useBB84ProgressStore();
+    const {playingSolo} = usePlayerStore();
     const {
         evePresent,
         alicePhotons,
         aliceBits,
         aliceBases,
     } = useBB84RoomStore();
-    const {setAlicePhotons, setAliceBits, setAliceBases} = useBB84RoomStore();
+    const {
+        setAlicePhotons,
+        setAliceBits,
+        setAliceBases,
+        setBobMeasurements,
+        setBobBases,
+    } = useBB84RoomStore();
     const photonsSent = alicePhotons.length > 0;
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const [bitsInputs, setBitsInputs] = useState(() => {
@@ -120,11 +129,30 @@ const AliceExchangeTab = ({photonNumber, polarIcons}: {
             if (evePresent) {
                 evePhotons = eveIntercept();
             }
-            const photons = polarList.map(({value}) => parseInt(value));
+            let photons = polarList.map(({value}) => parseInt(value));
             setAlicePhotons(photons);
             setAliceBits(bitsInputs.map(({value}) => value));
             setAliceBases(basisInputs.map(({value}) => value));
-            sendPhotons(evePresent && evePhotons ? evePhotons : photons);
+            photons = evePresent && evePhotons ? evePhotons : photons;
+            if (playingSolo) {
+                const [bobBases, bobMeasurements] = simulateBobExchange(
+                    photons);
+                setBobMeasurements(bobMeasurements);
+                setBobBases(bobBases);
+                setBb84Tab('basis');
+                setStep(BB84GameStep.BASIS);
+                pushLines([
+                    {
+                        content: 'component.aliceExchange.basesArrived',
+                    },
+                    {
+                        title: 'component.game.step2',
+                        content: 'component.basis.validate',
+                    },
+                ]);
+            } else {
+                sendPhotons(photons);
+            }
             pushLines([
                 {
                     content: 'component.aliceExchange.sent',

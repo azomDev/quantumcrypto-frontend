@@ -8,7 +8,7 @@ const PlayPage = () => {
     return (
         <div className="flex flex-col h-full max-h-full">
             <div className="flex w-full gap-x-3 px-6 pt-5">
-                <Bb84Button />
+                <h1 className="font-bold text-4xl text-primary">BB84</h1>
                 <ProgressionSidebar/>
             </div>
             <Game/>
