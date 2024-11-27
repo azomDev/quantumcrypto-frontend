@@ -16,13 +16,13 @@ import { cn } from '@/lib/utils';
 import useE91GameStore from '@/store/e91/e91-game-store';
 import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
 import useE91RoomStore from '@/store/e91/e91-room-store';
-import { E91GameStep } from '@/types';
-import { CheckCircle2, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6, Dices } from 'lucide-react';
+import { E91GameStep, inputField } from '@/types';
+import { Bell, CheckCircle2, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6, Dices, Key, Minus, Trash } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { moveToExchangeTab } from './validation-tab';
 
-const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any[]}) => {
+const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number, playerRole: string, polarIcons: any[]}) => {
 
     const [restartModalOpen, setRestartModalOpen] = useState(false);
 
@@ -81,151 +81,20 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
 
     const {gameHasEve} = useE91GameStore();
     const bits = playerRole === 'A' ? aliceBits : bobBits;
-    const setPreference = playerRole === 'A' ? setAlicePreference : setBobPreference;
-    const diceValue = playerRole === 'A' ? aliceDiceRoll : bobDiceRoll;
-    const setDiceValue = playerRole === 'A' ? setAliceDiceRoll : setBobDiceRoll;
-    const [preferenceSent, setPreferenceSent] = useState(false);
-    const [invalidBitsRemoved, setInvalidBitsRemoved] = useState(false);
-    const bothBasesSet = aliceBases.length > 0 && bobBases.length > 0;
-    const choicesSubmitted = alicePreference !== null && bobPreference !== null;
-    const [validationInput, setValidationInput] = useState(0);
+
+    const CategoryIcons =
+
+    [
+        <Minus/>, <Key/>, <Trash/>, <Bell/>
+    ];
     
 
     const [validatedBits, setValidatedBits] = useState(() => {
         return [...bits].map(value => ({
             value,
             error: false,
-            discarded: false,
         }));
     });
-
-    const validBits = validatedBits.filter(bit => !bit.error);
-
-    useEffect(() => {
-        if (validationIndices.length > 0) {
-            pushLines([
-                {
-                    content: 'component.e91.validation.start'
-                }
-            ]);
-            setStep(E91GameStep.VALIDATION);
-            setE91Tab('validation');  
-        }
-    }, [validationIndices]);
-
-    useEffect(() => {
-        if (reroll) {
-            pushLines([
-                {
-                    content: 'component.e91.reroll'
-                }
-            ]);
-            setReroll(false);
-        }
-    }, [reroll]);
-
-
-    useEffect(() => {
-        if (diceRollWinner === null && utilizeValidBits !== null && !utilizeValidBits) {
-            pushLines([
-                {
-                    content: 'component.e91.validation.invalid.start'
-                }
-            ]);
-            setStep(E91GameStep.VALIDATION);
-            setE91Tab('validation');  
-        }
-    }, [utilizeValidBits]);
-
-    useEffect(() => {
-        if (choicesSubmitted && (conflict || utilizeValidBits)) {
-            pushLines([
-                {
-                    content: 'component.e91.dicePurpose'
-                }
-            ]);
-        }
-    }, [alicePreference, bobPreference]);
-
-    useEffect(() => {
-        if (diceRollWinner !== null){
-            
-            if (playerRole === 'A') {
-                if (diceRollWinner === 'A') {
-                    pushLines([
-                        {
-                            title: 'component.e91.diceWin',
-                            content: 'component.e91.diceWinner.self'
-                        }
-                    ]);
-                    if (utilizeValidBits) {
-                        pushLines([
-                            {
-                                content: 'component.e91.choose.valid'
-                            }
-                        ]);
-                    } else {
-                        pushLines([
-                            {
-                                content: 'component.e91.validation.invalid.start'
-                            }
-                        ]);
-                    }
-                } else {
-                    pushLines([
-                        {
-                            title: 'component.e91.diceLoss',
-                            content: 'component.e91.diceLooser.self'
-                        }
-                    ]);
-                    if (utilizeValidBits) {
-                        pushLines([
-                            {
-                                content: 'component.e91.awating.bob.bitPreference'
-                            }
-                        ]);
-                    } 
-                }
-            } else if (playerRole === 'B') {
-                if (diceRollWinner === 'B') {
-                    pushLines([
-                        {
-                            title: 'component.e91.diceWin',
-                            content: 'component.e91.diceWinner.self'
-                        }
-                    ]);
-                    if (utilizeValidBits) {
-                        pushLines([
-                            {
-                                content: 'component.e91.choose.valid'
-                            }
-                        ]);
-                    } 
-                }else {
-                    pushLines([
-                        {
-                            title: 'component.e91.diceLoss',
-                            content: 'component.e91.diceLooser.self'
-                        }
-                    ]);
-                    if (utilizeValidBits) {
-                        pushLines([
-                            {
-                                content: 'component.e91.awating.alice.bitPreference'
-                            }
-                        ]);
-                    } else {
-                        pushLines([
-                            {
-                                content: 'component.e91.validation.invalid.start'
-                            }
-                        ]);
-                    }
-                }
-            }                     
-        }
-    
-    }, [diceRollWinner]);
 
 
     const restartGame = () => {
@@ -234,124 +103,102 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
         setRestartModalOpen(false);
     };
 
-    const onValidate = () => {
-        const updatedBits = [...validatedBits].map((field, index) => ({
-            ...field,
-            error: aliceBases[index] !== bobBases[index] 
-        }));
-        setValidatedBits(updatedBits); 
-        setCompared(true);
-
-        const validBitIndices = updatedBits
-            .map((field, index) => (!field.error ? index : null))
-            .filter(index => index !== null); 
-
-        const invalidBitIndices = updatedBits
-            .map((field, index) => (field.error ? index : null))
-            .filter(index => index !== null); 
-
-        
-        setAliceValidBits(validBitIndices.map(i => aliceBits[i]));
-        setBobValidBits(validBitIndices.map(i => bobBits[i]));
-        setAliceInvalidBits(invalidBitIndices.map(i => aliceBits[i]));
-        setAliceInvalidBases(invalidBitIndices.map(i => aliceBases[i]));
-        setBobInvalidBits(invalidBitIndices.map(i => bobBits[i]));
-        setBobInvalidBases(invalidBitIndices.map(i => bobBases[i]));
-        
-        if (validBitIndices.length < 2) {
-            pushLines([{content: 'component.e91.shortKey.restart'}]);
-            setRestartModalOpen(true);
-            return;
-        }
-        if (gameHasEve) {
-            pushLines([
-                {
-                    title: 'component.e91.notice',
-                    content: 'component.e91.validOrInvalid'
-                }]);
-        }
-        if (evePresent) {
-            let eveReadAmount = 0;
-            aliceBases.forEach((base, index) => {
-                if (base === '2' && bobBases[index] === '2') {
-                    eveReadAmount += 1;
-                }
+    const [categoryList, setCategoryList] = useState(() => {
+        const categories: inputField[] = [];
+        for (let _ = 0; _ < photonNumber; _++) {
+            categories.push({
+                value: '0',
+                touched: false,
+                error: true,
             });
-            setEveReadCount(eveReadAmount);
         }
+        return categories;
+    });
+
+    const onCategoryClick = (index: number) => {
+        const newCategoryList = [...categoryList];
+        const newCategory = {...newCategoryList[index]};
+        const nextIndex = ((parseInt(newCategory.value) + 1) % 4);
+        newCategory.value = (nextIndex ? nextIndex : nextIndex + 1).toString();
+        newCategory.touched = true;
+        newCategoryList[index] = newCategory;
+        validateCategory( newCategoryList, false, index);
+    };
+
+    const validateCategory = (categoryList: inputField[], list: boolean, index?: number) => {
+        const isValid = (bobBase: string, aliceBase: string,
+                         category: string) => ((
+                            (bobBase === '2' && aliceBase === '2' && category === '1') || 
+                            (bobBase === '3' && aliceBase === '3' && category === '1') ||
+                            (bobBase === '3' && aliceBase !== '3' && category === '2') ||
+                            (bobBase !== '2' && aliceBase === '2' && category === '2') ||
+                            (bobBase === '2' && aliceBase === '1' && category === '3') ||
+                            (bobBase === '2' && aliceBase === '3' && category === '3') ||
+                            (bobBase === '4' && aliceBase === '3' && category === '3') ||
+                            (bobBase === '4' && aliceBase === '1' && category === '3') 
+                         ));
+        let newCategoryList = categoryList ?? [...categoryList];
+        if (list) {
+            newCategoryList = newCategoryList.map((category, index) => {
+                return {
+                    ...category,
+                    error: !isValid(bobBases[index], aliceBases[index], category.value),
+                };
+            });
+            setCategoryList(newCategoryList);
+        } else if (index !== undefined) {
+            if (!newCategoryList[index].touched) return;
+            const newCategory = {...newCategoryList[index]};
+            const category = newCategory.value;
+            newCategory.error = !isValid(bobBases[index], aliceBases[index], category);
+            newCategoryList[index] = newCategory;
+            setCategoryList(newCategoryList);
+        }
+    };
+
+    const validateForm = !categoryList.some(
+        ({value, error}) => value === '0' || error);
+
+    const onValidate = () => {
+        if (validateForm) { 
+            const validBitIndices = categoryList
+                .map((field, index) => (field.value === '1' ? index : null))
+                .filter(index => index !== null); 
+    
+            const invalidBitIndices = categoryList
+                .map((field, index) => (field.value === '3' ? index : null))
+                .filter(index => index !== null); 
+    
+            
+            setAliceValidBits(validBitIndices.map(i => aliceBits[i]));
+            setBobValidBits(validBitIndices.map(i => bobBits[i]));
+            setAliceInvalidBits(invalidBitIndices.map(i => aliceBits[i]));
+            setAliceInvalidBases(invalidBitIndices.map(i => aliceBases[i]));
+            setBobInvalidBits(invalidBitIndices.map(i => bobBits[i]));
+            setBobInvalidBases(invalidBitIndices.map(i => bobBases[i]));
+            
+            if (validBitIndices.length < 2) {
+                pushLines([{content: 'component.e91.shortKey.restart'}]);
+                setRestartModalOpen(true);
+                return;
+            }
+            if (evePresent) {
+                let eveReadAmount = 0;
+                aliceBases.forEach((base, index) => {
+                    if (base === '2' && bobBases[index] === '2') {
+                        eveReadAmount += 1;
+                    }
+                });
+                setEveReadCount(eveReadAmount);
+            }
+            setStep(E91GameStep.VALIDATION);
+            setE91Tab('validation');  
+        }      
     };
 
     const onMoveToMessaging = () => {
         moveToExchangeTab();
     }
-
-    const onUtilizeValidBits = () => {
-        setPreference(true);
-        setPreferenceSent(true);
-        sharePreference(true);
-    };
-
-    const onUtilizeDiscardedBits = () => {
-        setPreference(false);
-        setPreferenceSent(true);
-        sharePreference(false);
-    };
-
-    const onRollDice = () => {
-        if (diceValue === null) { 
-            const randomValue = Math.floor(Math.random() * 6) + 1; 
-            console.log(randomValue)
-            setDiceValue(randomValue); 
-            shareDiceValue(randomValue);
-
-            toast(localize('component.e91.diceRolled') + `: ${randomValue}`);
-        }
-    };
-
-    const removeIncompatibleBases = () => {
-        setInvalidBitsRemoved(true);
-        const validIndices = [];
-        for (let i = 0; i < aliceBases.length; i++) {
-            if ((aliceBases[i] === '2' && bobBases[i] !== '2') || 
-                (bobBases[i] === '3' && aliceBases[i] !== '3')) {
-                continue; 
-            }
-            validIndices.push(i);
-        }
-        const filteredAliceBits = validIndices.map( i => aliceBits[i]);
-        const filteredBobBits = validIndices.map( i => bobBits[i]);
-        const filteredAliceBases = validIndices.map(i => aliceBases[i]);
-        const filteredBobBases = validIndices.map(i => bobBases[i]);
-        setAliceBits(filteredAliceBits);
-        setBobBits(filteredBobBits);
-        setAliceBases(filteredAliceBases);
-        setBobBases(filteredBobBases);
-        const updatedValidatedBits = validIndices.map(i => validatedBits[i]);
-        setValidatedBits(updatedValidatedBits);
-        pushLines([{content: 'component.e91.validate'}]);
-    }
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); 
-
-        if (validationInput < 1 || validationInput > validBits.length - 1) {
-            toast.error(localize('component.e91.invalidInputRange') + ` (1-${validBits.length - 1})`);
-            return;  
-        }
-        const randomIndices = generateRandomIndices(validationInput, validBits.length);
-        shareIndices(randomIndices);
-    };
-
-    const generateRandomIndices = (length: number, max: number): number[] => {
-        const indices = new Set<number>();
-    
-        while (indices.size < length) {
-            const randomIndex = Math.floor(Math.random() * max);
-            indices.add(randomIndex);
-        }
-    
-        return Array.from(indices);
-    };
     
 
     return (
@@ -382,6 +229,9 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                             <TableHead className="text-center rounded-tr-lg">
                                 <p>Bits</p>
                             </TableHead>
+                            <TableHead className="text-center rounded-tr-lg">
+                                <p>Type</p>
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -409,7 +259,7 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                                          className={cn(
                                              'select-none bg-background' +
                                              ' rounded-md h-10 border' +
-                                             ' border-secondary cursor-pointer' +
+                                             ' border-secondary' +
                                              ' w-10 text-lg text-center' +
                                              ' m-auto align-center pt-1.5 ',
                                              validatedBits[i].error ?
@@ -417,81 +267,39 @@ const BasisTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: an
                                         <p>{validatedBits[i].value}</p>
                                     </div>
                                 </TableCell>
+                                <TableCell>
+                                    <Button variant="outline"
+                                            className={cn('disabled:opacity-100',
+                                                categoryList[i].error &&
+                                                categoryList[i].touched ?
+                                                    'border border-red' : '')}
+                                            onClick={() => onCategoryClick(i)}
+                                            size="icon">
+                                        {CategoryIcons[parseInt(categoryList[i].value)]}
+                                    </Button>
+                            </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-                {!compared && invalidBitsRemoved && (
+                {gameHasEve && (
                     <div
                         className="md:block fixed right-6 bottom-6 shadow-xl">
                         <Button size="lg"
-                                disabled={keyBits.length > 0}
+                                disabled={!validateForm}
                                 onClick={onValidate}
                                 className="text-lg font-bold">
-                            {localize('component.e91.compareBases')}
+                            {localize('component.basis.validateBtn')}
                         </Button>
                     </div>
                 )}
-                {compared && !gameHasEve && (
+                {!gameHasEve && (
                     <div
                         className="md:block fixed right-6 bottom-6 shadow-xl">
                         <Button size="lg"
                                 onClick={onMoveToMessaging}
                                 className="text-lg font-bold">
                             {localize('component.e91.moveToMessaging')}
-                        </Button>
-                    </div>
-
-                )}
-                {compared && !choicesSubmitted && gameHasEve && (
-                    <div className="md:block fixed right-6 bottom-6 shadow-xl">
-                        <Button size="lg" onClick={onUtilizeValidBits} className="text-lg font-bold" disabled={preferenceSent}>
-                            {localize('component.e91.useValidBits')}
-                        </Button>
-                        <Button size="lg" onClick={onUtilizeDiscardedBits} className="text-lg font-bold bg-rose-500 hover:bg-rose-600" disabled={preferenceSent}>
-                            {localize('component.e91.useDiscardedBits')}
-                        </Button>
-                    </div>
-                )}
-                {choicesSubmitted && (
-                    <div className="md:block fixed right-6 bottom-6 shadow-xl">
-                        <Button size="lg" onClick={onRollDice} className="text-lg font-bold bg-blue-500 hover:bg-blue-600">
-                            {diceValue !== null ? (
-                                React.createElement(diceIcons[diceValue - 1], { className: "mr-2" })
-                            ) : (
-                                <Dices className="mr-2" /> 
-                            )}
-                            {diceValue !== null ? diceValue : localize('component.e91.diceRoll')}
-                        </Button>
-                    </div>
-                )}
-                {diceRollWinner === playerRole && utilizeValidBits && gameHasEve && (
-                    <div className="md:block fixed right-6 bottom-6 shadow-xl p-4 bg-gray-500 rounded-md">
-                        <form onSubmit={handleSubmit}>
-                            <div className="flex items-center">
-                                <input
-                                    type="number"
-                                    value={validationInput} 
-                                    onChange={(e) => setValidationInput(e.target.valueAsNumber)}
-                                    min={1}
-                                    max={validBits.length - 1}
-                                    className="border border-gray-300 p-2 rounded mr-2 w-20 text-center"
-                                />
-                                <button
-                                    type="submit"
-                                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                                >
-                                    {localize('component.e91.submit')}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                )}
-                {bothBasesSet && !invalidBitsRemoved && (
-                    <div className="md:block fixed right-6 bottom-6 shadow-xl">
-                        <Button size="lg" className="text-lg font-bold"
-                                onClick={removeIncompatibleBases}>
-                            {localize('component.e91.removeIncompatibleBases')}
                         </Button>
                     </div>
                 )}

@@ -112,7 +112,7 @@ const Game = () => {
                                 <MeasurementTab photonNumber={photonNumber} polarIcons={polarIcons} playerRole={playerRole}/> 
                             </TabsContent>
                             <TabsContent value={'basis'}>
-                                <BasisTab playerRole={playerRole} polarIcons={polarIcons}/>
+                                <BasisTab photonNumber={photonNumber} playerRole={playerRole} polarIcons={polarIcons}/>
                             </TabsContent>
                             {gameHasEve && <TabsContent value={'validation'}>
                                 {utilizeValidBits ? <ValidationTab playerRole={playerRole}/> : <CHSHTab playerRole={playerRole} polarIcons={polarIcons}/>}
