@@ -402,6 +402,8 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.playSolo': 'Play solo',
         'component.bb84.startSolo': 'Start solo game',
         'component.bb84.soloRoleSelect': 'Select your role',
+        'component.e91.createGame.keyMin': 'The minimum number of photons is 20 if Eve is present and 10 otherwise',
+
     },
     {
         // ... (French translations)
