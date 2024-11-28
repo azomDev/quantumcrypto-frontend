@@ -3,7 +3,7 @@ import {Roboto} from 'next/font/google';
 
 import './globals.css';
 import {ThemeProvider} from '@/components/providers/theme-provider';
-import {cn} from '@/lib/utils';
+import {cn} from '@/lib/bb84/utils';
 import PageSettings from '@/components/shared/page-settings';
 import {LanguageProvider} from '@/components/providers/language-provider';
 import {SocketProvider} from '@/components/providers/socket-provider';

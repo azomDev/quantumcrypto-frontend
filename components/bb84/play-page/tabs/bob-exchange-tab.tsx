@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useLanguage} from '@/components/providers/language-provider';
-import {inputField} from '@/types';
+import {BB84GameStep, inputField} from '@/types';
 import {
     Table,
     TableBody,
@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-import {cn, onBasisInputChange} from '@/lib/utils';
+import {cn, onBasisInputChange} from '@/lib/bb84/utils';
 import {CheckCircle2, SearchCode} from 'lucide-react';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {
@@ -22,16 +22,20 @@ import {
 } from '@/components/ui/tooltip';
 import {useSocket} from '@/components/providers/socket-provider';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
+import usePlayerStore from '@/store/player-store';
+import {mimicEveIntercept} from '@/lib/bb84/solo-player';
 
 const BobExchangeTab = ({photonNumber}: { photonNumber: number }) => {
 
     const {localize} = useLanguage();
     const {shareBases} = useSocket();
 
-    const {pushLines} = useBB84ProgressStore();
+    const {playingSolo} = usePlayerStore();
 
-    const {alicePhotons, bobBases, bobMeasurements} = useBB84RoomStore();
-    const {setBobBases, setBobMeasurements} = useBB84RoomStore();
+    const {pushLines, setBb84Tab, setStep} = useBB84ProgressStore();
+
+    const {alicePhotons, bobBases, bobMeasurements, evePresent} = useBB84RoomStore();
+    const {setAlicePhotons, setBobBases, setBobMeasurements} = useBB84RoomStore();
 
     const shared = bobBases.length > 0;
     const measured = bobMeasurements.length > 0;
@@ -64,6 +68,20 @@ const BobExchangeTab = ({photonNumber}: { photonNumber: number }) => {
     const onShareBases = () => {
         const stringBases = basisInputs.map(({value}) => value);
         setBobBases(stringBases);
+        if (playingSolo) {
+            setBb84Tab('basis');
+            setStep(BB84GameStep.BASIS);
+            pushLines([
+                {
+                    content: 'component.bobExchange.basesArrived',
+                },
+                {
+                    title: 'component.game.step3',
+                    content: 'component.basis.validate',
+                },
+            ]);
+            return;
+        }
         shareBases(stringBases, 'B_BASES');
     };
 

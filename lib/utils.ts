@@ -1,57 +1,20 @@
-import {type ClassValue, clsx} from 'clsx';
-import {twMerge} from 'tailwind-merge';
-import React from 'react';
-import {inputField} from '@/types';
+export function generateUniqueRandomList(min: number, max: number,
+                                         length: number) {
+    const tempArr: number[] = [];
 
-export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
-
-export const onBasisInputChange = (event: React.ChangeEvent<HTMLInputElement>,
-                                   index: number, basisInputs: inputField[],
-                                   setBasisInputs: React.Dispatch<React.SetStateAction<inputField[]>>,
-                                   validatePolar?: (prevStates: {
-                                                        polarList?: inputField[],
-                                                        basisInputs?: inputField[],
-                                                        bitsInputs?: inputField[],
-                                                    }, list: boolean,
-                                                    index?: number) => void) => {
-    const inputValue = event.target.value.toLowerCase();
-    const updatedBases = [...basisInputs];
-    const updatedBasis = {...updatedBases[index]};
-    updatedBasis.touched = true;
-    if (inputValue.length === 0 || /^[+x]$/.test(inputValue) &&
-        inputValue.length <= 1) {
-        updatedBasis.value = inputValue;
+    for (let i = min; i <= max; i++) {
+        tempArr.push(i);
     }
-    updatedBasis.error = updatedBasis.value === '';
-    updatedBases[index] = updatedBasis;
-    setBasisInputs(updatedBases);
-    if (validatePolar) {
-        validatePolar({
-            basisInputs: updatedBases,
-        }, false, index);
+
+    // Shuffle the array
+    for (let i = tempArr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = tempArr[i];
+        tempArr[i] = tempArr[j];
+        tempArr[j] = temp;
     }
-};
 
-export const forbiddenSymbols = ['e', 'E', '+', '-', '.'];
+    const randomList = tempArr.slice(0, length);
 
-export const clearBB84LocalStorage = () => {
-    localStorage.removeItem('bb84PlayerData');
-    localStorage.removeItem('bb84PhotonNumber')
-    localStorage.removeItem('bb84Step');
-    localStorage.removeItem('bb84Tab');
-    localStorage.removeItem('bb84GameData');
-    localStorage.removeItem('bb84DisplayedLines');
-    localStorage.removeItem('bb84ValidationBitsLength')
-}
-
-export const clearE91LocalStorage = () => {
-    localStorage.removeItem('e91PlayerData');
-    localStorage.removeItem('e91PhotonNumber')
-    localStorage.removeItem('e91Step');
-    localStorage.removeItem('e91Tab');
-    localStorage.removeItem('e91GameData');
-    localStorage.removeItem('e91DisplayedLines');
-    localStorage.removeItem('e91ValidationBitsLength')
+    return randomList;
 }

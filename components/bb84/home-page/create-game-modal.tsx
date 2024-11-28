@@ -108,14 +108,15 @@ const CreateGameModal = ({
         <Dialog>
             <DialogTrigger asChild>
                 <Button
-                    variant={'outline'} type="button"
-                    className="text-md w-full mt-2">{localize(
+                    variant={'secondary'} type="button"
+                    className="text-md w-[50%] mt-2">{localize(
                     'component.main.createGame')}</Button>
             </DialogTrigger>
             <DialogContent
                 className="w-[325px] md:w-full h-fit border-none">
                 {creatingGame ?
-                    <TailSpin stroke={'#00a85a'} className="m-auto text-primary"/> :
+                    <TailSpin stroke={'#00a85a'}
+                              className="m-auto text-primary"/> :
                     <><DialogHeader>
                         <DialogTitle>{localize(
                             'component.main.createGame')}</DialogTitle>
@@ -194,6 +195,7 @@ const CreateGameModal = ({
                                                 <Input
                                                     // type={'number'}
                                                     maxLength={2}
+                                                    min="0"
                                                     placeholder="10"
                                                     className="text-center w-[50px]"
                                                     {...field} />
@@ -216,6 +218,7 @@ const CreateGameModal = ({
                                                 <Input
                                                     // type={'number'}
                                                     maxLength={3}
+                                                    min="0"
                                                     placeholder="0.5"
                                                     className="text-center w-[50px]"
                                                     {...field} />

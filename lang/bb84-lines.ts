@@ -150,6 +150,9 @@ export const bb84Lines: LanguageItem[] = [
         'component.createGame.evePercentage.lessThan': 'Must be 1 or less',
         'component.createGame.evePercentage.label': 'Eve probability',
         'component.gameRestart.restart': 'Restart',
+        'component.gameRestart.playAgain': 'Play again',
+        'component.return.returnToMain': 'Return to main menu',
+        'component.results.seeResults': 'See Results',
         'component.basisTab.alertTitle': 'Not enough bits!',
         'component.basisTab.alertDescription': 'The key that you obtained' +
             ' does not have enough bits to verify that there is no' +
@@ -395,10 +398,10 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.graph.values': 'S Values',
         'component.e91.graph.title': 'CHSH Graph',
         'component.e91.text.seeResults': 'See Results',
-        'component.quantumCrypto.gamesPlayed': 'Total games played: '
-        
-
-
+        'component.quantumCrypto.gamesPlayed': 'Total games played: ',
+        'component.bb84.playSolo': 'Play solo',
+        'component.bb84.startSolo': 'Start solo game',
+        'component.bb84.soloRoleSelect': 'Select your role',
     },
     {
         // ... (French translations)
@@ -553,6 +556,9 @@ export const bb84Lines: LanguageItem[] = [
             ' ou égal à 1',
         'component.createGame.evePercentage.label': 'Probabilité d\'Ève',
         'component.gameRestart.restart': 'Redémarrer',
+        'component.gameRestart.playAgain': 'Rejouer',
+        'component.return.returnToMain': 'Retour au menu principal',
+        'component.results.seeResults': 'voir les résultats',
         'component.basisTab.alertTitle': 'Pas assez de bits !',
         'component.basisTab.alertDescription': 'La clé que vous avez' +
             ' obtenue n\'a pas assez de bits pour vérifier qu\'il n\'y a pas' +
@@ -732,6 +738,9 @@ export const bb84Lines: LanguageItem[] = [
             ' deux acteurs principaux : Alice et Bob, qui jouent des rôles' +
             ' différents. Vous pouvez ici explorer l\'ensemble des étapes' +
             ' que chacun d\'eux doit suivre pour mener à bien le protocole.',
+        'component.bb84.playSolo': 'Jouer en solo',
+        'component.bb84.startSolo': 'Commencer une partie solo',
+        'component.bb84.soloRoleSelect': 'Sélectionnez votre rôle'
     },
     {
         // ... (Spanish translations)
@@ -877,6 +886,9 @@ export const bb84Lines: LanguageItem[] = [
         'component.createGame.evePercentage.lessThan': 'Debe ser 1 o menos',
         'component.createGame.evePercentage.label': 'Probabilidad de Eve',
         'component.gameRestart.restart': 'Reiniciar',
+        'component.gameRestart.playAgain': 'Jugar de nuevo',
+        'component.return.returnToMain': 'Regresar al menú principal',
+        'component.results.seeResults': 'Ver resultados',
         'component.basisTab.alertTitle': '¡No hay suficientes bits!',
         'component.basisTab.alertDescription': 'La clave que obtuviste no' +
             ' tiene suficientes bits para verificar que no hay un espía.' +
@@ -1054,6 +1066,9 @@ export const bb84Lines: LanguageItem[] = [
             ' diferentes. Aquí puedes explorar el conjunto de pasos que' +
             ' cada uno de ellos debe seguir para completar el protocolo con' +
             ' éxito.',
+        'component.bb84.playSolo': 'Jugar solo',
+        'component.bb84.startSolo': 'Comenzar juego en solitario',
+        'component.bb84.soloRoleSelect': 'Selecciona tu rol',
     },
     {
         // ... (German translations)
@@ -1208,6 +1223,9 @@ export const bb84Lines: LanguageItem[] = [
             ' sein',
         'component.createGame.evePercentage.label': 'Eva-Wahrscheinlichkeit',
         'component.gameRestart.restart': 'Neustart',
+        'component.gameRestart.playAgain': 'Erneut abspielen',
+        'component.return.returnToMain': 'Zurück zum Hauptmenü',
+        'component.results.seeResults': 'Ergebnisse anzeigen',
         'component.basisTab.alertTitle': 'Nicht genug Bits!',
         'component.basisTab.alertDescription': 'Der von Ihnen erhaltenen' +
             ' Schlüssel hat nicht genug Bits, um zu überprüfen, dass kein' +
@@ -1394,6 +1412,9 @@ export const bb84Lines: LanguageItem[] = [
             ' spielen. Hier kannst du die Reihe von Schritten erkunden, die' +
             ' jeder von ihnen unternehmen muss, um das Protokoll' +
             ' erfolgreich abzuschließen.',
+        'component.bb84.playSolo': 'Alleine spielen',
+        'component.bb84.startSolo': 'Einzelspiel starten',
+        'component.bb84.soloRoleSelect': 'Wähle deine Rolle',
     },
 ];
 

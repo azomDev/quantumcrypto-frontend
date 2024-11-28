@@ -21,27 +21,40 @@ import useBB84GameStore from '@/store/bb84/bb84-game-store';
 export const moveToExchangeTab = () => {
 
     const playerRole = usePlayerStore.getState().playerRole;
-    const aliceCipherLength = useBB84RoomStore.getState().aliceCipher.length;
+    const aliceCipherSolo = useBB84RoomStore.getState().aliceCipherSolo;
+    const setAliceCipher = useBB84RoomStore.getState().setAliceCipher;
 
     const pushLines = (lines: Line[]) => {
         useBB84ProgressStore.getState().pushLines(lines);
     };
 
     if (playerRole === 'B') {
-        const lines = [
-            { content: 'component.messaging.bob.start' },
-        ];
-        if (aliceCipherLength > 0) {
-            lines.push(
-                { content: 'component.messaging.bob.arrived' },
-                { content: 'component.messaging.bob.decrypt' }
-            );
+        pushLines([
+            {
+                content: 'component.messaging.bob.start',
+            },
+        ]);
+        if (aliceCipherSolo.length > 0) {
+            setTimeout(() => {
+                pushLines([
+                    {
+                        content: 'component.messaging.bob.arrived',
+                    },
+                    {
+                        content: 'component.messaging.bob.decrypt',
+                    },
+                ]);
+                setAliceCipher(aliceCipherSolo);
+            }, 2000);           
         }
-        pushLines(lines);
+
     } else {
         pushLines([
-            { content: 'component.messaging.alice.start' },
-            { title: 'component.game.step3', content: 'component.messaging.alice.last' }
+            {content: 'component.messaging.alice.start'},
+            {
+                title: 'component.game.step3',
+                content: 'component.messaging.alice.last',
+            },
         ]);
     }
 
@@ -54,12 +67,16 @@ const ValidationTab = ({playerRole}: { playerRole: string }) => {
     const {shareValidation} = useSocket();
     const {localize} = useLanguage();
 
+    const {playingSolo} = usePlayerStore();
+
     const {
         keyBits,
         partnerBits,
         validationIndices,
         validatedByPartner,
         validated,
+        evePresent,
+        setEveUndetected,
     } = useBB84RoomStore();
     const {setValidated} = useBB84RoomStore();
 
@@ -83,19 +100,26 @@ const ValidationTab = ({playerRole}: { playerRole: string }) => {
         const isValid = validate();
         if (validClicked) {
             if (!isValid) {
-                pushLines([{ content: 'component.validationTab.areYouSure' }]);
+                pushLines([{content: 'component.validationTab.areYouSure'}]);
                 return;
             }
-            pushLines([{ content: 'component.validationTab.validated' }]);
+            console.log('Eve Present ', evePresent);
+            if (evePresent) {
+                console.log('Went into if');
+                setEveUndetected(true);
+            }
+            pushLines([{content: 'component.validationTab.validated'}]);
             moveToExchangeTab();
         } else {
             if (isValid) {
-                pushLines([{ content: 'component.validationTab.areYouSure' }]);
+                pushLines([{content: 'component.validationTab.areYouSure'}]);
                 return;
             }
-            pushLines([{ content: 'component.validationTab.found' }]);
+            pushLines([{content: 'component.validationTab.found'}]);
         }
-        shareValidation(isValid);
+        if (!playingSolo) {
+            shareValidation(isValid);
+        }
         setValidated(true);
     };
 
@@ -163,12 +187,10 @@ const ValidationTab = ({playerRole}: { playerRole: string }) => {
             </div>}
             {!(partnerBits.length === 0 ||
                 validationIndices.length === 0 ||
-                validated || validatedByPartner) && <div className="hidden md:block fixed right-6 bottom-6 shadow-xl">
+                validated || validatedByPartner) && <div
+                className="hidden md:block fixed right-6 bottom-6 shadow-xl">
                 <Button size="lg"
                         onClick={() => handleValidationAction(false)}
-                        hidden={partnerBits.length === 0 ||
-                            validationIndices.length === 0 ||
-                            validated || validatedByPartner}
                         variant={'destructive'}
                         className="text-lg font-bold mr-2">
                     <p>{localize('component.validationTab.invalid')}</p>

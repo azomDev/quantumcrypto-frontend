@@ -13,7 +13,7 @@ import {
     TooltipContent,
     TooltipProvider, TooltipTrigger,
 } from '@/components/ui/tooltip';
-import {cn} from '@/lib/utils';
+import {cn} from '@/lib/bb84/utils';
 import usePlayerStore from '@/store/player-store';
 // import PlayerCard from '@/components/waiting-room-page/player-card';
 import {Copy} from 'lucide-react';

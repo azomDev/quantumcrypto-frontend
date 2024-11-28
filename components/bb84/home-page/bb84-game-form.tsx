@@ -33,7 +33,8 @@ import {
     AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
     AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import {clearBB84LocalStorage} from '@/lib/utils';
+import {clearBB84LocalStorage} from '@/lib/bb84/utils';
+import SoloGameModal from '@/components/bb84/home-page/solo-game-modal';
 
 const BB84Main: React.FC = () => {
 
@@ -51,7 +52,7 @@ const BB84Main: React.FC = () => {
         setGameCode,
         setGameHasEve,
         setValidationBitsLength,
-        setPhotonNumber
+        setPhotonNumber,
     } = useBB84GameStore();
     const {
         setPlayerName,
@@ -59,11 +60,18 @@ const BB84Main: React.FC = () => {
         setPartner,
         setIsAdmin,
     } = usePlayerStore();
-    const {setBb84Tab, setStep, setDisplayedLines} = useBB84ProgressStore();
-    const {restoreGame} = useBB84RoomStore();
+    const {
+        setBb84Tab,
+        setStep,
+        setDisplayedLines,
+        resetProgress,
+    } = useBB84ProgressStore();
+    const {restoreGame, resetRoom} = useBB84RoomStore();
     const router = useRouter();
 
     useEffect(() => {
+        resetRoom();
+        resetProgress();
         if (isPlayRoomConnected) {
             router.push('/bb84/play');
             return;
@@ -111,7 +119,7 @@ const BB84Main: React.FC = () => {
 
         const photonNumber = getItem('bb84PhotonNumber');
         if (photonNumber) {
-            setPhotonNumber(photonNumber)
+            setPhotonNumber(photonNumber);
         }
 
         const validationBitsLength = getItem('bb84ValidationBitsLength');
@@ -301,7 +309,8 @@ const BB84Main: React.FC = () => {
                                         </FormItem>
                                     )}
                                 />
-                                <div className="flex gap-x-3 mx-auto w-full">
+                                <div
+                                    className="flex gap-x-3 w-full">
                                     <Button type="submit"
                                             disabled={waitingRoomConnecting}
                                             className="text-md w-full p-2">{creatingGame ?
@@ -311,9 +320,12 @@ const BB84Main: React.FC = () => {
                                 </div>
                             </form>
                         </Form>
-                        <CreateGameModal connecting={waitingRoomConnecting}
-                                         creatingGame={creatingGame}
-                                         onCreateGame={onCreateGame}/>
+                        <div className="flex flex-row justify-center gap-x-2">
+                            <SoloGameModal />
+                            <CreateGameModal connecting={waitingRoomConnecting}
+                                             creatingGame={creatingGame}
+                                             onCreateGame={onCreateGame}/>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

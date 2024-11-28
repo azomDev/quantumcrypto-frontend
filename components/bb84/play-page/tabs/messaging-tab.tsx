@@ -5,17 +5,18 @@ import {
     TableHead,
     TableBody, TableCell,
 } from '@/components/ui/table';
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {CheckCircle2, Send} from 'lucide-react';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {Input} from '@/components/ui/input';
-import {cn} from '@/lib/utils';
+import {clearBB84LocalStorage, cn} from '@/lib/bb84/utils';
 import {toast} from 'sonner';
 import {Button} from '@/components/ui/button';
 import {useLanguage} from '@/components/providers/language-provider';
 import {useSocket} from '@/components/providers/socket-provider';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import {forbiddenSymbols} from '@/lib/utils';
+import {forbiddenSymbols} from '@/lib/bb84/utils';
+import usePlayerStore from '@/store/player-store';
 
 const MessagingTab = ({playerRole}: { playerRole: string }) => {
 
@@ -23,6 +24,8 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
     const {sendCipher, sendBobSuccess} = useSocket();
 
     const {pushLines} = useBB84ProgressStore();
+
+    const {playingSolo} = usePlayerStore();
 
     const {
         keyBits,
@@ -33,9 +36,11 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
         crypto: persistedCrypto,
     } = useBB84RoomStore();
     const {
+        setAliceCipher,
         setAliceCipherSent,
         setMessage: setPersistedMessage,
         setCrypto: setPersistedCrypto,
+        setGameSuccess,
     } = useBB84RoomStore();
 
     const [message, setMessage] = useState(() => {
@@ -102,22 +107,48 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
         setCrypto(updatedCrypto);
         const allValid = !updatedCrypto.some(bit => bit.error);
         if (allValid) {
-            setPersistedCrypto(updatedCrypto.map(({value}) => value));
-            setPersistedMessage(message.map(({value}) => value));
-            if (playerRole === 'B' && !gameSuccess) {
-                pushLines([
-                    {
-                        title: 'component.messaging.congratulations',
-                        content: 'component.messaging.bob.end',
-                    },
-                ]);
-                toast.success(localize('component.basis.correct'));
-                sendBobSuccess('bb84');
+            if (playingSolo) {
+                if (playerRole === 'A') {
+                    toast.success(localize('component.messaging.cipherSent'));
+                    setAliceCipherSent(true);
+                    pushLines([
+                        {
+                            title: 'component.messaging.congratulations',
+                            content: 'component.messaging.alice.end',
+                        },
+                    ]);
+                    toast.success(localize('component.basis.correct'));
+                    sendBobSuccess('bb84');
+                } else {
+                    pushLines([
+                        {
+                            title: 'component.messaging.congratulations',
+                            content: 'component.messaging.bob.end',
+                        },
+                    ]);
+                    toast.success(localize('component.basis.correct'));
+                }
+                
+                setGameSuccess(true);
+                clearBB84LocalStorage();
             } else {
-                const payload = crypto.map(({value}) => value);
-                sendCipher(payload);
-                toast.success(localize('component.messaging.cipherSent'));
-                setAliceCipherSent(true);
+                setPersistedCrypto(updatedCrypto.map(({value}) => value));
+                setPersistedMessage(message.map(({value}) => value));
+                if (playerRole === 'B' && !gameSuccess) {
+                    pushLines([
+                        {
+                            title: 'component.messaging.congratulations',
+                            content: 'component.messaging.bob.end',
+                        },
+                    ]);
+                    toast.success(localize('component.basis.correct'));
+                    sendBobSuccess('bb84');
+                } else {
+                    const payload = crypto.map(({value}) => value);
+                    sendCipher(payload);
+                    toast.success(localize('component.messaging.cipherSent'));
+                    setAliceCipherSent(true);
+                }
             }
         } else {
             if (playerRole === 'A') {
@@ -166,7 +197,7 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
                             </TableCell>
                             <TableCell>
                                 <Input disabled={playerRole === 'B'}
-                                       // type="number"
+                                    // type="number"
                                        onKeyDown={e => forbiddenSymbols.includes(
                                            e.key) && e.preventDefault()}
                                        value={playerRole === 'B' ?
