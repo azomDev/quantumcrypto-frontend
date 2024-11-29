@@ -118,8 +118,6 @@ const MessagingTab = ({playerRole}: { playerRole: string }) => {
                             content: 'component.messaging.alice.end',
                         },
                     ]);
-                    toast.success(localize('component.basis.correct'));
-                    sendBobSuccess('bb84');
                 } else {
                     pushLines([
                         {
