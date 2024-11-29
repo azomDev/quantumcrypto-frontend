@@ -21,7 +21,7 @@ import { useDrag, DndProvider, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import clsx from 'clsx';
 import GraphPopup from '../graphPopup';
-import { clearE91LocalStorage } from '@/lib/utils';
+import { clearE91LocalStorage } from '@/lib/e91/utils';
 import { RESTART_WITHOUT_EVE_EVENT } from '@/bb84-constants';
 
 
