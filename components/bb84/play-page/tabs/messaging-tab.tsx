@@ -9,13 +9,14 @@ import React, { useState} from 'react';
 import {CheckCircle2, Send} from 'lucide-react';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {Input} from '@/components/ui/input';
-import {clearBB84LocalStorage, cn} from '@/lib/bb84/utils';
+import {cn} from '@/lib/utils';
+import {clearBB84LocalStorage} from '@/lib/bb84/utils';
 import {toast} from 'sonner';
 import {Button} from '@/components/ui/button';
 import {useLanguage} from '@/components/providers/language-provider';
 import {useSocket} from '@/components/providers/socket-provider';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import {forbiddenSymbols} from '@/lib/bb84/utils';
+import {forbiddenSymbols} from '@/lib/utils';
 import usePlayerStore from '@/store/player-store';
 
 const MessagingTab = ({playerRole}: { playerRole: string }) => {

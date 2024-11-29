@@ -22,7 +22,7 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { clearE91LocalStorage } from '@/lib/utils';
+import { clearE91LocalStorage } from '@/lib/e91/utils';
 import useE91GameStore from '@/store/e91/e91-game-store';
 import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
 import useE91RoomStore from '@/store/e91/e91-room-store';

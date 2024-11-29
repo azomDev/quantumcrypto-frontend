@@ -729,7 +729,6 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                     break;
 
                 case RESTART_WITHOUT_EVE_EVENT:
-<<<<<<< HEAD
                     if (gameType === 'e91') {
                         localStorage.removeItem('e91PhotonNumber');
                         localStorage.setItem('e91GameData', JSON.stringify({}));
@@ -757,13 +756,7 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                         useBB84RoomStore.getState().setEvePresent(false);
                         useBB84ProgressStore.getState().resetProgress();
                     }
-=======
-                    toast.message('Game restarted', {
-                        description: localize(
-                            'component.validation.gameRestarted'),
-                    });
                     restartWithoutEve();
->>>>>>> development
                     break;
 
                 default:

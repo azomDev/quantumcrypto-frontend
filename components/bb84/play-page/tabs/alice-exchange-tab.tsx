@@ -21,7 +21,8 @@ import {
 import PolarizationTable from '@/components/bb84/play-page/polarization-table';
 import {useLanguage} from '@/components/providers/language-provider';
 import {BB84GameStep, inputField} from '@/types';
-import {cn, forbiddenSymbols, onBasisInputChange} from '@/lib/bb84/utils';
+import {onBasisInputChange} from '@/lib/bb84/utils';
+import {cn, forbiddenSymbols} from '@/lib/utils';
 import {useSocket} from '@/components/providers/socket-provider';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';

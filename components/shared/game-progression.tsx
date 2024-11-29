@@ -6,7 +6,7 @@ import {Separator} from '@/components/ui/separator';
 import {useLanguage} from '@/components/providers/language-provider';
 import usePlayerStore from '@/store/player-store';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import {cn} from '@/lib/bb84/utils';
+import {cn} from '@/lib/utils';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 
 const GameProgression = ({className, children}: { children: ReactNode, className?: string }) => {
