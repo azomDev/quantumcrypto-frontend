@@ -33,6 +33,7 @@ import {
 } from '@/lib/bb84/solo-player';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
 import {clearBB84LocalStorage} from '@/lib/bb84/utils';
+import { recordGameStats } from '@/app/(main)/services/api';
 
 const SoloGameModal = () => {
 
@@ -115,6 +116,7 @@ const SoloGameModal = () => {
             validationBitsLength: number,
             playerName: string,
         ) => {
+            recordGameStats('bb84', 1);
             clearBB84LocalStorage();
             resetRoom();
             resetProgress();
