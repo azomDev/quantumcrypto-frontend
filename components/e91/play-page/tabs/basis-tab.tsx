@@ -17,14 +17,17 @@ import useE91GameStore from '@/store/e91/e91-game-store';
 import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
 import useE91RoomStore from '@/store/e91/e91-room-store';
 import { E91GameStep, inputField } from '@/types';
-import { Bell, CheckCircle2, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6, Dices, Key, Minus, Trash } from 'lucide-react';
+import { Bell, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6, Info, Key, Minus, Trash } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { moveToExchangeTab } from './validation-tab';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import PhotonCategories from '@/components/e91/play-page/photon-types';
 
 const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number, playerRole: string, polarIcons: any[]}) => {
 
     const [restartModalOpen, setRestartModalOpen] = useState(false);
+    const [tooltipOpen, setTooltipOpen] = useState(false);
 
     const diceIcons = [Dice1, Dice2, Dice3, Dice4, Dice5, Dice6];
 
@@ -247,7 +250,29 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                                 <p>Bits</p>
                             </TableHead>
                             <TableHead className="text-center rounded-tr-lg">
-                                <p>Type</p>
+                                <div className="flex gap-x-1 items-center justify-center">
+                                    <p>Type</p>
+                                    <TooltipProvider delayDuration={500}>
+                                        <Tooltip open={tooltipOpen}>
+                                            <TooltipTrigger
+                                                onMouseLeave={() => setTooltipOpen(
+                                                    false)}
+                                                onClick={() => setTooltipOpen(
+                                                    !tooltipOpen)}>
+                                                <Info/>
+                                            </TooltipTrigger>
+                                            <TooltipContent
+                                                onMouseEnter={() => setTooltipOpen(
+                                                    true)}
+                                                onMouseLeave={() => setTooltipOpen(
+                                                    false)}
+                                                className="border-secondary p-0"
+                                                align='end'>
+                                                <PhotonCategories/>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
                             </TableHead>
                         </TableRow>
                     </TableHeader>

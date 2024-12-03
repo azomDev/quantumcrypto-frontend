@@ -12,11 +12,12 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn, forbiddenSymbols } from '@/lib/utils';
 import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
 import useE91RoomStore from '@/store/e91/e91-room-store';
 import { E91GameStep, inputField } from '@/types';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Info } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
@@ -45,6 +46,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
     const availableBases = playerRole === 'A' ? ['1', '2', '3'] : ['2', '3', '4'];
     const [revealedBits, setRevealedBits] = useState<string[]>(Array(bits.length).fill('*'));
     const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+    const [tooltipOpen, setTooltipOpen] = useState(false);
     
 
 
@@ -171,11 +173,34 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                         <TableHead className="text-center">
                             <div className="flex flex-col gap-y-1 py-1">
                                 <div
-                                    className="flex flex-col md:flex-row md:gap-x-1 justify-center">
+                                    className="flex flex-col md:flex-row md:gap-x-2 justify-center">
                                     <p>{localize(
                                         'component.aliceGame.basis')}</p>
                                     <p>{localize(
                                         'component.e91.basisDesc')}</p>
+                                    <TooltipProvider delayDuration={500}>
+                                        <Tooltip open={tooltipOpen}>
+                                            <TooltipTrigger
+                                                onMouseLeave={() => setTooltipOpen(
+                                                    false)}
+                                                onClick={() => setTooltipOpen(
+                                                    !tooltipOpen)}>
+                                                <Info/>
+                                            </TooltipTrigger>
+                                            <TooltipContent
+                                                onMouseEnter={() => setTooltipOpen(
+                                                    true)}
+                                                onMouseLeave={() => setTooltipOpen(
+                                                    false)}
+                                                className="border-secondary p-0">
+                                                <img 
+                                                    src="/images/e91-bases.png" 
+                                                    alt="Polarization bases" 
+                                                    className="w-full h-auto rounded" 
+                                                />
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
                                 </div>
                                 <Button size="sm"
                                         disabled={photonsMeasured}
