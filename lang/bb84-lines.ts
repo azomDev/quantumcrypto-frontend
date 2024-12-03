@@ -211,30 +211,37 @@ export const bb84Lines: LanguageItem[] = [
             ' new protocols.',
         'component.homePage.openSource': 'All our code is available on' +
             ' GitHub. You can find the links at the bottom of the page.',
-        'component.bb84.about': 'The protocol was introduced in 1984 by' +
-            ' Charles Bennett from IBM and Gilles Brassard from the' +
-            ' Université de Montréal. It involves two separate parties,' +
-            ' Alice and Bob, who wish to communicate securely through a' +
-            ' public channel. The protocol begins with Alice creating a' +
-            ' random sequence of bits and encoding them onto individual' +
-            ' photons in one of two mutually orthogonal bases selected' +
-            ' at random. She then sends these' +
-            ' photons to Bob over a public quantum channel. However, due to the' +
-            ' fundamental principles of quantum mechanics, any attempt by' +
-            ' an eavesdropper, typically referred to as Eve, to intercept' +
-            ' and measure these photons will inevitably disturb their' +
-            ' states, thus introducing errors that Alice and Bob can' +
-            ' detect. When Bob receives the photons, he measures them' +
-            ' using randomly chosen bases, and both Alice and Bob publicly' +
-            ' announce which bases they used to encode or measure each photon.' +
-            ' To form the key, Alice and Bob only keep the bits for which' +
-            ' the bases they respectively used match. Finally, by comparing a subset' +
-            ' of their key bits, Alice and Bob can detect the presence of' +
-            ' Eve and therefore ensure the security of their quantum communication' +
-            ' channel. If they conclude that the quantum channel was not compromized,' +
-            ' they can use the generated encryption key to send a message' +
-            ' securely over a classical communication channel.' +
-            ' Otherwise, they must start the procedure again.',
+        'component.bb84.about': 'The BB84 protocol was proposed in 1984 by Charles Bennett of IBM and Gilles Brassard from the Université de Montréal. ' +
+            'It involves two distinct parties, Alice and Bob, who aim to establish an <link2>encryption key</link2> to communicate securely over a <link3>public channel</link3>. ' +
+            'The protocol begins with Alice creating a random sequence of bits and <link5>encoding each bit</link5> using a <link1>photon</link1>. ' +
+            'Specifically, the bit value is encoded in one of two <link6>mutually orthogonal</link6> polarization states of the photon. ' +
+            'Additionally, for each photon, the basis used to describe the polarization of light is chosen randomly from two possible bases. Alice then sends these photons to Bob via a public <link4>quantum channel</link4>. ' +
+            'When Bob receives the photons, he measures them using one of the two bases, also chosen randomly. Subsequently, Alice and Bob publicly announce the bases they used to encode and measure each photon. ' +
+            'A key is formed by keeping only the bits for which Alice and Bob\'s bases match. ' +
+            'Finally, by comparing a subset of the bits from their key, Alice and Bob can detect the <link8>presence of an eavesdropper</link8>, typically referred to as Eve, and thus ensure the security of their quantum communication channel. ' +
+            'This is because, according to the fundamental principles of quantum mechanics, any attempt by Eve to intercept and measure these photons will <link7>disturb their state</link7>, introducing inconsistencies that Alice and Bob can detect. ' +
+            'If they conclude that the quantum channel has not been compromised, they can use the generated encryption key to securely send a message. Otherwise, they must repeat the procedure. ',
+        'component.bb84.about.encryptionKey.title': 'Encryption Key',
+        'component.bb84.about.encryptionKey.part1': 'An encryption key is a secret code (in bits) that protects information by transforming it into an unreadable format. Only those possessing the decryption key can restore the original message. The decryption key can either be the same (symmetric keys) or different (asymmetric keys). For instance, in a symmetric key encryption scenario, Alice and Bob share the encryption key: 010010. If Alice wants to send a confidential message to Bob, she performs a bitwise XOR operation between the key and her message. Here\'s how the XOR operation works for different bit values: ',
+        'component.bb84.about.encryptionKey.part2': 'Let’s say the message Alice wants to send is 111000. The encryption operation generates the sequence 101010, as shown in this table: ',
+        'component.bb84.about.encryptionKey.part3': 'This sequence is sent to Bob, who, as the only other person possessing the key, can decrypt the message by performing a bitwise XOR operation between the encrypted message and the key. ',
+        'component.bb84.about.encryptionKey.message': 'Message',
+        'component.bb84.about.encryptionKey.key': 'Key',
+        'component.bb84.about.encryptionKey.cypher': 'Encrypted Message',
+        'component.bb84.about.photon.title': 'Photon',
+        'component.bb84.about.photon': 'It is often said that everything in the universe is composed of particles, including light. In fact, the particles that make up light are called photons, and they are responsible for carrying light energy. The BB84 protocol uses the polarization of photons to convey bit information (0 or 1). This essential quantum property of light particles ensures the protocol\'s security. ',
+        'component.bb84.about.publicPrivate.title': 'Public vs. Private Channels',
+        'component.bb84.about.publicPrivate': 'A public channel is a communication medium where anyone can potentially eavesdrop on the exchanged messages, similar to speaking loudly in a room full of people. In contrast, a private channel ensures that communication occurs only between the intended parties without the risk of interception, like a whispered conversation that no one else can hear. Since guaranteeing the privacy of a communication channel can be challenging, cryptography is used to render messages incomprehensible over a public channel, thus protecting the confidentiality of the data. ',
+        'component.bb84.about.classicalQuantum.title': 'Classical vs. Quantum Channels',
+        'component.bb84.about.classicalQuantum': 'A classical channel is designed to transmit classical information, such as binary or textual messages. Transmitting quantum information through a classical channel presents significant performance challenges due to the noise introduced by classical information. On the other hand, a quantum channel is designed to transmit quantum information, such as the state of a photon. This channel preserves the quantum properties of the information, ensuring a high likelihood that the correct information is received intact on the other end. ',
+        'component.bb84.about.encoding.title': 'Encoding a Bit in a Photon ',
+        'component.bb84.about.encoding': 'Encoding a bit in a photon refers to using the polarization of photons to represent bits (0 or 1). Polarization is a property of photons that describes the direction in which their electric field oscillates. In the BB84 protocol, this polarization is used to encode bits by choosing between two bases: the + basis and the × basis. In the + basis, a horizontally polarized photon («) represents bit 0, while a vertically polarized photon ([Equation]) represents bit 1. In the × basis, a diagonally polarized photon (⤢) represents bit 0, and a photon polarized in the opposite diagonal direction (⤡) represents bit 1. Alice encodes each bit in this manner before sending it to Bob. ',
+        'component.bb84.about.orthogonal.title': 'Orthogonal Basis ',
+        'component.bb84.about.orthogonal': 'In a two-dimensional Cartesian plane, a basis is a set of two vectors, v0 ​and v1​, that can represent any vector in the plane as a linear combination of v0​ and v1​. When v0​ and v1​ form a 90° angle, they are orthogonal and create an orthogonal basis. A natural basis consists of one vector aligned with the x-axis and another aligned with the y-axis, known as the + basis in the BB84 protocol. By rotating the + basis vectors by 45°, the x basis is obtained. By associating bits 0 and 1 with the orthogonal vectors of a basis, Bob always measures the value encoded by Alice when they use the same basis. This is a consequence of using an orthogonal basis and Born\'s rule, which states that the probability of a measurement outcome corresponds to the square of the polarization vector\'s component in that basis. If Alice\'s and Bob\'s bases do not match, the polarization vector of the photon sent by Alice is expressed as a linear combination of the measurement basis vectors chosen by Bob. The measurement result is then random. ',
+        'component.bb84.about.disturbance.title': 'State Disturbance by Measurement ',
+        'component.bb84.about.disturbance': 'It is often said that a quantum system can be "in two states at once," meaning it is in a superposition of states. This implies that upon measurement, the system\'s outcome cannot be predicted, but the probability of each result is known. Once a measurement is made, the superposition state is destroyed, and the system collapses into the measured state. Any subsequent measurement will yield the same result. ',
+        'component.bb84.about.eve.title': 'Detecting Eve\'s Presence ',
+        'component.bb84.about.eve': 'Consider only the photons for which Alice and Bob used the same basis, as these photons are used to establish the key. To obtain information about the key, Eve must choose a basis to measure the photons she intercepts. For a given photon, suppose Alice and Bob use the + basis. If Eve, by chance, also chooses the + basis, she will measure the correct value and retransmit the bit in a photon with the same polarization. In this case, Eve’s presence cannot be detected. However, if Eve measures in the x basis, which has a 50% chance of occurring, she will transmit to Bob a photon polarized in a superposition of states relative to the + basis. Bob’s measurement result will then be probabilistic, introducing errors that Alice and Bob can use to detect Eve\'s presence. ',
         'component.homePage.userFriendlyTitle': 'User-friendly',
         'component.homePage.multiplayerTitle': 'Multiplayer Experience',
         'component.homePage.extensibleTitle': 'Highly Extensible',
@@ -403,6 +410,13 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.startSolo': 'Start solo game',
         'component.bb84.soloRoleSelect': 'Select your role',
         'component.e91.createGame.keyMin': 'The minimum number of photons is 20 if Eve is present and 10 otherwise',
+        'component.tooltip.bobBase': 'Bob\'s Base',
+        'component.tooltip.aliceBase': 'Alice\'s Base',
+        'component.tooltip.category': "Category",
+        'component.tooltip.description': "Description",
+        'component.tooltip.key': "Key",
+        'component.tooltip.discard': "Discard",
+        'component.tooltip.bell': "Bell",
 
     },
     {
@@ -624,34 +638,28 @@ export const bb84Lines: LanguageItem[] = [
             ' nouvelles fonctionnalités, y compris de nouveaux protocoles.',
         'component.homePage.openSource': 'Tout notre code est disponible' +
             ' sur GitHub. Vous trouverez les liens au bas de la page.',
-        'component.bb84.about': 'Le protocole a été proposé en 1984' +
-            ' par Charles Bennett d\'IBM et Gilles Brassard de' +
-            ' l\'Université de Montréal. Il implique deux parties' +
-            ' distinctes, Alice et Bob, qui souhaitent établir une clé' +
-            ' de chiffrement afin de communiquer de' +
-            ' manière sécurisée via un canal public. Le protocole commence' +
-            ' avec Alice qui crée une séquence aléatoire de bits' +
-            ' et qui encode chacun des bits sur un photon individuel dans' +
-            ' l\'une des deux bases mutuellement orthogonales, choisie' +
-            ' au hasard. Elle envoie ensuite ces' +
-            ' photons à Bob via un canal quantique public. Cependant, en' +
-            ' raison des principes fondamentaux de la mécanique quantique, toute' +
-            ' tentative par un espion, généralement appelé Ève,' +
-            ' d\'intercepter et de mesurer ces photons perturbera' +
-            ' inévitablement leur état, introduisant ainsi des erreurs' +
-            ' qu\'Alice et Bob peuvent détecter. Lorsque Bob reçoit les' +
-            ' photons, il les mesure en utilisant des bases choisies au' +
-            ' hasard. Ensuite, Alice et Bob annoncent publiquement les bases' +
-            ' qu\'ils ont utilisées pour encoder et mesurer chaque photon.' +
-            ' Une clé est formée en conservant seulement les bits pour lesquels' +
-            ' les bases utilisées par Alice et Bob correspondent. Enfin, en' +
-            ' comparant un sous-ensemble des bits de leur clé, Alice et Bob' +
-            ' peuvent détecter la présence d\'Ève et s\'assurent ainsi de la' +
-            ' sécurité de leur canal de communication quantique. S\'ils' +
-            ' concluent que le canal quantique n\'a pas été compromis,' +
-            ' ils peuvent utiliser la clé de chiffrement générée pour envoyer' +
-            ' un message en toute sécurité. Sinon, ils doivent recommencer' +
-            ' la procédure.',
+        'component.bb84.about': 'Le protocole BB84 a été proposé en 1984 par Charles Bennett d\'IBM et Gilles Brassard de l\'Université de Montréal. Il implique deux parties distinctes, Alice et Bob, qui souhaitent établir une <link2>clé de chiffrement</link2> afin de communiquer de manière sécurisée via un <link3>canal public</link3>. Le protocole commence avec Alice qui crée une séquence aléatoire de bits et qui <link5>encode chaque bit</link5> à l\’aide d\’un <link1>photon</link1>. Plus précisément, la valeur du bit est encodée dans un des deux <link6>états mutuellement orthogonaux</link6> de la polarisation du photon. Aussi, à chaque photon, la base pour décrire la polarisation de la lumière est choisie au hasard entre deux bases. Alice envoie ensuite ces photons à Bob via un <link4>canal quantique</link4> public. Lorsque Bob reçoit les photons, il les mesure en utilisant une des deux bases également choisies au hasard. Ensuite, Alice et Bob annoncent publiquement les bases qu\'ils ont utilisées pour encoder et mesurer chaque photon. Une clé est formée en conservant seulement les bits pour lesquels les bases utilisées par Alice et Bob correspondent. Enfin, en comparant un sous-ensemble des bits de leur clé, Alice et Bob peuvent détecter la <link8>présence d\'un espion</link8>, généralement appelé Ève, et s\'assurent ainsi de la sécurité de leur canal de communication quantique. En effet, en raison des principes fondamentaux de la mécanique quantique, toute tentative par Ève d\'intercepter et de mesurer ces photons <link7>perturbera leur état</link7>, introduisant ainsi des incohérences qu\'Alice et Bob peuvent détecter. S\'ils concluent que le canal quantique n\'a pas été compromis, ils peuvent utiliser la clé de chiffrement générée pour envoyer un message en toute sécurité. Sinon, ils doivent recommencer la procédure.', 
+        'component.bb84.about.encryptionKey.title': 'Clé de chiffrement ',
+        'component.bb84.about.encryptionKey.part1': 'Une clé de chiffrement est un code secret (en bits) qui permet de protéger des informations en les transformant en un format illisible. Seules les personnes possédant la clé de déchiffrement pourront restaurer le message original. La clé de déchiffrement peut être la même clé (on parle alors de clés symétriques), ou une clé différente (clés asymétriques). Prenons un exemple de chiffrement avec clés symétriques dans lequel Alice et Bob possèdent la clé de chiffrement suivante : 010010. Si Alice souhaite transmettre un message à Bob de manière confidentielle, elle effectue l’opération XOR (OU-exclusif) bit par bit entre la clé et son message. Voici comment fonctionne l’opération XOR pour les différentes valeurs possibles des bits b0 et b1: ',
+        'component.bb84.about.encryptionKey.part2': 'Supposons que le message qu’elle veuille envoyer à Bob est 111000. L’opération de chiffrement génère la séquence 101010 comme on peut le voir dans ce tableau',
+        'component.bb84.about.encryptionKey.part3': 'Cette séquence est transmise à Bob qui, puisqu’il est la seule autre personne possédant la clé, peut déchiffrer le message en appliquant à son tour l’opération XOR bit par bit entre le message chiffré et la clé.',
+        'component.bb84.about.encryptionKey.message': 'Message',
+        'component.bb84.about.encryptionKey.key': 'Clé',
+        'component.bb84.about.encryptionKey.cypher': 'Message encrypté',
+        'component.bb84.about.photon.title': 'Photon',
+        'component.bb84.about.photon': 'On dit bien souvent que tout dans l’univers est composé de particules, même la lumière. En effet, les particules qui composent la lumière sont appelées photons, et ils sont responsables de transporter l’énergie lumineuse. Le protocole BB84 utilise la polarisation des photons pour envoyer l’information des bits (0 ou 1). En effet, cette propriété quantique essentielle des particules de lumière assure la sécurité du protocole.',
+        'component.bb84.about.publicPrivate.title': 'Canal public vs privé ',
+        'component.bb84.about.publicPrivate': 'Un canal public est un moyen de communication où tout le monde peut potentiellement écouter les messages échangés, comme si vous parliez à voix haute dans une pièce pleine de gens. Un canal privé, en revanche, garantit que la communication se fait seulement entre les personnes concernées sans possibilité d’interception, un peu comme une conversation à voix basse entre deux interlocuteurs où personne d’autre ne peut entendre. Comme il peut être difficile de garantir le caractère privé d’un canal de communication, la cryptographie est utilisée pour rendre les messages incompréhensibles sur un canal public et ainsi protéger la confidentialité des données. ',
+        'component.bb84.about.classicalQuantum.title': 'Canal classique vs quantique',
+        'component.bb84.about.classicalQuantum': 'Un canal classique est un moyen de communication conçu pour transmettre de l’information classique, comme des messages binaires ou textuels. L’envoie d’information quantique à travers un canal classique pose de grands défis de performance étant donné le bruit induit par l’information classique qui y circule. En revanche, un canal quantique est conçu pour transmettre de l’information quantique, comme l’état d’un photon. Ce canal permet de conserver les propriétés quantiques de l’information, garantissant ainsi une grande probabilité que la bonne information soit reçue de l’autre côté, intacte. ',
+        'component.bb84.about.encoding.title': 'Encodage d’un bit dans un photon ',
+        'component.bb84.about.encoding': 'L’encodage d’un bit dans un photon fait référence à la façon dont on utilise la polarisation des photons pour représenter des bits (0 ou 1). La polarisation est une propriété des photons qui décrit la direction dans laquelle leur champ électrique oscille. Dans le protocole BB84, cette polarisation est utilisée pour encoder des bits en choisissant entre deux bases : la base + et la base x. Dans la base +, un photon polarisé horizontalement («) représente le bit 0, tandis qu’un photon polarisé verticalement ([Equation]) représente le bit 1. Dans la base x, un photon polarisé en diagonale (⤢) représente le bit 0, et un photon polarisé en diagonale opposée (⤡) représente le bit 1. Alice encode alors chaque bit de cette manière avant de l’envoyer à Bob.',
+        'component.bb84.about.orthogonal.title': 'Base orthogonale ',
+        'component.bb84.about.orthogonal': 'Si on considère le plan cartésien à 2 dimensions, une base est un ensemble de deux vecteurs, v0 et v1, qui permet de représenter n’importe quel vecteur du plan par une combinaison linéaire de v0 et v1. Lorsque v0 et v1 forment un angle de 90o, ils sont orthogonaux et ils forment une base orthogonale. Une base naturelle consiste à prendre un vecteur aligné avec l’axe des x et un autre aligné avec l’axe des y, ce qu’on appelle la base + dans le protocole BB84. En effectuant une rotation de 45o des deux vecteurs de la base +, on obtient la base x. En associant les bits 0 et 1 aux vecteurs orthogonaux d’une base, on s’assure que Bob mesure toujours la valeur qui avait été encodée par Alice lorsque la même base est utilisée. Il s’agit d’une conséquence de l’utilisation d’une base orthogonale et de la règle de Born, qui stipule que la probabilité d’un résultat de mesure correspond au carré de la composante du vecteur de polarisation, exprimé dans cette base. Si les bases d’Alice et de Bob ne concordent pas, le vecteur de polarisation du photon envoyé par Alice s’exprime alors comme une combinaison linéaire des vecteurs de la base de mesure de Bob. Le résultat de la mesure est alors aléatoire.',
+        'component.bb84.about.disturbance.title': 'Perturbation de l’état par la mesure',
+        'component.bb84.about.disturbance': 'On entend souvent qu’un système quantique peut être « dans deux états en même temps », c’est-à-dire en superposition d’états. Cela signifie que si on mesure le système, on ne peut pas prédire quel sera le résultat de la mesure, mais on connaît avec quelle probabilité chacun des résultats peut être observé. Une fois la mesure effectuée, l’état de superposition est détruit et le système est dans l’état qui a été mesuré. Une nouvelle mesure donnerait le même résultat. ',
+        'component.bb84.about.eve.title': 'Détection de la présence d’Ève',
+        'component.bb84.about.eve': 'Considérons seulement les photons pour lesquels Alice et Bob ont utilisé la même base puisque ce sont ces photons qui servent à établir la clé. Pour détenir de l’information sur la clé, Ève doit choisir dans quelle base elle mesure les photons qu’elle intercepte. Pour un de ces photons, supposons qu’Alice et Bob utilisent la base +. Si, par chance, Ève choisit également la base +, elle mesurera à coup sûr la bonne valeur puis pourra retransmettre le bit dans un nouveau photon de même polarisation. La présence d’Eve ne peut pas être détectée dans ce cas-ci. Si elle fait plutôt sa mesure dans la base x, ce qui a une chance sur deux de se produire, Ève transmettra à Bob un nouveau photon dont la polarisation est en superposition d’états par rapport à la base +. Le résultat de la mesure de Bob est donc probabiliste et la présence d’Ève peut être détectée.',
         'component.homePage.userFriendlyTitle': 'Convivial',
         'component.homePage.multiplayerTitle': 'Expérience multijoueur',
         'component.homePage.extensibleTitle': 'Hautement extensible',
@@ -954,32 +962,28 @@ export const bb84Lines: LanguageItem[] = [
         'component.homePage.openSource': 'Todo nuestro código está' +
             ' disponible en GitHub. Puedes encontrar los enlaces al final' +
             ' de la página.',
-        'component.bb84.about': 'El protocolo fue propuesto en 1984 por' +
-            ' Charles Bennett de IBM y Gilles Brassard de la Université de' +
-            ' Montréal. Involucra a dos partes separadas, Alice y Bob, que' +
-            ' desean comunicarse de manera segura a través de un canal' +
-            ' público. El protocolo comienza con Alice creando una' +
-            ' secuencia aleatoria de bits y codificándolos en fotones' +
-            ' individuales en una de las dos bases ortogonales mutuamente' +
-            ' seleccionadas al azar. Luego, envía estos fotones a Bob a' +
-            ' través de un canal cuántico público. Sin embargo, debido a' +
-            ' los principios fundamentales de la mecánica cuántica,' +
-            ' cualquier intento de un espía, típicamente referido como Eva,' +
-            ' de interceptar y medir estos fotones inevitablemente' +
-            ' perturbará sus estados, introduciendo errores que Alice y Bob' +
-            ' pueden detectar. Cuando Bob recibe los fotones, los mide' +
-            ' utilizando bases elegidas al azar, y tanto Alice como Bob' +
-            ' anuncian públicamente qué bases usaron para codificar o medir' +
-            ' cada fotón. Para formar la clave, Alice y Bob solo conservan' +
-            ' los bits para los cuales las bases que respectivamente usaron' +
-            ' coinciden. Finalmente, al comparar un subconjunto de sus bits' +
-            ' clave, Alice y Bob pueden detectar la presencia de Eva y, por' +
-            ' lo tanto, asegurar la seguridad de su canal de comunicación' +
-            ' cuántica. Si concluyen que el canal cuántico no fue' +
-            ' comprometido, pueden usar la clave de cifrado generada para' +
-            ' enviar un mensaje de manera segura a través de un canal de' +
-            ' comunicación clásico. De lo contrario, deben reiniciar el' +
-            ' procedimiento.',
+        'component.bb84.about': 'El protocolo BB84 fue propuesto en 1984 por Charles Bennett de IBM y Gilles Brassard de la Universidad de Montreal. Implica a dos partes distintas, Alice y Bob, que buscan establecer una <link2>clave de cifrado</link2> para comunicarse de manera segura a través de un <link3>canal público</link3>. El protocolo comienza con Alice creando una secuencia aleatoria de bits y <link5>codificando cada bit</link5> usando un <link1>fotón</link1>. Específicamente, el valor del bit se codifica en uno de los dos <link6>estados de polarización mutuamente ortogonales</link6> del fotón. Además, para cada fotón, la base utilizada para describir la polarización de la luz se elige aleatoriamente entre dos posibles bases. Alice luego envía estos fotones a Bob a través de un <link4>canal cuántico público</link4> . Cuando Bob recibe los fotones, los mide utilizando una de las dos bases, también elegida al azar. Posteriormente, Alice y Bob anuncian públicamente las bases que usaron para codificar y medir cada fotón. Se forma una clave conservando solo los bits para los cuales las bases de Alice y Bob coinciden. Finalmente, comparando un subconjunto de los bits de su clave, Alice y Bob pueden detectar la <link8>presencia de un espía</link8>, generalmente llamado Eve, y así garantizar la seguridad de su canal de comunicación cuántica. Esto se debe a que, según los principios fundamentales de la mecánica cuántica, cualquier intento de Eve por interceptar y medir estos fotones <link7>alterará su estado</link7>, introduciendo inconsistencias que Alice y Bob pueden detectar. Si concluyen que el canal cuántico no ha sido comprometido, pueden usar la clave generada para enviar un mensaje de manera segura. De lo contrario, deben repetir el procedimiento.',
+        'component.bb84.about.encryptionKey.title': 'Clave de cifrado ',
+        'component.bb84.about.encryptionKey.part1': 'Una clave de cifrado es un código secreto (en bits) que protege la información transformándola a un formato ilegible. Solo las personas que poseen la clave de descifrado pueden restaurar el mensaje original. La clave de descifrado puede ser la misma (claves simétricas) o diferente (claves asimétricas). Por ejemplo, en un escenario de cifrado con clave simétrica, Alice y Bob comparten la clave de cifrado: 010010. Si Alice quiere enviar un mensaje confidencial a Bob, realiza una operación XOR bit a bit entre la clave y su mensaje. Así funciona la operación XOR para diferentes valores de bits: ',
+        'component.bb84.about.encryptionKey.part2': 'Supongamos que el mensaje que Alice quiere enviar es 111000. La operación de cifrado genera la secuencia 101010, como se muestra en la siguiente tabla: ',
+        'component.bb84.about.encryptionKey.part3': 'Esta secuencia se envía a Bob, quien, como la única otra persona que posee la clave, puede descifrar el mensaje realizando una operación XOR bit a bit entre el mensaje cifrado y la clave. ',
+        'component.bb84.about.encryptionKey.message': 'Mensaje',
+        'component.bb84.about.encryptionKey.key': 'Clave',
+        'component.bb84.about.encryptionKey.cypher': 'Message cifrado',
+        'component.bb84.about.photon.title': 'Fotón ',
+        'component.bb84.about.photon': 'A menudo se dice que todo en el universo está compuesto de partículas, incluida la luz. De hecho, las partículas que componen la luz se llaman fotones, y son responsables de transportar la energía luminosa. El protocolo BB84 utiliza la polarización de los fotones para transmitir información en forma de bits (0 o 1). Esta propiedad cuántica esencial de las partículas de luz nos aporta un protocolo seguro. ',
+        'component.bb84.about.publicPrivate.title': 'Canal público vs. Canal privado ',
+        'component.bb84.about.publicPrivate': 'Un canal público es un medio de comunicación en el que cualquiera puede potencialmente escuchar los mensajes intercambiados, como si hablaras en voz alta en una habitación llena de gente. Un canal privado, en cambio, garantiza que la comunicación se realice solo entre las partes interesadas sin posibilidad de interceptación, como una conversación en voz baja entre dos interlocutores donde nadie más puede escuchar. Como puede ser difícil garantizar la privacidad de un canal de comunicación, se utiliza la criptografía para hacer que los mensajes sean incomprensibles en un canal público, protegiendo así la confidencialidad de los datos.',
+        'component.bb84.about.classicalQuantum.title': 'Canal clásico vs canal cuántico ',
+        'component.bb84.about.classicalQuantum': 'Un canal clásico está diseñado para transmitir información clásica, como mensajes binarios o textuales. Transmitir información cuántica a través de un canal clásico presenta grandes desafíos de rendimiento debido al ruido introducido por la información clásica. En cambio, un canal cuántico está diseñado para transmitir información cuántica, como el estado de un fotón. Este canal conserva las propiedades cuánticas de la información, asegurando una alta probabilidad de que la información correcta se reciba intacta al otro lado. ',
+        'component.bb84.about.encoding.title': 'Codificación de un bit en un fotón',
+        'component.bb84.about.encoding': 'La codificación de un bit en un fotón se refiere a cómo se utiliza la polarización de los fotones para representar bits (0 o 1). La polarización es una propiedad de los fotones que describe la dirección en la que oscila su campo eléctrico. En el protocolo BB84, esta polarización se usa para codificar bits eligiendo entre dos bases: la base + y la base x. En la base +, un fotón polarizado horizontalmente («) representa el bit 0, mientras que un fotón polarizado verticalmente ([Equation]) representa el bit 1. En la base x, un fotón polarizado diagonalmente (⤢) representa el bit 0, y un fotón polarizado en la dirección diagonal opuesta (⤡) representa el bit 1. Alice codifica cada bit de esta manera antes de enviarlo a Bob. ',
+        'component.bb84.about.orthogonal.title': 'Base orthogonal ',
+        'component.bb84.about.orthogonal': 'En un plano cartesiano bidimensional, una base es un conjunto de dos vectores, v0 y v1​, que pueden representar cualquier vector en el plano como una combinación lineal de v0​ y v1​. Cuando v0​ y v1​ forman un ángulo de 90°, son ortogonales y crean una base ortogonal. Una base natural consiste en un vector alineado con el eje x y otro alineado con el eje y, conocida como la base + en el protocolo BB84. Al rotar los vectores de la base + a 45°, se obtiene la base x. Asociando los bits 0 y 1 con los vectores ortogonales de una base, Bob siempre mide el valor codificado por Alice cuando usan la misma base. Esto es una consecuencia del uso de una base ortogonal y de la regla de Born, que establece que la probabilidad de un resultado de medición corresponde al cuadrado de la componente del vector de polarización en esa base. Si las bases de Alice y Bob no coinciden, el vector de polarización del fotón enviado por Alice se expresa como una combinación lineal de los vectores de la base de medición de Bob. El resultado de la medición será entonces aleatorio. ',
+        'component.bb84.about.disturbance.title': 'Perturbación del estado por la medición',
+        'component.bb84.about.disturbance': 'A menudo se dice que un sistema cuántico puede estar "en dos estados a la vez", es decir, en una superposición de estados. Esto significa que al medir el sistema, no se puede predecir cuál será el resultado, pero se conoce la probabilidad de cada posible resultado. Una vez que se realiza una medición, la superposición se destruye y el sistema colapsa al estado medido. Una nueva medición dará el mismo resultado. ',
+        'component.bb84.about.eve.title': 'Detección de la presencia de Eve ',
+        'component.bb84.about.eve': 'Consideremos solo los fotones para los que Alice y Bob usaron la misma base, ya que estos fotones se utilizan para establecer la clave. Para obtener información sobre la clave, Eve debe elegir una base para medir los fotones que intercepta. Para un fotón dado, supongamos que Alice y Bob usan la base +. Si Eve, por casualidad, también elige la base +, medirá el valor correcto y retransmitirá el bit en un fotón con la misma polarización. En este caso, la presencia de Eve no se puede detectar. Sin embargo, si Eve mide en la base x, lo cual tiene un 50% de probabilidad de ocurrir, Eve transmitirá a Bob un fotón polarizado en una superposición de estados con respecto a la base +. El resultado de la medición de Bob será entonces probabilístico, introduciendo errores que Alice y Bob pueden usar para detectar la presencia de Eve. ',
         'component.homePage.userFriendlyTitle': 'Amigable para el usuario',
         'component.homePage.multiplayerTitle': 'Experiencia multijugador',
         'component.homePage.extensibleTitle': 'Altamente extensible',
