@@ -70,7 +70,7 @@ const E91Main: React.FC = () => {
         }
         const previousGame = localStorage.getItem('e91PlayerData');
         if (previousGame) {
-            setRejoinDialogOpen(true);
+            //setRejoinDialogOpen(true);
         }
     }, [isPlayRoomConnected]);
 
