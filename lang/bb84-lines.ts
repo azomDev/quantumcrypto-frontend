@@ -385,6 +385,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.key': "Key",
         'component.tooltip.discard': "Discard",
         'component.tooltip.bell': "Bell",
+        'component.e91.dropHere': 'Drop Here',
     },
     {
         // ... (French translations)
@@ -771,6 +772,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.key': "Clé",
         'component.tooltip.discard': "Jeter",
         'component.tooltip.bell': "Bell",
+        'component.e91.dropHere': 'Déposez ici',
     },
     {
         // ... (Spanish translations)
@@ -1147,6 +1149,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.key': "Clave",
         'component.tooltip.discard': "Descartar",
         'component.tooltip.bell': "Bell",
+        'component.e91.dropHere': 'Caer aquí',
     },
     {
         // ... (German translations)

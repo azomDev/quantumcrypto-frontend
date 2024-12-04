@@ -16,9 +16,9 @@ const PhotonCategories = () => {
     const {localize} = useLanguage();
 
     const categoryIcons: Record<string, JSX.Element> = {
-        '1': <Key />,     
+        '3': <Key />,     
         '2': <Trash />,   
-        '3': <Bell />,    
+        '1': <Bell />,    
     };
 
     const polarIcons: Record<string, JSX.Element> = {
@@ -26,34 +26,33 @@ const PhotonCategories = () => {
         '2': <span style={{ fontSize: "24px" }}>b</span>, 
         '3': <span style={{ fontSize: "24px" }}>a'</span>, 
         '4': <span style={{ fontSize: "24px" }}>b'</span>,
-        '!2': <span style={{ fontSize: "24px" }}>≠b</span>, 
-        '!3': <span style={{ fontSize: "24px" }}>≠a'</span>,
     };
 
     
     const cases = [
-        {bobBase: '2', aliceBase: '2', category: '1', label: localize('component.tooltip.key')},
-        {bobBase: '3', aliceBase: '3', category: '1', label: localize('component.tooltip.key')}, 
-        {bobBase: '3', aliceBase: '!3', category: '2', label: localize('component.tooltip.discard')}, 
-        {bobBase: '!2', aliceBase: '2', category: '2', label: localize('component.tooltip.discard')}, 
-        {bobBase: '2', aliceBase: '1', category: '3', label: localize('component.tooltip.bell')}, 
-        {bobBase: '2', aliceBase: '3', category: '3', label: localize('component.tooltip.bell')}, 
-        {bobBase: '4', aliceBase: '3', category: '3', label: localize('component.tooltip.bell')}, 
-        {bobBase: '4', aliceBase: '1', category: '3', label: localize('component.tooltip.bell')}, 
+        {bobBase: '2', aliceBase: '2', category: '3', label: localize('component.tooltip.key')},
+        {bobBase: '3', aliceBase: '3', category: '3', label: localize('component.tooltip.key')}, 
+        {bobBase: '3', aliceBase: '1', category: '2', label: localize('component.tooltip.discard')}, 
+        {bobBase: '3', aliceBase: '2', category: '2', label: localize('component.tooltip.discard')},
+        {bobBase: '4', aliceBase: '2', category: '2', label: localize('component.tooltip.discard')}, 
+        {bobBase: '2', aliceBase: '1', category: '1', label: localize('component.tooltip.bell')}, 
+        {bobBase: '2', aliceBase: '3', category: '1', label: localize('component.tooltip.bell')}, 
+        {bobBase: '4', aliceBase: '3', category: '1', label: localize('component.tooltip.bell')}, 
+        {bobBase: '4', aliceBase: '1', category: '1', label: localize('component.tooltip.bell')}, 
     ];
 
     return (
-        <Table className="z-40">
+        <Table className="table-auto">
             <TableHeader>
                 <TableRow className="text-center">
                     <TableHead>
-                        <p>{localize('component.tooltip.aliceBase')}</p>
+                        <p className='text-center'>{localize('component.tooltip.aliceBase')}</p>
                     </TableHead>
                     <TableHead>
-                        <p>{localize('component.tooltip.bobBase')}</p>
+                        <p className='text-center'>{localize('component.tooltip.bobBase')}</p>
                     </TableHead>
                     <TableHead>
-                        <p>{localize('component.tooltip.category')}</p>
+                        <p className='text-center'>{localize('component.tooltip.category')}</p>
                     </TableHead>
                 </TableRow>
             </TableHeader>

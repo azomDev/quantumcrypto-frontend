@@ -192,6 +192,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                                                     true)}
                                                 onMouseLeave={() => setTooltipOpen(
                                                     false)}
+                                                side='bottom'
                                                 className="border-secondary p-0">
                                                 <img 
                                                     src="/images/e91-bases.png" 

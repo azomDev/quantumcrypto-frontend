@@ -79,32 +79,6 @@ const DraggableButton = ({ index, value, setIsDragging}: { index: number, value:
     );
 };
 
-const DropZone = ({ onDrop, backgroundColor, label }: { onDrop: (index: number, value: number) => void, backgroundColor: string, label: string }) => {
-    const [{ isOver }, drop] = useDrop(() => ({
-        accept: 'BUTTON',
-        drop: (item: { index: number, value: string }) => onDrop(item.index, item.value === '+1' ? 1 : -1),
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-        }),
-    }));
-
-    return (
-        <div
-          ref={drop}
-          style={{
-            backgroundColor: isOver ? '#d1d5db' : backgroundColor, 
-            border: '2px solid var(--border-color)',
-          }}
-          className="flex flex-col justify-center items-center w-full h-full rounded-lg shadow-lg p-2 transition-all"
-        >
-          <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-md">
-            <span className="text-gray-700 font-medium text-xl">{label}</span>
-          </div>
-          <span className="mt-2 text-sm font-semibold text-gray-800">Drop Here</span>
-        </div>
-      );
-    };
-
 
 const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any[]}) => {
     const [sValues, setSValues] = useState<number[]>([]);
@@ -225,6 +199,32 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
         }
     }, [securedDecision]);
 
+    const DropZone = ({ onDrop, backgroundColor, label }: { onDrop: (index: number, value: number) => void, backgroundColor: string, label: string }) => {
+        const [{ isOver }, drop] = useDrop(() => ({
+            accept: 'BUTTON',
+            drop: (item: { index: number, value: string }) => onDrop(item.index, item.value === '+1' ? 1 : -1),
+            collect: (monitor) => ({
+                isOver: !!monitor.isOver(),
+            }),
+        }));
+    
+        return (
+            <div
+              ref={drop}
+              style={{
+                backgroundColor: isOver ? '#d1d5db' : backgroundColor, 
+                border: '2px solid var(--border-color)',
+              }}
+              className="flex flex-col justify-center items-center w-full h-full rounded-lg shadow-lg p-2 transition-all"
+            >
+              <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-md">
+                <span className="text-gray-700 font-medium text-xl">{label}</span>
+              </div>
+              <span className="mt-2 text-sm font-semibold text-gray-800">{localize('component.e91.dropHere')}</span>
+            </div>
+          );
+        };
+
     const calculateSValue = (aliceBase: string, bobBase: string, aliceBit: string, bobBit: string) => {
         let result = 0;
         if (aliceBit === bobBit) {
@@ -331,7 +331,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                                onConfirm={restartGameWithoutEve}/>
         <div className="block border text-card-foreground border-secondary bg-card shadow-lg rounded-lg">
             <DndProvider backend={HTML5Backend}>
-                <div style={{minHeight:"300px", maxHeight:"500px", overflow: isDragging ? "hidden" : "auto"}}>
+                <div className="max-h-60 lg:max-h-72" style={{overflow: isDragging ? "hidden" : "auto"}}>
                     <Table className="w-full">
                         <TableHeader className="bg-card top-0 sticky">
                             <TableRow className="text-sm md:text-md border-secondary">

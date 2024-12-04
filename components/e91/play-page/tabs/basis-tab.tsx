@@ -88,7 +88,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
     const CategoryIcons =
 
     [
-        <Minus/>, <Key/>, <Trash/>, <Bell/>
+        <Minus/>, <Bell/>, <Trash/>, <Key/>
     ];
     
 
@@ -131,14 +131,14 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
     const validateCategory = (categoryList: inputField[], list: boolean, index?: number) => {
         const isValid = (bobBase: string, aliceBase: string,
                          category: string) => ((
-                            (bobBase === '2' && aliceBase === '2' && category === '1') || 
-                            (bobBase === '3' && aliceBase === '3' && category === '1') ||
+                            (bobBase === '2' && aliceBase === '2' && category === '3') || 
+                            (bobBase === '3' && aliceBase === '3' && category === '3') ||
                             (bobBase === '3' && aliceBase !== '3' && category === '2') ||
                             (bobBase !== '2' && aliceBase === '2' && category === '2') ||
-                            (bobBase === '2' && aliceBase === '1' && category === '3') ||
-                            (bobBase === '2' && aliceBase === '3' && category === '3') ||
-                            (bobBase === '4' && aliceBase === '3' && category === '3') ||
-                            (bobBase === '4' && aliceBase === '1' && category === '3') 
+                            (bobBase === '2' && aliceBase === '1' && category === '1') ||
+                            (bobBase === '2' && aliceBase === '3' && category === '1') ||
+                            (bobBase === '4' && aliceBase === '3' && category === '1') ||
+                            (bobBase === '4' && aliceBase === '1' && category === '1') 
                          ));
         let newCategoryList = categoryList ?? [...categoryList];
         if (list) {
@@ -165,11 +165,11 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
     const onValidate = () => {
         if (validateForm) { 
             const validBitIndices = categoryList
-                .map((field, index) => (field.value === '1' ? index : null))
+                .map((field, index) => (field.value === '3' ? index : null))
                 .filter(index => index !== null); 
     
             const invalidBitIndices = categoryList
-                .map((field, index) => (field.value === '3' ? index : null))
+                .map((field, index) => (field.value === '1' ? index : null))
                 .filter(index => index !== null); 
     
             
@@ -266,7 +266,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                                                     true)}
                                                 onMouseLeave={() => setTooltipOpen(
                                                     false)}
-                                                className="border-secondary p-0"
+                                                className="border-secondary p-0 scale-75 origin-top-right lg:scale-90"
                                                 align='end'>
                                                 <PhotonCategories/>
                                             </TooltipContent>
