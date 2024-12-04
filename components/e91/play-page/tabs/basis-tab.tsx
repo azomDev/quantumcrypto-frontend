@@ -52,6 +52,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
         setBobBases,
         setAliceBits,
         setBobBits,
+        setStep2,
         setAliceValidBits,
         setBobValidBits,
         setAliceInvalidBits,
@@ -64,6 +65,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
     } = useE91RoomStore();
     const {
         validationIndices,
+        step2,
         aliceBases,
         bobBases,
         aliceBits,
@@ -127,7 +129,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                 ])
             }
             
-        } else {
+        } else if (!step2) {
             if (playerRole === 'A'){
                 pushLines([
                     {
@@ -147,6 +149,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                     content: 'component.e91.classifyBases'
                 }
             ])  
+            setStep2(true);
         }
     }, [bothBasesSet]);
 

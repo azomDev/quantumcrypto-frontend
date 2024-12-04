@@ -8,6 +8,7 @@ interface E91RoomStore {
     validationIndices: number[];
     photons: number[];
     photonsRevealed: boolean;
+    step2: boolean;
     basesShared: boolean;
     types: string[];
     bobBases: string[];
@@ -48,6 +49,7 @@ interface E91RoomStore {
     setConflict: (conflict: boolean) =>void;
     setPhotons: (photons: number[]) => void;
     setPhotonsRevealed: (photonsRevealed: boolean) => void;
+    setStep2: (step2: boolean) => void;
     setBasesShared: (basesShared: boolean) => void;
     setTypes: (types: string[]) => void;
     setBobBases: (bases: string[]) => void;
@@ -139,6 +141,7 @@ const useE91RoomStore = create<E91RoomStore>(set => ({
     validationIndices: [],
     photons: [],
     photonsRevealed: false,
+    step2: false,
     basesShared: false,
     types: [],
     bobBases: [],
@@ -172,6 +175,7 @@ const useE91RoomStore = create<E91RoomStore>(set => ({
     setPhotons: photons => updateAndStore('photons', photons, set),
     setPhotonsRevealed: photonsRevealed => updateAndStore('photonsRevealed', photonsRevealed, set),
     setBasesShared: basesShared => updateAndStore('basesShared', basesShared, set),
+    setStep2: step2 => updateAndStore('step2', step2, set),
     setBobBases: bases => updateAndStore('bobBases', bases, set),
     setTypes: types => updateAndStore('types', types, set),
     setBobBits: bits => updateAndStore('bobBits', bits, set),
@@ -228,6 +232,7 @@ const useE91RoomStore = create<E91RoomStore>(set => ({
         photons: [],
         photonsRevealed: false,
         basesShared: false,
+        step2: false,
         types: [],
         bobBases: [],
         bobBits: [],

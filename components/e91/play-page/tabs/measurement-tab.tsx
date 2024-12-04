@@ -94,7 +94,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                     {content: 'component.e91.shareBases.bob'}
                 ])     
             }     
-        }, 3000);       
+        }, 2000);       
         measurePhotons(newBases);
     }
 
