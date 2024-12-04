@@ -113,7 +113,7 @@ const CreateGameModal = ({
                     'component.main.createGame')}</Button>
             </DialogTrigger>
             <DialogContent
-                className="w-[325px] md:w-full h-fit border-none">
+                className="w-[325px] md:w-full h-auto border-none">
                 {creatingGame ?
                     <TailSpin stroke={'#00a85a'}
                               className="m-auto text-primary"/> :

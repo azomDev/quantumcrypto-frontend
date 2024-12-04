@@ -386,6 +386,15 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.discard': "Discard",
         'component.tooltip.bell': "Bell",
         'component.e91.dropHere': 'Drop Here',
+        'component.e91.results.room': 'Room',
+        'component.e91.results.evePresent': 'Eve present',
+        'component.e91.results.eveDetected': 'Eve detected',
+        'component.e91.results.time': 'Time',
+        'component.e91.results.score': 'Score',
+        'component.e91.basis.waitingOn.bob': 'Waiting on bob\'s bases to come in',
+        'component.e91.basis.waitingOn.alice': 'Waiting on alice\'s bases to come in',
+        'component.e91.basis.arrivedFrom.bob': 'Bob\'s bases have arrived!',
+        'component.e91.basis.arrivedFrom.alice': 'Alice\'s bases have arrived!',
     },
     {
         // ... (French translations)
@@ -773,6 +782,11 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.discard': "Jeter",
         'component.tooltip.bell': "Bell",
         'component.e91.dropHere': 'Déposez ici',
+        'component.e91.results.room': 'Salle',
+        'component.e91.results.evePresent': 'Ève présente',
+        'component.e91.results.eveDetected': 'Ève détecté',
+        'component.e91.results.time': 'Temps',
+        'component.e91.results.score': 'Score',
     },
     {
         // ... (Spanish translations)
@@ -1496,6 +1510,12 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.playSolo': 'Alleine spielen',
         'component.bb84.startSolo': 'Einzelspiel starten',
         'component.bb84.soloRoleSelect': 'Wähle deine Rolle',
+        'component.e91.results.room': 'Sala',
+        'component.e91.results.evePresent': 'Eve presente',
+        'component.e91.results.eveDetected': 'Eve detectada',
+        'component.e91.results.time': 'Tiempo',
+        'component.e91.results.score': 'Puntuación',
+
     },
 ];
 

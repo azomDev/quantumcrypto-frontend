@@ -17,7 +17,7 @@ import useE91GameStore from '@/store/e91/e91-game-store';
 import { useE91ProgressStore } from '@/store/e91/e91-progress-store';
 import useE91RoomStore from '@/store/e91/e91-room-store';
 import { E91GameStep, inputField } from '@/types';
-import { Bell, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6, Info, Key, Minus, Trash } from 'lucide-react';
+import { Bell, CheckCircle2, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6, Info, Key, Minus, Trash } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { moveToExchangeTab } from './validation-tab';
@@ -58,6 +58,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
         setBobInvalidBits,
         setAliceInvalidBases,
         setBobInvalidBases,
+        setTypes,
         setReroll,
         setEveReadCount,
     } = useE91RoomStore();
@@ -67,6 +68,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
         bobBases,
         aliceBits,
         bobBits,
+        types,
         keyBits,
         compared,
         utilizeValidBits,
@@ -84,8 +86,11 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
 
     const {gameHasEve} = useE91GameStore();
     const bits = playerRole === 'A' ? aliceBits : bobBits;
+    const bases = playerRole === 'A' ? aliceBases : bobBases;
+    const bothBasesSet = aliceBases.length > 0 && bobBases.length > 0;
+    
 
-    const CategoryIcons =
+    const CategoryIcons = 
 
     [
         <Minus/>, <Bell/>, <Trash/>, <Key/>
@@ -105,6 +110,45 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
         resetProgress();
         setRestartModalOpen(false);
     };
+
+    useEffect(() => {
+        if (!bothBasesSet) {
+            if (playerRole === 'A'){
+                pushLines([
+                    {
+                        content: 'component.e91.basis.waitingOn.bob'
+                    }
+                ])
+            } else {
+                pushLines([
+                    {
+                        content: 'component.e91.basis.waitingOn.alice'
+                    }
+                ])
+            }
+            
+        } else {
+            if (playerRole === 'A'){
+                pushLines([
+                    {
+                        content: 'component.e91.basis.arrivedFrom.bob'
+                    }
+                ])
+            } else {
+                pushLines([
+                    {
+                        content: 'component.e91.basis.arrivedFrom.alice'
+                    }
+                ])
+            }
+            pushLines([
+                {
+                    title: 'component.game.step2',
+                    content: 'component.e91.classifyBases'
+                }
+            ])  
+        }
+    }, [bothBasesSet]);
 
     const [categoryList, setCategoryList] = useState(() => {
         const categories: inputField[] = [];
@@ -179,6 +223,10 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
             setAliceInvalidBases(invalidBitIndices.map(i => aliceBases[i]));
             setBobInvalidBits(invalidBitIndices.map(i => bobBits[i]));
             setBobInvalidBases(invalidBitIndices.map(i => bobBases[i]));
+
+            let typeList: string[] = []           
+            categoryList.map((field) => (typeList.push(field.value)));
+            setTypes(typeList);
             
             if (validBitIndices.length < 2) {
                 pushLines([{content: 'component.e91.shortKey.restart'}]);
@@ -277,7 +325,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {aliceBases.map((_, i) => (
+                        {bases.map((_, i) => (
                             <TableRow key={i}
                                       className="text-center border-secondary">
                                 <TableCell>
@@ -315,9 +363,10 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                                                 categoryList[i].error &&
                                                 categoryList[i].touched ?
                                                     'border border-red' : '')}
+                                                disabled={!bothBasesSet || types.length > 0}
                                             onClick={() => onCategoryClick(i)}
                                             size="icon">
-                                        {CategoryIcons[parseInt(categoryList[i].value)]}
+                                        {types.length > 0 ? CategoryIcons[parseInt(types[i])] : CategoryIcons[parseInt(categoryList[i].value)]}
                                     </Button>
                             </TableCell>
                             </TableRow>
@@ -325,15 +374,25 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                     </TableBody>
                 </Table>
                 {gameHasEve && (
-                    <div
-                        className="md:block fixed right-6 bottom-6 shadow-xl">
-                        <Button size="lg"
-                                disabled={!validateForm}
-                                onClick={onValidate}
-                                className="text-lg font-bold">
-                            {localize('component.basis.validateBtn')}
-                        </Button>
+                    <div>
+                        <div
+                            className="hidden md:block fixed right-6 bottom-6 shadow-xl">
+                            <Button size="lg"
+                                    disabled={!validateForm}
+                                    onClick={onValidate}
+                                    className="text-lg font-bold">
+                                {localize('component.basis.validateBtn')}
+                            </Button>
+                        </div>
+                        <div
+                            className="fixed bottom-3 right-3 md:hidden">
+                            <Button onClick={onValidate} size={'icon'}
+                                    disabled={!validateForm}>
+                                <CheckCircle2/>
+                            </Button>
+                        </div>
                     </div>
+                    
                 )}
                 {!gameHasEve && (
                     <div

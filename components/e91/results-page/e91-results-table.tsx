@@ -7,6 +7,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import E91ResultsRow from '@/components/e91/results-page/e91-results-row';
+import { useLanguage } from '@/components/providers/language-provider';
 
 interface ResultsTableProps {
     rooms: any[];
@@ -14,6 +15,8 @@ interface ResultsTableProps {
 }
 
 const E91ResultsTable = ({rooms, players}: ResultsTableProps) => {
+
+    const {localize} = useLanguage();
 
     const getPlayerName = (playerId: number) => {
         return players.filter(player => player.id === playerId)[0]?.name;
@@ -35,11 +38,11 @@ const E91ResultsTable = ({rooms, players}: ResultsTableProps) => {
             <Table>
                 <TableHeader className="bg-card top-0 sticky">
                     <TableRow className="text-sm md:text-lg">
-                        <TableHead>Room</TableHead>
-                        <TableHead>Eve Present</TableHead>
-                        <TableHead>Eve detected</TableHead>
-                        <TableHead>Time</TableHead>
-                        <TableHead>Score</TableHead>
+                        <TableHead>{localize('component.e91.results.room')}</TableHead>
+                        <TableHead>{localize('component.e91.results.evePresent')}</TableHead>
+                        <TableHead>{localize('component.e91.results.eveDetected')}</TableHead>
+                        <TableHead>{localize('component.e91.results.time')}</TableHead>
+                        <TableHead>{localize('component.e91.results.score')}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

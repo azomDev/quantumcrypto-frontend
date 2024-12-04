@@ -7,6 +7,9 @@ interface E91RoomStore {
     compared: boolean;
     validationIndices: number[];
     photons: number[];
+    photonsRevealed: boolean;
+    basesShared: boolean;
+    types: string[];
     bobBases: string[];
     bobBits: string[];
     aliceBases: string[];
@@ -44,6 +47,9 @@ interface E91RoomStore {
     setCompared: (compared: boolean) => void;
     setConflict: (conflict: boolean) =>void;
     setPhotons: (photons: number[]) => void;
+    setPhotonsRevealed: (photonsRevealed: boolean) => void;
+    setBasesShared: (basesShared: boolean) => void;
+    setTypes: (types: string[]) => void;
     setBobBases: (bases: string[]) => void;
     setBobBits: (bits: string[]) => void;
     setAliceBases: (bases: string[]) => void;
@@ -132,6 +138,9 @@ const useE91RoomStore = create<E91RoomStore>(set => ({
     compared: false,
     validationIndices: [],
     photons: [],
+    photonsRevealed: false,
+    basesShared: false,
+    types: [],
     bobBases: [],
     bobBits: [],
     aliceBases: [],
@@ -161,7 +170,10 @@ const useE91RoomStore = create<E91RoomStore>(set => ({
     securedDecision: null,
     setCompared: compared => updateAndStore('compared', compared, set),
     setPhotons: photons => updateAndStore('photons', photons, set),
+    setPhotonsRevealed: photonsRevealed => updateAndStore('photonsRevealed', photonsRevealed, set),
+    setBasesShared: basesShared => updateAndStore('basesShared', basesShared, set),
     setBobBases: bases => updateAndStore('bobBases', bases, set),
+    setTypes: types => updateAndStore('types', types, set),
     setBobBits: bits => updateAndStore('bobBits', bits, set),
     setAliceBases: bases => updateAndStore('aliceBases', bases, set),
     setAliceBits: bits => updateAndStore('aliceBits', bits, set),
@@ -214,6 +226,9 @@ const useE91RoomStore = create<E91RoomStore>(set => ({
         'validationIndices', validationIndices, set),
     resetRoom: () => set({
         photons: [],
+        photonsRevealed: false,
+        basesShared: false,
+        types: [],
         bobBases: [],
         bobBits: [],
         aliceBases: [],

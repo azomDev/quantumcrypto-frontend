@@ -75,7 +75,7 @@ const GraphPopup = ({ onClose, isVisible, sValues, photonNumber}: {onClose: any,
       .attr("fill", "red")
       .attr("font-size", "16px")
       .attr("text-anchor", "end")
-      .text("2√2 Threshold");
+      .text("S = 2√2");
 
     // Threshold line
     svg.append("line")
@@ -93,7 +93,7 @@ const GraphPopup = ({ onClose, isVisible, sValues, photonNumber}: {onClose: any,
     .attr("fill", "green")
     .attr("font-size", "16px")
     .attr("text-anchor", "end")
-    .text("2 Threshold");
+    .text("S = 2");
   }, [sValues]);
 
   return (

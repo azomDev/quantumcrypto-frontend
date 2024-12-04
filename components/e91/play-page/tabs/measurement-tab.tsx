@@ -31,18 +31,19 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
     const {pushLines, setStep, setE91Tab} = useE91ProgressStore();
     const {
         evePresent,
+        photonsRevealed,
         photons,
         aliceBases,
         bobBases,
         aliceBits,
         bobBits,
+        basesShared,
     } = useE91RoomStore();
-    const {setPhotons, setAliceBases, setBobBases} = useE91RoomStore();
+    const {setPhotons, setAliceBases, setBobBases, setPhotonsRevealed, setBasesShared} = useE91RoomStore();
     const bits = playerRole === 'A' ? aliceBits : bobBits;
     const bases = playerRole === 'A' ? aliceBases : bobBases;
     const setBases = playerRole === 'A' ? setAliceBases : setBobBases;
     const photonsMeasured = bits.length > 0;
-    const [photonsRevealed, setPhotonsRevealed] = useState(false);
     const availableBases = playerRole === 'A' ? ['1', '2', '3'] : ['2', '3', '4'];
     const [revealedBits, setRevealedBits] = useState<string[]>(Array(bits.length).fill('*'));
     const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
@@ -92,8 +93,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                 pushLines([
                     {content: 'component.e91.shareBases.bob'}
                 ])     
-            }  
-            setPhotonsRevealed(true);    
+            }     
         }, 3000);       
         measurePhotons(newBases);
     }
@@ -101,14 +101,9 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
     const onShare = () => {
         shareBases(bases, playerRole === 'A' ? 'A_BASES': 'B_BASES')
         shareBits(bits, playerRole === 'A' ? 'A_BITS': 'B_BITS')
+        setBasesShared(true);
         setStep(E91GameStep.BASIS);
-        setE91Tab('basis');
-        pushLines([
-            {
-                title: 'component.game.step2',
-                content: 'component.e91.classifyBases'
-            }
-        ])       
+        setE91Tab('basis');    
     }
 
     const validateForm = 
@@ -141,11 +136,12 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
         });
         setTimeout(() => {
             setHighlightedIndex(null);
+            setPhotonsRevealed(true); 
         }, bits.length * (2000 / photonNumber));
     };
     
     useEffect(() => {
-        if (photonsMeasured) {
+        if (photonsMeasured && !photonsRevealed) {
             revealPhotons(); 
         }
     }, [photonsMeasured]);
@@ -227,7 +223,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                                     // type="number"
                                     onKeyDown={e => forbiddenSymbols.includes(
                                         e.key) && e.preventDefault()}
-                                    value={revealedBits[i] || '*'} 
+                                    value={!photonsRevealed ? revealedBits[i] || '*' : bits[i]} 
                                     className={cn('w-10 text-lg text-center' +
                                         ' mx-auto disabled:opacity-100' +
                                         ' disabled:bg-background' +
@@ -250,17 +246,20 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                     ))}
                 </TableBody>
             </Table>
-            <div className="md:block fixed right-6 bottom-6 shadow-xl">
-                <Button disabled={!validateForm || photonsMeasured} size="lg"
-                        onClick={onMeasurement}
-                        className="text-lg font-bold">
-                    {localize('component.e91.measure')}
-                </Button>
-            </div>
+            {!basesShared && (
+                <div className="md:block fixed right-6 bottom-6 shadow-xl">
+                    <Button disabled={!validateForm || photonsMeasured} size="lg"
+                            onClick={onMeasurement}
+                            className="text-lg font-bold">
+                        {localize('component.e91.measure')}
+                    </Button>
+                </div>
+            )}           
             {photonsRevealed && (
                 <div className="md:block fixed right-6 bottom-6 shadow-xl">
                     <Button size="lg" className="text-lg font-bold"
-                            onClick={onShare}>
+                            onClick={onShare}
+                            disabled={basesShared}>
                         {localize('component.e91.shareBases')}
                     </Button>
                 </div>
