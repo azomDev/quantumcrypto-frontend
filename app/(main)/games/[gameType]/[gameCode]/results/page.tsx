@@ -63,7 +63,6 @@ const GameResultsPage = ({params}: GameResultsPageProps) => {
             },
             onError: (_) => setError(true),
             onMessage: async (event) => {
-                console.log("Raw event data:", event.data);
                 const data = await JSON.parse(
                     (await JSON.parse(event.data)).payload.message);
                 setRooms(data.rooms);

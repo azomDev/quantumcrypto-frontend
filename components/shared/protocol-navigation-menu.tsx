@@ -29,7 +29,8 @@ const ProtocolNavigationMenu = () => {
                                         className="w-full rounded-md px-2 py-1 row-span-1 hover:bg-secondary/80 focus:shadow-md">
                                         <NavigationMenuLink
                                             asChild>
-                                            <Link href={href}>
+                                            <Link href={href}
+                                            target={'_blank'}>
                                                 <p className="text-md">{name}</p>
                                             </Link>
                                         </NavigationMenuLink>

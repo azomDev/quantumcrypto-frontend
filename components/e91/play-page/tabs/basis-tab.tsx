@@ -258,11 +258,11 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
 
     const onMoveToMessaging = () => {
         const validBitIndices = categoryList
-                .map((field, index) => (field.value === '1' ? index : null))
+                .map((field, index) => (field.value === '3' ? index : null))
                 .filter(index => index !== null); 
     
             const invalidBitIndices = categoryList
-                .map((field, index) => (field.value === '3' ? index : null))
+                .map((field, index) => (field.value === '1' ? index : null))
                 .filter(index => index !== null); 
     
             
