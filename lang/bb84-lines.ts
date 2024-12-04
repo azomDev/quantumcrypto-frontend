@@ -191,7 +191,9 @@ export const bb84Lines: LanguageItem[] = [
         'component.homePage.protocolsSection.bb84.description': 'A protocol' +
             ' for securely sharing cryptographic keys between two parties' +
             ' over an insecure communication channel.',
-        'component.homePage.protocolsSection.e91.description': 'The E91 protocol uses quantum entanglement to ensure communication security by allowing parties to exchange unbreakable cryptographic keys.',
+        'component.homePage.protocolsSection.e91.description': 'The E91 protocol' +
+            ' uses quantum entanglement to ensure communication security by' +
+            ' allowing parties to exchange unbreakable cryptographic keys.',
         'component.homePage.title.description': 'Learn and practice quantum' +
             ' cryptography protocols',
         'component.homePage.aboutSection': 'QuantumCrypto is a web platform' +
@@ -311,6 +313,10 @@ export const bb84Lines: LanguageItem[] = [
             ' Alice\'s',
         'component.bb84.highlights.highlight5Bob': 'Validate your key',
         'component.bb84.highlights.highlight6Bob': 'Decrypt Alice\'s message',
+        'component.quantumCrypto.gamesPlayed': 'Total games played: ',
+        'component.bb84.playSolo': 'Play solo',
+        'component.bb84.startSolo': 'Start solo game',
+        'component.bb84.soloRoleSelect': 'Select your role',
         'component.header.about.e91': 'About E91',
         'component.e91.about': 'The protocol was introduced in 1991 by' +
             ' Artur Ekert. It involves two separate parties,' +
@@ -329,87 +335,49 @@ export const bb84Lines: LanguageItem[] = [
             ' you can explore the set of steps that each one of them must' +
             ' take in order to complete the protocol successfully.',
         'component.e91.measurement.welcome': 'Welcome to E91!',
-        'component.e91.measurement.start': 'Choose a basis of measurement for each photon',
+        'component.e91.measurement.start': 'Choose a measurement basis for each photon.',
         'component.e91.measurement.tab': 'Photon measurements',
         'component.e91.photons': 'Photons',
         'component.e91.measure': 'Measure',
-        'component.e91.measurement.aliceMeasured': 'Alice has measured the photons.',
-        'component.e91.measurement.bobMeasured': 'Bob has measured the photons.',
         'component.e91.shareBases': 'Share my bases',
-        'component.e91.compareBases': 'Validate bases',
-        'component.e91.useValidBits': 'Use valid bits',
-        'component.e91.useDiscardedBits': 'Use invalid bits',
-        'component.e91.diceRoll': 'Roll the dice',
-        'component.e91.dicePurpose': 'You may now roll the dice',
-        'component.e91.diceWin': 'Win: ',
-        'component.e91.diceLoss': 'Loss: ',
-        'component.e91.diceRolled': 'You rolled',
-        'component.e91.diceWinner.self': 'You won the dice roll',
-        'component.e91.diceLooser.self': 'You lost the dice roll',
-        'component.e91.removeIncompatibleBases': 'Remove incompatible bases',
-        'component.e91.submit': 'Submit',
-        'component.e91.invalidInputRange': 'Number not in valid range',
         'component.e91.shareBases.alice': 'Now share your bases with Bob',
         'component.e91.shareBases.bob': 'Now share your bases with Alice',
-        'component.e91.classifyBases': 'Categorize each photon\'s measurement bases with the correct type',
-        'component.e91.validate': 'Find the bases that do not match by clicking validate button',
-        'component.e91.shortKey.restart': 'Your key length is too short, you may restart the game now',
-        'component.e91.validOrInvalid': 'You may now decide to proceed using the valid bits or the throwaway bits to secure the key, beware that using valid bits will shorten your final key',
-        'component.e91.reroll': 'Tie! you may reroll the dice now',
-        'component.e91.notice': 'Notice: ',
-        'component.e91.choose.valid': 'You may now decide how many bits you want to use to secure the key',
-        'component.e91.awating.bob.bitPreference': 'Waiting for Bob to confirm the number of bits used to secure the key',
-        'component.e91.awating.alice.bitPreference': 'Waiting for Alice to confirm the number of bits used to secure the key',
-        'component.e91.validation.start': 'Verify if the bits match',
-        'component.e91.messaging.bob.start': 'Wait for Alice to send in her encrypted message',
-        'component.e91.messaging.alice.start': 'Encrypt and send your message to Bob',
+        'component.e91.classifyBases': 'Categorize measurement base pairs according to their usefulness in the' +
+        ' protocol.',
+        'component.e91.shortKey.restart': 'The length of your key is too short, you can restart the game now.',
         'component.e91.restart': 'Restart',
-        'component.e91.moveToMessaging': 'Move to messaging tab',
-        'component.e91.evePresent': 'Eve has interferred!',
-        'component.e91.evePresent.stats': ' Eve has successfully read this many bits: ',
-        'component.e91.decsion.unsecured': 'Channel has been declared compromised by ',
-        'component.e91.decsion.secured': 'Channel has been declared secure by ',
+        'component.e91.moveToMessaging': 'Exchange a message',
+        'component.e91.evePresent': 'Eve was present!',
+        'component.e91.evePresent.stats': ' Eve has successfully read this number of bits: ',
+        'component.e91.decsion.unsecured': 'The channel was deemed unsafe by ',
+        'component.e91.decsion.secured': 'The channel was deemed safe by ',
         'component.e91.restart.unsecured': 'Channel compromised',
         'component.e91.restart.unsecured.description': ' Eve has been found out',
         'component.e91.gameLoss.title': 'You lose!',
         'component.e91.gameLoss': ' Eve did not interfere on this channel',
-        'component.e91.steps.step1': ' for all photons, the resulting measurements of 0s and 1s will' +
-            ' be' +
-            ' used to build your encryption key.',
-        'component.e91.steps.step2Alice': ' with Bob, these will be used later on.',
-        'component.e91.steps.step2Bob': ' with Alice, these will be used later on.',
-        'component.e91.steps.step3Alice': ' using bob\'s bases according to the E91 protocol',
-        'component.e91.steps.step3Bob': ' using alice\'s bases according to the E91 protocol',
-        'component.e91.steps.step4': ' using valid bits of the key or previously discarded bits',
-        'component.e91.steps.step5': ' using the mehod previously chosen. Using valid bits the key can be secured by comparing bit values that should be the same. Using discarded bits the key can be secured using CHSH\'s theorem',
-        'component.e91.steps.step6Alice': ' to Bob.',
-        'component.e91.highlights.highlight1': 'Pick a measurement base',
-        'component.e91.highlights.highlight2': 'Share your bases',
-        'component.e91.highlights.highlight3': 'Clean up your key',
-        'component.e91.highlights.highlight4': 'Secure the key',
-        'component.e91.highlights.highlight5': 'Validate your key',
-        'component.e91.highlights.highlight6Alice': 'Encrypt and send your' +
-            ' message',
-        'component.e91.additionalStep': 'In QuantumCrypto, not all E91' +
-            ' games have an eavesdropper. The next 2 steps only apply if' +
-            ' there is one in your game. You\'ll find out at the end!',
-        'component.e91.highlights.highlight6Bob': 'Decrypt Alice\'s message',
-        'component.e91.steps.step6Bob': ' using' +
-        ' your key.',
-        'component.e91.validation.invalid.start': 'Drag the correct value (+1 or -1) to the corresponding box for each photon\'s measurements',
+        'component.e91.highlights.highlight1': 'Randomly pick a measurement basis',
+        'component.e91.steps.step1': ' for incoming photons, the measurement outcomes will' +
+            ' be used to establish your encryption key and detect the presence of Eve.',
+        'component.e91.highlights.highlight2': 'Share your measurement bases',
+        'component.e91.steps.step2Alice': ' with Bob.',
+        'component.e91.steps.step2Bob': ' with Alice.',
+        'component.e91.highlights.highlight3': 'Extract your encryption key',
+        'component.e91.steps.step3': ' from the measurement outcomes obtained for identical base pairs.',
+        'component.e91.highlights.highlight4': 'Validate your key',
+        'component.e91.steps.step4': ' by testing the CHSH inequality with the measurements taken with the other base' +
+        ' combinations.',
+        'component.e91.highlights.highlight5Alice': 'Encrypt and send your message',
+        'component.e91.steps.step5Alice': ' to Bob.',
+        'component.e91.highlights.highlight5Bob': 'Decrypt Alice\'s message',
+        'component.e91.steps.step5Bob': ' using your key.',
+        'component.e91.validation.invalid.start': 'Drag the correct value (+1 or -1) to the appropriate container for each photon pair.',
         'component.e91.basisDesc': ' (a, b, a\', b\')',
         'component.e91.button.secure': 'Secure',
         'component.e91.button.unsecure': 'Not secure',
         'component.e91.button.showGraph': 'Show graph',
         'component.e91.text.values': 'Values',
-        'component.e91.graph.values': 'S Values',
-        'component.e91.graph.title': 'CHSH Graph',
         'component.e91.text.seeResults': 'See Results',
-        'component.quantumCrypto.gamesPlayed': 'Total games played: ',
-        'component.bb84.playSolo': 'Play solo',
-        'component.bb84.startSolo': 'Start solo game',
-        'component.bb84.soloRoleSelect': 'Select your role',
-        'component.e91.createGame.keyMin': 'The minimum number of photons is 20 if Eve is present and 10 otherwise',
+        'component.e91.createGame.keyMin': 'The minimum number of photon pairs is 20 when Eve is present, and 10 otherwise.',
         'component.tooltip.bobBase': 'Bob\'s Base',
         'component.tooltip.aliceBase': 'Alice\'s Base',
         'component.tooltip.category': "Category",
@@ -417,7 +385,6 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.key': "Key",
         'component.tooltip.discard': "Discard",
         'component.tooltip.bell': "Bell",
-
     },
     {
         // ... (French translations)
@@ -533,8 +500,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.messaging.yourMessage': 'Votre message',
         'component.messaging.yourEncrypted': 'Votre message chiffré (0 ou 1)',
         'component.messaging.aliceEncrypted': 'Message chiffré d\'Alice',
-        'component.messaging.aliceDecrypt': 'Message déchiffré d\'Alice (0' +
-            ' ou 1)',
+        'component.messaging.aliceDecrypt': 'Message d\'Alice déchiffré',
         'component.basis.yourBases': 'Vos bases',
         'component.basis.bobBases': 'Les bases de Bob',
         'component.basis.aliceBases': 'Les bases d\'Alice',
@@ -615,7 +581,7 @@ export const bb84Lines: LanguageItem[] = [
             ' protocole pour établir de manière sécurisée des clés' +
             ' cryptographiques entre deux parties sur un canal de' +
             ' communication non sécurisé.',
-        'component.homePage.protocolsSection.e91.description': 'Le protocole E91 utilise l\'intrication quantique pour garantir la sécurité des communications en permettant aux parties d\'échanger des clés cryptographiques inviolables.',
+            'component.homePage.protocolsSection.e91.description': 'Le protocole E91 utilise l\'intrication quantique pour garantir la sécurité des communications en permettant aux parties d\'échanger des clés cryptographiques inviolables.',
         'component.homePage.title.description': 'Apprenez et pratiquez les' +
             ' protocoles de cryptographie quantique',
         'component.homePage.aboutSection': 'QuantumCrypto est une' +
@@ -731,26 +697,80 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.highlights.highlight5Bob': 'Validez votre clé',
         'component.bb84.highlights.highlight6Bob': 'Déchiffrez le message' +
             ' d\'Alice',
+        'component.bb84.playSolo': 'Jouer solo',
+        'component.bb84.startSolo': 'Commencer une partie solo',
+        'component.bb84.soloRoleSelect': 'Sélectionnez votre rôle',
+        'component.quantumCrypto.gamesPlayed': 'Nombre de parties jouées:',
         'component.header.about.e91': 'À propos de E91',
-        'component.e91.about': 'Le protocole a été introduit en 1991 par' +
-            ' Artur Ekert. Il implique deux parties distinctes,' +
-            ' Alice et Bob, qui souhaitent communiquer de manière sécurisée via un' +
-            ' canal public. Le protocole utilise l\'intrication quantique pour garantir' +
-            ' la sécurité. Alice et Bob mesurent des paires de particules intriquées' +
-            ' et comparent leurs résultats pour établir une clé cryptographique secrète.' +
-            ' Toute tentative d\'interception par un espion, généralement appelé Eve,' +
-            ' perturbera ces mesures, permettant ainsi à Alice et Bob de détecter la présence' +
-            ' d\'une menace. Si aucun espion n\'est détecté, ils peuvent utiliser la clé' +
-            ' générée pour chiffrer leurs communications sur un canal classique.' +
-            ' Sinon, ils doivent recommencer le processus.',
-        'component.e91.howToPlayTitle': 'Comment jouer à E91',
+        'component.e91.about': 'The protocol was introduced in 1991 by' +
+            ' Artur Ekert. It involves two separate parties,' +
+            ' Alice and Bob, who wish to communicate securely through a' +
+            ' public channel. The protocol uses quantum entanglement to ensure' +
+            ' security. Alice and Bob measure entangled particle pairs and' +
+            ' compare their results to establish a secret cryptographic key.' +
+            ' Any attempt by an eavesdropper, typically referred to as Eve,' +
+            ' will disturb these measurements, allowing Alice and Bob to detect' +
+            ' the presence of a threat. If no eavesdropper is detected, they can use the key' +
+            ' to encrypt their communication over a classical channel.' +
+            ' Otherwise, they must start the process again.',
+        'component.e91.howToPlayTitle': 'Comment jouer E91',
         'component.e91.howToPlayDescription': 'Le protocole E91 implique' +
             ' deux acteurs principaux : Alice et Bob, qui jouent des rôles' +
             ' différents. Vous pouvez ici explorer l\'ensemble des étapes' +
             ' que chacun d\'eux doit suivre pour mener à bien le protocole.',
-        'component.bb84.playSolo': 'Jouer en solo',
-        'component.bb84.startSolo': 'Commencer une partie solo',
-        'component.bb84.soloRoleSelect': 'Sélectionnez votre rôle'
+        'component.e91.measurement.welcome': 'Bienvenue dans E91!',
+        'component.e91.measurement.start': 'Choisissez une base de mesure pour chaque photon.',
+        'component.e91.measurement.tab': 'Mesure des photons',
+        'component.e91.photons': 'Photons',
+        'component.e91.measure': 'Mesure',
+        'component.e91.shareBases': 'Partager les bases',
+        'component.e91.shareBases.alice': 'Maintenant, partagez vos bases avec Bob',
+        'component.e91.shareBases.bob': 'Maintenant, partagez vos bases avec Alice',
+        'component.e91.classifyBases': 'Catégorisez les paires de bases de mesure en fonction de leur utilité dans' +
+            ' le protocole.',
+        'component.e91.shortKey.restart': 'La longueur de votre clé est trop courte, vous pouvez redémarrer le jeu' +
+            ' maintenant.',
+        'component.e91.restart': 'Redémarrer',
+        'component.e91.moveToMessaging': 'Échanger un message',
+        'component.e91.evePresent': 'Ève était présente!',
+        'component.e91.evePresent.stats': ' Ève a réussi à lire ce nombre de bits: ',
+        'component.e91.decsion.unsecured': 'Le canal a été jugé non sécure par ',
+        'component.e91.decsion.secured': 'Le canal a été jugé sécure par ',
+        'component.e91.restart.unsecured': 'Canal compromis',
+        'component.e91.restart.unsecured.description': ' Ève a été démasquée',
+        'component.e91.gameLoss.title': 'Vous avez perdu!',
+        'component.e91.gameLoss': ' Ève n\'a pas interféré sur ce canal',
+        'component.e91.highlights.highlight1': 'Choisissez de façon aléatoire une base de mesure ',
+        'component.e91.steps.step1': ' pour les photons incidents, les résultats de mesure' + 
+            ' seront utilisés pour établir votre clé de chiffrement et détecter la présence d\'Ève.',
+        'component.e91.highlights.highlight2': 'Partagez vos bases de mesure',
+        'component.e91.steps.step2Alice': ' avec Bob.',
+        'component.e91.steps.step2Bob': ' avec Alice.',
+        'component.e91.highlights.highlight3': 'Extrayez votre clé de chiffrement',
+        'component.e91.steps.step3': ' à partir des résultats de mesure obtenus pour des paires de' +
+            ' bases identiques.',
+        'component.e91.highlights.highlight4': 'Validez votre clé',
+        'component.e91.steps.step4': ' en testant l\'inégalité de CHSH avec les mesures effectuées avec les autres' +
+            ' combinaisons de bases.',
+        'component.e91.highlights.highlight5Alice': 'Chiffrez et envoyez votre message',
+        'component.e91.steps.step5Alice': ' à Bob.',
+        'component.e91.highlights.highlight5Bob': 'Déchiffrez le message d\'Alice',
+        'component.e91.steps.step5Bob': ' en utilisant votre clé.',
+        'component.e91.validation.invalid.start': 'Glissez la bonne valeur (+1 or -1) vers le contenant approprié pour chaque paire de photons.',
+        'component.e91.basisDesc': ' (a, b, a\', b\')',
+        'component.e91.button.secure': 'Sécuritaire',
+        'component.e91.button.unsecure': 'Non sécuritaire',
+        'component.e91.button.showGraph': 'Monter le graphique',
+        'component.e91.graph.title': 'CHSH',
+        'component.e91.text.seeResults': 'Voir les résultats',
+        'component.e91.createGame.keyMin': 'Le nombre minimal de paires de photons est de 20 lorsqu\'Ève est présente et de 10 dans le cas contraire.',
+        'component.tooltip.bobBase': 'Base de Bob',
+        'component.tooltip.aliceBase': 'Base d\'Alice',
+        'component.tooltip.category': "Catégorie",
+        'component.tooltip.description': "Description",
+        'component.tooltip.key': "Clé",
+        'component.tooltip.discard': "Jeter",
+        'component.tooltip.bell': "Bell",
     },
     {
         // ... (Spanish translations)
@@ -861,8 +881,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.messaging.yourMessage': 'Tu mensaje',
         'component.messaging.yourEncrypted': 'Tu mensaje cifrado (0 o 1)',
         'component.messaging.aliceEncrypted': 'Mensaje cifrado de Alice',
-        'component.messaging.aliceDecrypt': 'Mensaje descifrado de Alice (0' +
-            ' o 1)',
+        'component.messaging.aliceDecrypt': 'Mensaje descifrado de Alice',
         'component.basis.yourBases': 'Tus bases',
         'component.basis.bobBases': 'Bases de Bob',
         'component.basis.aliceBases': 'Bases de Alice',
@@ -1193,7 +1212,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.messaging.aliceEncrypted': 'Alice\'s verschlüsselte' +
             ' Nachricht',
         'component.messaging.aliceDecrypt': 'Alice\'s entschlüsselte' +
-            ' Nachricht (0 oder 1)',
+            ' Nachricht',
         'component.basis.yourBases': 'Deine Basen',
         'component.basis.bobBases': 'Bobs Basen',
         'component.basis.aliceBases': 'Alices Basen',

@@ -42,9 +42,8 @@ const HowToPlaySection = React.forwardRef<HTMLElement>((_, ref) => {
                                 <span>3.</span>
                                 <p><span className="text-highlight">{localize(
                                     'component.e91.highlights.highlight3')}</span>{localize(
-                                    'component.e91.steps.step3Alice')}</p>
+                                    'component.e91.steps.step3')}</p>
                             </div>
-                            <p>{localize('component.e91.additionalStep')}</p>
                             <div className="flex flex-row gap-x-2">
                                 <span>4.</span>
                                 <p><span className="text-highlight">{localize(
@@ -54,14 +53,8 @@ const HowToPlaySection = React.forwardRef<HTMLElement>((_, ref) => {
                             <div className="flex flex-row gap-x-2">
                                 <span>5.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.e91.highlights.highlight5')}</span>{localize(
-                                    'component.e91.steps.step5')}</p>
-                            </div>                         
-                            <div className="flex flex-row gap-x-2">
-                                <span>6.</span>
-                                <p><span className="text-highlight">{localize(
-                                    'component.e91.highlights.highlight6Alice')}</span>{localize(
-                                    'component.e91.steps.step6Alice')}
+                                    'component.e91.highlights.highlight5Alice')}</span>{localize(
+                                    'component.e91.steps.step5Alice')}
                                 </p>
                             </div>
                         </CardContent>
@@ -86,9 +79,8 @@ const HowToPlaySection = React.forwardRef<HTMLElement>((_, ref) => {
                                 <span>3.</span>
                                 <p><span className="text-highlight">{localize(
                                     'component.e91.highlights.highlight3')}</span>{localize(
-                                    'component.e91.steps.step3Bob')}</p>
+                                    'component.e91.steps.step3')}</p>
                             </div>
-                            <p>{localize('component.e91.additionalStep')}</p>
                             <div className="flex flex-row gap-x-2">
                                 <span>4.</span>
                                 <p><span className="text-highlight">{localize(
@@ -98,14 +90,8 @@ const HowToPlaySection = React.forwardRef<HTMLElement>((_, ref) => {
                             <div className="flex flex-row gap-x-2">
                                 <span>5.</span>
                                 <p><span className="text-highlight">{localize(
-                                    'component.e91.highlights.highlight5')}</span>{localize(
-                                    'component.e91.steps.step5')}</p>
-                            </div>
-                            <div className="flex flex-row gap-x-2">
-                                <span>6.</span>
-                                <p><span className="text-highlight">{localize(
-                                    'component.e91.highlights.highlight6Bob')}</span>{localize(
-                                    'component.e91.steps.step6Bob')}</p>
+                                    'component.e91.highlights.highlight5Bob')}</span>{localize(
+                                    'component.e91.steps.step5Bob')}</p>
                             </div>
                         </CardContent>
                     </Card>
