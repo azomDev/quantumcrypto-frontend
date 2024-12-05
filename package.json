@@ -23,6 +23,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
     "axios": "^1.6.5",
+    "better-react-mathjax": "^2.0.4-beta1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "d3": "^7.9.0",

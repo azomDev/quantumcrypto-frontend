@@ -318,17 +318,6 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.startSolo': 'Start solo game',
         'component.bb84.soloRoleSelect': 'Select your role',
         'component.header.about.e91': 'About E91',
-        'component.e91.about': 'The protocol was introduced in 1991 by' +
-            ' Artur Ekert. It involves two separate parties,' +
-            ' Alice and Bob, who wish to communicate securely through a' +
-            ' public channel. The protocol uses quantum entanglement to ensure' +
-            ' security. Alice and Bob measure entangled particle pairs and' +
-            ' compare their results to establish a secret cryptographic key.' +
-            ' Any attempt by an eavesdropper, typically referred to as Eve,' +
-            ' will disturb these measurements, allowing Alice and Bob to detect' +
-            ' the presence of a threat. If no eavesdropper is detected, they can use the key' +
-            ' to encrypt their communication over a classical channel.' +
-            ' Otherwise, they must start the process again.',
         'component.e91.howToPlayTitle': 'How to play E91',
         'component.e91.howToPlayDescription': 'The E91 protocol has two' +
             ' main actors: Alice and Bob, who play different roles. Here' +
@@ -395,6 +384,16 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.basis.waitingOn.alice': 'Waiting on alice\'s bases to come in',
         'component.e91.basis.arrivedFrom.bob': 'Bob\'s bases have arrived!',
         'component.e91.basis.arrivedFrom.alice': 'Alice\'s bases have arrived!',
+        'component.e91.about': 'The protocol was proposed in 1991 by Artur Ekert [1]. It involves two distinct parties, Alice and Bob, who aim to establish an encryption key to securely communicate over a public channel. In this protocol, Alice and Bob each receive a photon from a source that emits pairs of photons with maximally entangled polarizations: these photons form what is known as Bell pairs. For each pair, the polarization of one photon is measured by Alice and the other by Bob. Alice performs each measurement by randomly choosing a basis from the set of three bases {a, b, a\'}. Bob does the same, choosing from the bases {b, a\', b\'}. Among these bases, Alice and Bob share two common bases, b and a\'. ', 
+        'component.e91.about.figures.title': 'Figure of the Bases',
+        'component.e91.about.figures.part1': 'For each measurement, Alice and Bob record the result: +1 or -1. Once the transmission of photon pairs is complete and the measurements are made, Alice and Bob disclose the measurement bases they used for each photon. The results of measurements performed in the same basis are kept to form the encryption key. This occurs, on average, 2 out of 9 times: when Alice and Bob both measure in the b basis or in the a\' basis. The results of measurements performed in different bases are disclosed and used to validate the security of the source and the quantum channel. To do this, the E91 protocol relies on one of the most remarkable experiments in quantum mechanics: testing Bell inequalities. There are several formulations of these inequalities, and the E91 protocol specifically uses the CHSH inequality. Alice and Bob work only with the results of measurements made in the following bases: ',
+        'component.e91.about.figures.part2': 'Thus, on average, 4 out of 9 photon pairs are used to verify the CHSH inequality. For each pair of results derived from the combinations of bases in the above table, Alice and Bob compute the product [Equation], where mA and mB are the measurement results obtained by Alice and Bob, respectively. The average of the products is then calculated for each basis combination. ',
+        'component.e91.about.figures.part3': 'Suppose Alice and Bob have made the following measurements:',
+        'component.e91.about.figures.part4': 'The averages are calculated as follows:',
+        'component.e91.about.figures.part5': 'The CHSH inequality is checked by verifying that ',
+        'component.e91.about.figures.part6': 'It turns out that when S is calculated from entangled photons, this inequality is violated. In fact, it can be shown that S = 2√2 ≈ 2.83 for maximally entangled photons. Thus, if the photon pair emitter is reliable and the communication channel is neither noisy nor eavesdropped upon, Alice and Bob should observe that the value of S approaches 2√2 as they increase the number of photon pairs considered in their calculations. They can then use the key obtained to encrypt their messages. Conversely, if this value remains below 2, they cannot trust the key and should refrain from using it. Be aware that average values are statistical quantities that require many samples to be significant. For a limited number of samples, statistical anomalies may occur, making it difficult to draw conclusions. ',
+        'component.e91.about.figures.part7': 'Finally, note that three combinations of measurement bases are not used in the E91 protocol: (a, a\'), (b, b\'), and (b, a\'). The measurements made with these base pairs are simply discarded. ',
+    
     },
     {
         // ... (French translations)
@@ -483,6 +482,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.game.tabs2': 'Réconciliation des bases',
         'component.game.tabs3': 'Messagerie chiffrée',
         'component.game.step3': 'Étape 3: ',
+        'component.game.step4': 'Étape 4: ',
         'component.basis.validate': 'Supprimez les bits dont les bases ne' +
             ' correspondent pas en cliquant dessus. Après les avoir' +
             ' supprimés, vous aurez la clé secrète.',
@@ -712,17 +712,6 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.soloRoleSelect': 'Sélectionnez votre rôle',
         'component.quantumCrypto.gamesPlayed': 'Nombre de parties jouées:',
         'component.header.about.e91': 'À propos de E91',
-        'component.e91.about': 'The protocol was introduced in 1991 by' +
-            ' Artur Ekert. It involves two separate parties,' +
-            ' Alice and Bob, who wish to communicate securely through a' +
-            ' public channel. The protocol uses quantum entanglement to ensure' +
-            ' security. Alice and Bob measure entangled particle pairs and' +
-            ' compare their results to establish a secret cryptographic key.' +
-            ' Any attempt by an eavesdropper, typically referred to as Eve,' +
-            ' will disturb these measurements, allowing Alice and Bob to detect' +
-            ' the presence of a threat. If no eavesdropper is detected, they can use the key' +
-            ' to encrypt their communication over a classical channel.' +
-            ' Otherwise, they must start the process again.',
         'component.e91.howToPlayTitle': 'Comment jouer E91',
         'component.e91.howToPlayDescription': 'Le protocole E91 implique' +
             ' deux acteurs principaux : Alice et Bob, qui jouent des rôles' +
@@ -787,6 +776,16 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.results.eveDetected': 'Ève détecté',
         'component.e91.results.time': 'Temps',
         'component.e91.results.score': 'Score',
+        'component.e91.about': 'Le protocole a été proposé en 1991 par Artur Ekert [1]. Il implique deux parties distinctes, Alice et Bob, qui souhaitent établir une clé de chiffrement afin de communiquer de manière sécurisée via un canal public. Dans ce protocole, Alice et Bob reçoivent tous les deux un photon provenant d’une source qui émet des paires de photons dont les polarisations sont maximalement intriquées : les photons forment ce qu’on appelle des paires de Bell. Pour chaque paire, la polarisation d’un photon sera mesurée par Alice et l’autre par Bob. Alice effectue chaque mesure en choisissant de façon aléatoire une base parmi l’ensemble de trois bases {a, b, a’}. Bob fait de même en choisissant parmi les bases {b, a’, b’}. Parmi les bases de mesure à leur disposition, Alice et Bob en ont donc 2 qu’ils partagent, b et a’. ', 
+        'component.e91.about.figures.title': 'Figure des bases ',
+        'component.e91.about.figures.part1': 'Pour chaque mesure, Alice et Bob enregistrent le résultat : +1 ou -1. Une fois la transmission des paires de photons terminée et les mesures effectuées, Alice et Bob divulguent les bases de mesure qu’ils ont utilisées pour chaque photon. Les résultats des mesures effectuées dans la même base sont conservés pour former la clé de chiffrement. Cette situation survient en moyenne 2 fois sur 9 : lorsqu’Alice et Bob mesurent tous les deux dans la base b ou encore dans la base a’. Les résultats des mesures effectuées dans des bases différentes sont révélés et utilisés pour valider la sécurité de la source et du canal quantique qui ont été utilisés. Pour ce faire, le protocole E91 s’appuie une des expériences les plus spectaculaires de la mécanique quantique : la vérification des inégalités de Bell. Il existe plusieurs formulations de ces inégalités et le protocole E91 s’appuie spécifiquement sur l’inégalité de CHSH. Alice et Bob travailleront seulement avec les résultats des mesures effectuées dans les bases suivantes ',
+        'component.e91.about.figures.part2': 'Ce sont donc, en moyenne, 4 paires de photons sur 9 qui sont utilisées pour vérifier l’inégalité de CHSH. Pour chaque paire de résultats issus des combinaisons de bases du tableau précédent, Alice et Bob calculent le produit [Equation] où mA et mB sont les résultats de la mesure effectuée par Alice et Bob respectivement. La moyenne des produits est ensuite calculée pour chacune des combinaisons de base. ',
+        'component.e91.about.figures.part3': 'En guise d’exemple, supposons qu’Alice et Bob ont effectué les mesures suivantes:',
+        'component.e91.about.figures.part4': 'Le calcul des moyennes donne:',
+        'component.e91.about.figures.part5': 'L’inégalité de CHSH consiste à vérifier que',
+        'component.e91.about.figures.part6': 'Il s’avère que lorsque S est calculé à partir de photons intriqués, cette inégalité n’est pas vérifiée. En fait, on peut montrer que 𝑆 = 2√2 ≈ 2.83 pour des photons maximalement intriqués. Ainsi, si l’émetteur de paires de photons est fiable et que le canal de communication n’est pas bruité – ou pire espionné ! – Alice et Bob devraient observer que la valeur de S tend vers 2√2 au fur et à mesure qu’ils augmentent le nombre de paires de photons considérées dans leur calcul. Ils pourront alors utiliser la clé qu’ils ont obtenue pour chiffrer leur message. À l’inverse, si cette valeur demeure sous 2 ils ne peuvent avoir confiance en la clé obtenue et devraient s’abstenir de l’utiliser. Attention, les valeurs moyennes sont des quantités statistiques qui nécessitent un grand échantillon pour être significatives. Pour un nombre limité d’échantillons des anomalies statistiques peuvent survenir et il peut être difficile de tirer des conclusions. ',
+        'component.e91.about.figures.part7': 'Notez qu’il reste 3 combinaisons de bases de mesure qui ne sont pas utilisées dans le protocole E91 : (a, a’), (b, b’) et (b, a’). Les mesures effectuées avec ces paires de bases sont simplement jetées. ',
+    
     },
     {
         // ... (Spanish translations)
@@ -873,6 +872,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.game.tabs2': 'Reconciliación de bases',
         'component.game.tabs3': 'Mensajería cifrada',
         'component.game.step3': 'Paso 3: ',
+        'component.game.step4': 'Paso 4: ',
         'component.basis.validate': 'Descarta los bits donde las bases no' +
             ' coinciden haciendo clic en ellos. Después de descartarlos,' +
             ' tendrás la clave secreta.',
@@ -1094,17 +1094,15 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.startSolo': 'Comenzar juego en solitario',
         'component.bb84.soloRoleSelect': 'Selecciona tu rol',
         'component.header.about.e91': 'Acerca de E91',
-        'component.e91.about': 'El protocolo fue introducido en 1991 por' +
-            ' Artur Ekert. Involucra a dos partes separadas,' +
-            ' Alice y Bob, que desean comunicarse de manera segura a través de un' +
-            ' canal público. El protocolo utiliza el entrelazamiento cuántico para garantizar' +
-            ' la seguridad. Alice y Bob miden pares de partículas entrelazadas' +
-            ' y comparan sus resultados para establecer una clave criptográfica secreta.' +
-            ' Cualquier intento de un espía, generalmente llamado Eve,' +
-            ' de interceptar estas medidas perturbará las partículas, lo que permite' +
-            ' a Alice y Bob detectar la presencia de una amenaza. Si no se detecta un espía,' +
-            ' pueden usar la clave generada para cifrar su comunicación en un canal clásico.' +
-            ' De lo contrario, deben comenzar el proceso de nuevo.',
+        'component.e91.about': 'El protocolo fue propuesto en 1991 por Artur Ekert [1]. Implica a dos personas, Alice y Bob, que buscan establecer una clave de cifrado para comunicarse de manera segura a través de un canal público. En este protocolo, Alice y Bob reciben cada uno un fotón de una fuente que emite pares de fotones con polarizaciones máximamente entrelazadas: estos fotones forman lo que se conoce como pares de Bell. Para cada par, Alice mide la polarización de un fotón y Bob mide la del otro. Alice realiza cada medición eligiendo aleatoriamente una base del conjunto de tres bases {a, b, a\'}. Bob hace lo mismo eligiendo entre las bases {b, a\', b\'}. Entre estas bases, Alice y Bob comparten dos en común: b y a\'. ', 
+        'component.e91.about.figures.title': 'Figura de las Bases ',
+        'component.e91.about.figures.part1': 'Para cada medición, Alice y Bob registran el resultado: +1 o -1. Una vez completada la transmisión de los pares de fotones y realizadas las mediciones, Alice y Bob publican las bases de medición que utilizaron para cada fotón. Los resultados de las mediciones realizadas en la misma base se conservan para formar la clave de cifrado. Esto ocurre, en promedio, 2 de cada 9 veces: cuando Alice y Bob miden ambos en la base b o en la base a\'. Los resultados de las mediciones realizadas en bases diferentes se revelan y se usan para validar la seguridad de la fuente y del canal cuántico. Para esto, el protocolo E91 se basa en uno de los experimentos más destacados de la mecánica cuántica: la prueba de las desigualdades de Bell. Existen varias formulaciones de estas desigualdades, y el protocolo E91 utiliza específicamente la desigualdad CHSH. Alice y Bob trabajan únicamente con los resultados de las mediciones realizadas en las siguientes bases:',
+        'component.e91.about.figures.part2': 'En promedio, 4 de cada 9 pares de fotones se utilizan para verificar la desigualdad de CHSH. Para cada par de resultados derivados de las combinaciones de bases en la tabla anterior, Alice y Bob calculan el producto [Equation], donde mA y mB son los resultados de la medición obtenidos por Alice y Bob, respectivamente. Luego, se calcula el promedio de los productos para cada combinación de bases. ',
+        'component.e91.about.figures.part3': 'Como ejemplo, supongamos que Alice y Bob han realizado las siguientes mediciones: ',
+        'component.e91.about.figures.part4': 'Los promedios se calculan como sigue: ',
+        'component.e91.about.figures.part5': 'La desigualdad CHSH se verifica comprobando que ',
+        'component.e91.about.figures.part6': 'Cuando S se calcula a partir de fotones entrelazados, esta desigualdad no se cumple. De hecho, se puede demostrar que 𝑆 = 2√2 ≈ 2.83 para fotones máximamente entrelazados. Por lo tanto, si el emisor de pares de fotones es confiable y el canal de comunicación no produce ruido ni es espiado, Alice y Bob deberían observar que el valor de S tiende hacia 2√2 a medida que aumentan el número de pares de fotones considerados en sus cálculos. Luego podrán usar la clave obtenida para cifrar sus mensajes. Por el contrario, si este valor permanece por debajo de 2, no pueden confiar en la clave y deberían abstenerse de usarla. Tenga en cuenta que los valores promedio son cantidades estadísticas que requieren una gran muestra para ser significativos. Con un número limitado de muestras, pueden ocurrir anomalías estadísticas que dificulten sacar conclusiones confiables. ',
+        'component.e91.about.figures.part7': 'Finalmente, observe que hay tres combinaciones de bases de medición que no se utilizan en el protocolo E91: (a, a\'), (b, b\') y (b, a\'). Las mediciones realizadas con estas combinaciones de bases simplemente se descartan. ',
         'component.e91.howToPlayTitle': 'Cómo jugar E91',
         'component.e91.howToPlayDescription': 'El protocolo E91 tiene dos' +
             ' actores principales: Alice y Bob, que desempeñan roles' +
