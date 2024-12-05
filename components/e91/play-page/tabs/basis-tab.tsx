@@ -317,7 +317,7 @@ const BasisTab = ({photonNumber, playerRole, polarIcons}: { photonNumber: number
                                                     true)}
                                                 onMouseLeave={() => setTooltipOpen(
                                                     false)}
-                                                className="border-secondary p-0 scale-75 origin-top-right lg:scale-90"
+                                                className="border-secondary p-0 origin-top-right table-head"
                                                 align='end'>
                                                 <PhotonCategories/>
                                             </TooltipContent>

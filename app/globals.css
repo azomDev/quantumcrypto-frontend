@@ -139,5 +139,16 @@ body,
         to { transform: scale(1); }
     }
     
+    @media (max-height: 900px) {
+        .table-head {
+            transform: scale(0.75);
+        }
+    }
+    
+    @media (min-height: 901px) {
+        .table-head {
+            transform: scale(1);
+        }
+    }  
 
 }

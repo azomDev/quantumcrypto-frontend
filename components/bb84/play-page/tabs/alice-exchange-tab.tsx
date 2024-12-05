@@ -140,25 +140,32 @@ const AliceExchangeTab = ({photonNumber, polarIcons}: {
                     photons);
                 setBobMeasurements(bobMeasurements);
                 setBobBases(bobBases);
-                setBb84Tab('basis');
-                setStep(BB84GameStep.BASIS);
                 pushLines([
                     {
-                        content: 'component.aliceExchange.basesArrived',
-                    },
-                    {
-                        title: 'component.game.step2',
-                        content: 'component.basis.validate',
+                        content: 'component.aliceExchange.sent',
                     },
                 ]);
+                setTimeout(() => {
+                    pushLines([
+                        {
+                            content: 'component.aliceExchange.basesArrived',
+                        },
+                        {
+                            title: 'component.game.step2',
+                            content: 'component.basis.validate',
+                        },
+                    ]);
+                    setBb84Tab('basis');
+                    setStep(BB84GameStep.BASIS);
+                }, 2000);               
             } else {
                 sendPhotons(photons);
+                pushLines([
+                    {
+                        content: 'component.aliceExchange.sent',
+                    },
+                ]);
             }
-            pushLines([
-                {
-                    content: 'component.aliceExchange.sent',
-                },
-            ]);
         }
     };
 

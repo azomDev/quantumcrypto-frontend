@@ -193,7 +193,7 @@ const MeasurementTab = ({photonNumber, polarIcons, playerRole}: {
                                                 <img 
                                                     src="/images/e91-bases.png" 
                                                     alt="Polarization bases" 
-                                                    className="w-full h-auto rounded" 
+                                                    className="w-52 h-52 xl:w-64 xl:h-64 rounded" 
                                                 />
                                             </TooltipContent>
                                         </Tooltip>
