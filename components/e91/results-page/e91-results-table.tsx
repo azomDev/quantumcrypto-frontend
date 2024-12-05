@@ -41,7 +41,7 @@ const E91ResultsTable = ({rooms, players}: ResultsTableProps) => {
                         <TableHead>{localize('component.e91.results.room')}</TableHead>
                         <TableHead>{localize('component.e91.results.evePresent')}</TableHead>
                         <TableHead>{localize('component.e91.results.eveDetected')}</TableHead>
-                        <TableHead>{localize('component.e91.results.time')}</TableHead>
+                        <TableHead>{localize('component.e91.results.time') + ' (s)'}</TableHead>
                         <TableHead>{localize('component.e91.results.score')}</TableHead>
                     </TableRow>
                 </TableHeader>

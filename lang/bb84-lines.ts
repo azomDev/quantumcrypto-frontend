@@ -181,7 +181,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.gameFound.desc': 'It looks like you left a game' +
             ' while it was still active. Would you like to rejoin?',
         'component.bb84.gameFound.action': 'Rejoin',
-        'general.close': 'Close',
+            'general.close': 'Close',
         'component.bb84.play.sorry': 'Sorry, we could not find a partner' +
             ' for you :(',
         'component.validation.gameRestarted': 'You or your partner' +
@@ -332,7 +332,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.shareBases.alice': 'Now share your bases with Bob',
         'component.e91.shareBases.bob': 'Now share your bases with Alice',
         'component.e91.classifyBases': 'Categorize measurement base pairs according to their usefulness in the' +
-        ' protocol.',
+            ' protocol.',
         'component.e91.shortKey.restart': 'The length of your key is too short, you can restart the game now.',
         'component.e91.restart': 'Restart',
         'component.e91.moveToMessaging': 'Exchange a message',
@@ -354,12 +354,14 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.steps.step3': ' from the measurement outcomes obtained for identical base pairs.',
         'component.e91.highlights.highlight4': 'Validate your key',
         'component.e91.steps.step4': ' by testing the CHSH inequality with the measurements taken with the other base' +
-        ' combinations.',
+            ' combinations.',
         'component.e91.highlights.highlight5Alice': 'Encrypt and send your message',
         'component.e91.steps.step5Alice': ' to Bob.',
         'component.e91.highlights.highlight5Bob': 'Decrypt Alice\'s message',
         'component.e91.steps.step5Bob': ' using your key.',
-        'component.e91.validation.invalid.start': 'Drag the correct value (+1 or -1) to the appropriate container for each photon pair.',
+        'component.e91.validation.invalid.start': 'Drag the correct value (+1 or -1) to the appropriate container' +
+            ' for each photon pair. Reminder: multiply Alice\'s and Bob\'s measurement outcomes to' +
+            ' determine this value.',
         'component.e91.basisDesc': ' (a, b, a\', b\')',
         'component.e91.button.secure': 'Secure',
         'component.e91.button.unsecure': 'Not secure',
@@ -374,14 +376,14 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.key': "Key",
         'component.tooltip.discard': "Discard",
         'component.tooltip.bell': "Bell",
-        'component.e91.dropHere': 'Drop Here',
+        'component.e91.dropHere': 'Drop here',
         'component.e91.results.room': 'Room',
         'component.e91.results.evePresent': 'Eve present',
         'component.e91.results.eveDetected': 'Eve detected',
         'component.e91.results.time': 'Time',
         'component.e91.results.score': 'Score',
-        'component.e91.basis.waitingOn.bob': 'Waiting on bob\'s bases to come in',
-        'component.e91.basis.waitingOn.alice': 'Waiting on alice\'s bases to come in',
+        'component.e91.basis.waitingOn.bob': 'Waiting for Bob\'s bases.',
+        'component.e91.basis.waitingOn.alice': 'Waiting for Alice\'s bases.',
         'component.e91.basis.arrivedFrom.bob': 'Bob\'s bases have arrived!',
         'component.e91.basis.arrivedFrom.alice': 'Alice\'s bases have arrived!',
         'component.e91.about': 'The protocol was proposed in 1991 by Artur Ekert [1]. It involves two distinct parties, Alice and Bob, who aim to establish an encryption key to securely communicate over a public channel. In this protocol, Alice and Bob each receive a photon from a source that emits pairs of photons with maximally entangled polarizations: these photons form what is known as Bell pairs. For each pair, the polarization of one photon is measured by Alice and the other by Bob. Alice performs each measurement by randomly choosing a basis from the set of three bases {a, b, a\'}. Bob does the same, choosing from the bases {b, a\', b\'}. Among these bases, Alice and Bob share two common bases, b and a\'. ', 
@@ -580,7 +582,7 @@ export const bb84Lines: LanguageItem[] = [
             ' une partie alors qu\'elle était encore active. Souhaitez-vous' +
             ' rejoindre ?',
         'component.bb84.gameFound.action': 'Rejoindre',
-        'general.close': 'Fermer',
+            'general.close': 'Fermer',
         'component.bb84.play.sorry': 'Désolé, nous n\'avons pas pu trouver' +
             ' de partenaire pour vous :(',
         'component.validation.gameRestarted': 'Vous ou votre partenaire' +
@@ -591,7 +593,7 @@ export const bb84Lines: LanguageItem[] = [
             ' protocole pour établir de manière sécurisée des clés' +
             ' cryptographiques entre deux parties sur un canal de' +
             ' communication non sécurisé.',
-            'component.homePage.protocolsSection.e91.description': 'Le protocole E91 utilise l\'intrication quantique pour garantir la sécurité des communications en permettant aux parties d\'échanger des clés cryptographiques inviolables.',
+        'component.homePage.protocolsSection.e91.description': 'Le protocole E91 utilise l\'intrication quantique pour garantir la sécurité des communications en permettant aux parties d\'échanger des clés cryptographiques inviolables.',
         'component.homePage.title.description': 'Apprenez et pratiquez les' +
             ' protocoles de cryptographie quantique',
         'component.homePage.aboutSection': 'QuantumCrypto est une' +
@@ -723,8 +725,8 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.photons': 'Photons',
         'component.e91.measure': 'Mesure',
         'component.e91.shareBases': 'Partager les bases',
-        'component.e91.shareBases.alice': 'Maintenant, partagez vos bases avec Bob',
-        'component.e91.shareBases.bob': 'Maintenant, partagez vos bases avec Alice',
+        'component.e91.shareBases.alice': 'Maintenant, partagez vos bases avec Bob.',
+        'component.e91.shareBases.bob': 'Maintenant, partagez vos bases avec Alice.',
         'component.e91.classifyBases': 'Catégorisez les paires de bases de mesure en fonction de leur utilité dans' +
             ' le protocole.',
         'component.e91.shortKey.restart': 'La longueur de votre clé est trop courte, vous pouvez redémarrer le jeu' +
@@ -755,7 +757,9 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.steps.step5Alice': ' à Bob.',
         'component.e91.highlights.highlight5Bob': 'Déchiffrez le message d\'Alice',
         'component.e91.steps.step5Bob': ' en utilisant votre clé.',
-        'component.e91.validation.invalid.start': 'Glissez la bonne valeur (+1 or -1) vers le contenant approprié pour chaque paire de photons.',
+        'component.e91.validation.invalid.start': 'Glissez la bonne valeur (+1 or -1) vers le contenant approprié' +
+            ' pour chaque paire de photons. Rappel: multipliez les résultats des mesures d\'Alice et de' +
+            ' Bob pour obtenir cette valeur.',
         'component.e91.basisDesc': ' (a, b, a\', b\')',
         'component.e91.button.secure': 'Sécuritaire',
         'component.e91.button.unsecure': 'Non sécuritaire',
@@ -773,9 +777,8 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.dropHere': 'Déposez ici',
         'component.e91.results.room': 'Salle',
         'component.e91.results.evePresent': 'Ève présente',
-        'component.e91.results.eveDetected': 'Ève détecté',
+        'component.e91.results.eveDetected': 'Ève détectée',
         'component.e91.results.time': 'Temps',
-        'component.e91.results.score': 'Score',
         'component.e91.about': 'Le protocole a été proposé en 1991 par Artur Ekert [1]. Il implique deux parties distinctes, Alice et Bob, qui souhaitent établir une clé de chiffrement afin de communiquer de manière sécurisée via un canal public. Dans ce protocole, Alice et Bob reçoivent tous les deux un photon provenant d’une source qui émet des paires de photons dont les polarisations sont maximalement intriquées : les photons forment ce qu’on appelle des paires de Bell. Pour chaque paire, la polarisation d’un photon sera mesurée par Alice et l’autre par Bob. Alice effectue chaque mesure en choisissant de façon aléatoire une base parmi l’ensemble de trois bases {a, b, a’}. Bob fait de même en choisissant parmi les bases {b, a’, b’}. Parmi les bases de mesure à leur disposition, Alice et Bob en ont donc 2 qu’ils partagent, b et a’. ', 
         'component.e91.about.figures.title': 'Figure des bases ',
         'component.e91.about.figures.part1': 'Pour chaque mesure, Alice et Bob enregistrent le résultat : +1 ou -1. Une fois la transmission des paires de photons terminée et les mesures effectuées, Alice et Bob divulguent les bases de mesure qu’ils ont utilisées pour chaque photon. Les résultats des mesures effectuées dans la même base sont conservés pour former la clé de chiffrement. Cette situation survient en moyenne 2 fois sur 9 : lorsqu’Alice et Bob mesurent tous les deux dans la base b ou encore dans la base a’. Les résultats des mesures effectuées dans des bases différentes sont révélés et utilisés pour valider la sécurité de la source et du canal quantique qui ont été utilisés. Pour ce faire, le protocole E91 s’appuie une des expériences les plus spectaculaires de la mécanique quantique : la vérification des inégalités de Bell. Il existe plusieurs formulations de ces inégalités et le protocole E91 s’appuie spécifiquement sur l’inégalité de CHSH. Alice et Bob travailleront seulement avec les résultats des mesures effectuées dans les bases suivantes ',
@@ -784,8 +787,12 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.about.figures.part4': 'Le calcul des moyennes donne:',
         'component.e91.about.figures.part5': 'L’inégalité de CHSH consiste à vérifier que',
         'component.e91.about.figures.part6': 'Il s’avère que lorsque S est calculé à partir de photons intriqués, cette inégalité n’est pas vérifiée. En fait, on peut montrer que 𝑆 = 2√2 ≈ 2.83 pour des photons maximalement intriqués. Ainsi, si l’émetteur de paires de photons est fiable et que le canal de communication n’est pas bruité – ou pire espionné ! – Alice et Bob devraient observer que la valeur de S tend vers 2√2 au fur et à mesure qu’ils augmentent le nombre de paires de photons considérées dans leur calcul. Ils pourront alors utiliser la clé qu’ils ont obtenue pour chiffrer leur message. À l’inverse, si cette valeur demeure sous 2 ils ne peuvent avoir confiance en la clé obtenue et devraient s’abstenir de l’utiliser. Attention, les valeurs moyennes sont des quantités statistiques qui nécessitent un grand échantillon pour être significatives. Pour un nombre limité d’échantillons des anomalies statistiques peuvent survenir et il peut être difficile de tirer des conclusions. ',
-        'component.e91.about.figures.part7': 'Notez qu’il reste 3 combinaisons de bases de mesure qui ne sont pas utilisées dans le protocole E91 : (a, a’), (b, b’) et (b, a’). Les mesures effectuées avec ces paires de bases sont simplement jetées. ',
-    
+        'component.e91.about.figures.part7': 'Notez qu’il reste 3 combinaisons de bases de mesure qui ne sont pas utilisées dans le protocole E91 : (a, a’), (b, b’) et (b, a’). Les mesures effectuées avec ces paires de bases sont simplement jetées. ',   
+        'component.e91.results.score': 'Points',
+        'component.e91.basis.waitingOn.bob': 'En attente des bases de Bob.',
+        'component.e91.basis.waitingOn.alice': 'En attente des bases d\'Alice.',
+        'component.e91.basis.arrivedFrom.bob': 'Les bases de Bob sont arrivées!',
+        'component.e91.basis.arrivedFrom.alice': 'Les bases d\'Alice sont arrivées!',
     },
     {
         // ... (Spanish translations)
@@ -1109,7 +1116,7 @@ export const bb84Lines: LanguageItem[] = [
             ' diferentes. Aquí puedes explorar el conjunto de pasos que' +
             ' cada uno de ellos debe seguir para completar el protocolo con' +
             ' éxito.',
-        'component.e91.measurement.welcome': 'Welcome to E91!',
+        'component.e91.measurement.welcome': '¡Bienvenido a E91!',
         'component.e91.measurement.start': 'Elige una base de medición para cada fotón.',
         'component.e91.measurement.tab': 'Mediciones de fotones',
         'component.e91.photons': 'Fotones',
@@ -1144,8 +1151,9 @@ export const bb84Lines: LanguageItem[] = [
         'component.e91.steps.step5Alice': ' a Bob.',
         'component.e91.highlights.highlight5Bob': 'Descifra el mensaje de Alice',
         'component.e91.steps.step5Bob': ' usando tu clave.',
-        'component.e91.validation.invalid.start': 'Arrastra el valor correcto (+1 o -1) al contenedor correspondiente para' +
-            ' cada par de fotones.',
+        'component.e91.validation.invalid.start': 'Arrastra el valor correcto (+1 o -1) al contenedor' +
+            ' correspondiente para cada par de fotones. Recordatorio: multiplica los resultados de' +
+            ' medición de Alice y Bob para determinar este valor.',
         'component.e91.basisDesc': ' (a, b, a\', b\')',
         'component.e91.button.secure': 'Seguro',
         'component.e91.button.unsecure': 'No seguro',
@@ -1162,6 +1170,15 @@ export const bb84Lines: LanguageItem[] = [
         'component.tooltip.discard': "Descartar",
         'component.tooltip.bell': "Bell",
         'component.e91.dropHere': 'Caer aquí',
+        'component.e91.results.room': 'Sala',
+        'component.e91.results.evePresent': 'Eve presente',
+        'component.e91.results.eveDetected': 'Eve detectada',
+        'component.e91.results.time': 'Tiempo',
+        'component.e91.results.score': 'Puntuación',
+        'component.e91.basis.waitingOn.bob': 'Esperando las bases de Bob.',
+        'component.e91.basis.waitingOn.alice': 'Esperando las bases de Alice.',
+        'component.e91.basis.arrivedFrom.bob': 'Las bases de Bob han llegado!',
+        'component.e91.basis.arrivedFrom.alice': 'Las bases de Alice han llegado!',
     },
     {
         // ... (German translations)
@@ -1348,7 +1365,7 @@ export const bb84Lines: LanguageItem[] = [
             ' ein Spiel verlassen, während es noch aktiv war. Möchtest du' +
             ' wieder beitreten?',
         'component.bb84.gameFound.action': 'Erneut beitreten',
-        'general.close': 'Schließen',
+            'general.close': 'Schließen',
         'component.bb84.play.sorry': 'Entschuldigung, wir konnten keinen' +
             ' Partner für dich finden :(',
         'component.validation.gameRestarted': 'Sie oder Ihr Partner haben' +
@@ -1508,12 +1525,6 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.playSolo': 'Alleine spielen',
         'component.bb84.startSolo': 'Einzelspiel starten',
         'component.bb84.soloRoleSelect': 'Wähle deine Rolle',
-        'component.e91.results.room': 'Sala',
-        'component.e91.results.evePresent': 'Eve presente',
-        'component.e91.results.eveDetected': 'Eve detectada',
-        'component.e91.results.time': 'Tiempo',
-        'component.e91.results.score': 'Puntuación',
-
     },
 ];
 

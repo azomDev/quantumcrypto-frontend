@@ -20,11 +20,11 @@ const E91ResultsRow = ({room, player1, player2}: E91ResultsRowProps) => {
             <TableCell>{room.iterations.map(
                 ({elapsed_time}: any, index: number) => <p
                     key={index}>{`${Math.ceil(
-                    elapsed_time)} seconds`}</p>)}</TableCell>
+                    elapsed_time)}`}</p>)}</TableCell>
             <TableCell>{room.iterations.map(
                 ({score}: any, index: number) => <p
                     key={index}>{`${Math.ceil(
-                    score)} Points`}</p>)}</TableCell>
+                    score)}`}</p>)}</TableCell>
         </TableRow>
     );
 };
