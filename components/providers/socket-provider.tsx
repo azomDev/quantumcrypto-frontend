@@ -742,6 +742,15 @@ export const SocketProvider = ({children}: { children: React.ReactNode }) => {
                         useE91RoomStore.getState().resetRoom();
                         useE91RoomStore.getState().setEvePresent(false);
                         useE91ProgressStore.getState().resetProgress();
+                        useE91ProgressStore.getState().pushLines([
+                            {
+                                title: 'component.e91.measurement.welcome',
+                            },
+                            {
+                                title: 'component.game.step1',
+                                content: 'component.e91.measurement.start',
+                            },
+                        ])
                     } else if (gameType === 'bb84') {
                         localStorage.removeItem('bb84PhotonNumber');
                         localStorage.setItem('bb84GameData', JSON.stringify({}));

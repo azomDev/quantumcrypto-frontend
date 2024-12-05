@@ -151,4 +151,16 @@ body,
         }
     }  
 
+    @media (max-height: 1150px) {
+        .chsh-table {
+            max-height: 15rem;
+        }
+    }
+    
+    @media (min-height: 1151px) {
+        .chsh-table {
+            max-height: 30rem;
+        }
+    }  
+
 }

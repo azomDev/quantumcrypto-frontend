@@ -331,7 +331,7 @@ const CHSHTab = ({playerRole, polarIcons}: { playerRole: string, polarIcons: any
                                onConfirm={restartGameWithoutEve}/>
         <div className="block border text-card-foreground border-secondary bg-card shadow-lg rounded-lg">
             <DndProvider backend={HTML5Backend}>
-                <div className="max-h-60 lg:max-h-72" style={{overflow: isDragging ? "hidden" : "auto"}}>
+                <div className="chsh-table" style={{overflow: isDragging ? "hidden" : "auto"}}>
                     <Table className="w-full">
                         <TableHeader className="bg-card top-0 sticky">
                             <TableRow className="text-sm md:text-md border-secondary">
