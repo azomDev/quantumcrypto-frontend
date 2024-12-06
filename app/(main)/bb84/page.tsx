@@ -222,7 +222,7 @@ export default function BB84() {
                                                         <td className="px-4 py-2 border border-gray-300">0</td>
                                                     </tr>
                                                     <tr>
-                                                        <td className="px-4 py-2 border border-gray-300">{localize('component.bb84.about.encryptionKey.message')}</td>
+                                                        <td className="px-4 py-2 border border-gray-300">{localize('component.bb84.about.encryptionKey.cypher')}</td>
                                                         <td className="px-4 py-2 border border-gray-300">1</td>
                                                         <td className="px-4 py-2 border border-gray-300">0</td>
                                                         <td className="px-4 py-2 border border-gray-300">1</td>
