@@ -41,11 +41,39 @@ export default function E91() {
                 <Card className="mb-6 p-6 md:p-8 border-none mx-auto shadow-md">
                     <h1 className="font-bold text-3xl md:text-5xl mb-4">{localize(
                         'component.bb84.aboutTitle')}</h1>
-                    <p className="text-lg mb-4">{localize('component.e91.about')}</p>
+                    <p className="text-lg mb-4">{localize('component.e91.about.part1')}
+                        <span>&#123;</span>
+                        <span className='italic font-bold'>a</span>
+                        <span>, </span>
+                        <span className='italic font-bold'>b</span>
+                        <span>, </span>
+                        <span className='italic font-bold'>a'</span>
+                        <span>&#125;</span>
+                        <span>. </span>
+                        {localize('component.e91.about.part2')}
+                        <span> &#123;</span>
+                        <span className='italic font-bold'>b</span>
+                        <span>, </span>
+                        <span className='italic font-bold'>a'</span>
+                        <span>, </span>
+                        <span className='italic font-bold'>b'</span>
+                        <span>&#125;</span>
+                        {localize('component.e91.about.part3')}
+                        <span className='italic font-bold'>b</span>
+                        <span> and </span>
+                        <span className='italic font-bold'>a'</span>
+                        <span>.</span>
+                    </p>
                 </Card>
                 <Card className='pt-4 pb-2 border-none mx-auto shadow-md'>
                     <CardContent>
-                        <h2 className="text-2xl mb-4">{localize('component.e91.about.figures.title')}</h2>
+                        <div className='flex justify-center mb-4 mt-4'>
+                            <img 
+                                src="/images/e91-bases.png" 
+                                alt="Polarization bases" 
+                                className="w-52 h-52 xl:w-64 xl:h-64 rounded" 
+                            />
+                        </div>
                         <p className="text-lg mb-4">{localize('component.e91.about.figures.part1')}</p>
                         <div className="mb-4 flex justify-center">
                             <table className="table-auto border-collapse border border-gray-300">
@@ -57,20 +85,20 @@ export default function E91() {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style={{color:"#2C6E49"}} className="px-4 py-2 border border-gray-300">a</td>
-                                        <td style={{color:"#2C6E49"}} className="px-4 py-2 border border-gray-300">b</td>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">a</td>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">b</td>
                                     </tr>
                                     <tr>
-                                        <td style={{color:"#88D4AB"}} className="px-4 py-2 border border-gray-300">a'</td>
-                                        <td style={{color:"#88D4AB"}} className="px-4 py-2 border border-gray-300">b</td>
+                                        <td style={{color:"#88D4AB"}} className="italic font-bold px-4 py-2 border border-gray-300">a'</td>
+                                        <td style={{color:"#88D4AB"}} className="italic font-bold px-4 py-2 border border-gray-300">b</td>
                                     </tr>
                                     <tr>
-                                        <td style={{color:"#80d1ef"}} className="px-4 py-2 border border-gray-300">a</td>
-                                        <td style={{color:"#80d1ef"}} className="px-4 py-2 border border-gray-300">b'</td>
+                                        <td style={{color:"#80d1ef"}} className="italic font-bold px-4 py-2 border border-gray-300">a</td>
+                                        <td style={{color:"#80d1ef"}} className="italic font-bold px-4 py-2 border border-gray-300">b'</td>
                                     </tr>
                                     <tr>
-                                        <td style={{color:"#0a629e"}} className="px-4 py-2 border border-gray-300">a'</td>
-                                        <td style={{color:"#0a629e"}} className="px-4 py-2 border border-gray-300">b'</td>
+                                        <td style={{color:"#0a629e"}} className="italic font-bold px-4 py-2 border border-gray-300">a'</td>
+                                        <td style={{color:"#0a629e"}} className="italic font-bold px-4 py-2 border border-gray-300">b'</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -83,7 +111,11 @@ export default function E91() {
                                     <tr>
                                         <th className="px-4 py-2 border border-gray-300" colSpan={2}>Alice</th>
                                         <th className="px-4 py-2 border border-gray-300" colSpan={2}>Bob</th>
-                                        <th className="px-4 py-2 border border-gray-300" rowSpan={2}> mA x mB </th>
+                                        <th className="px-4 py-2 border border-gray-300" rowSpan={2}> 
+                                            <MathJax>
+                                                {"\\(m_{A} \\times m_{B}\\)"}
+                                            </MathJax>
+                                        </th>
                                     </tr>
                                     <tr>
                                         <th className="px-4 py-2 border border-gray-300">Base</th>
@@ -94,44 +126,44 @@ export default function E91() {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style={{color:"#2C6E49"}} className="italic px-4 py-2 border border-gray-300">a</td>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">a</td>
                                         <td className="px-4 py-2 border border-gray-300">+1</td>
-                                        <td style={{color:"#2C6E49"}} className="italic px-4 py-2 border border-gray-300">b</td>
-                                        <td className="px-4 py-2 border border-gray-300">+1</td>
-                                        <td className="px-4 py-2 border border-gray-300">+1</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{color:"#2C6E49"}} className="italic px-4 py-2 border border-gray-300">a</td>
-                                        <td className="px-4 py-2 border border-gray-300">+1</td>
-                                        <td style={{color:"#2C6E49"}} className="italic px-4 py-2 border border-gray-300">b</td>
-                                        <td className="px-4 py-2 border border-gray-300">-1</td>
-                                        <td className="px-4 py-2 border border-gray-300">-1</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{color:"#2C6E49"}} className="italic px-4 py-2 border border-gray-300">a</td>
-                                        <td className="px-4 py-2 border border-gray-300">-1</td>
-                                        <td style={{color:"#2C6E49"}} className="italic px-4 py-2 border border-gray-300">b</td>
-                                        <td className="px-4 py-2 border border-gray-300">-1</td>
-                                        <td className="px-4 py-2 border border-gray-300">+1</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{color:"#88D4AB"}} className="italic px-4 py-2 border border-gray-300">a′</td>
-                                        <td className="px-4 py-2 border border-gray-300">+1</td>
-                                        <td style={{color:"#88D4AB"}} className="italic px-4 py-2 border border-gray-300">b</td>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">b</td>
                                         <td className="px-4 py-2 border border-gray-300">+1</td>
                                         <td className="px-4 py-2 border border-gray-300">+1</td>
                                     </tr>
                                     <tr>
-                                        <td style={{color:"#88D4AB"}} className="italic px-4 py-2 border border-gray-300">a′</td>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">a</td>
+                                        <td className="px-4 py-2 border border-gray-300">+1</td>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">b</td>
                                         <td className="px-4 py-2 border border-gray-300">-1</td>
-                                        <td style={{color:"#88D4AB"}} className="italic px-4 py-2 border border-gray-300">b</td>
+                                        <td className="px-4 py-2 border border-gray-300">-1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">a</td>
+                                        <td className="px-4 py-2 border border-gray-300">-1</td>
+                                        <td style={{color:"#2C6E49"}} className="italic font-bold px-4 py-2 border border-gray-300">b</td>
+                                        <td className="px-4 py-2 border border-gray-300">-1</td>
+                                        <td className="px-4 py-2 border border-gray-300">+1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{color:"#88D4AB"}} className="italic font-bold px-4 py-2 border border-gray-300">a′</td>
+                                        <td className="px-4 py-2 border border-gray-300">+1</td>
+                                        <td style={{color:"#88D4AB"}} className="italic font-bold px-4 py-2 border border-gray-300">b</td>
+                                        <td className="px-4 py-2 border border-gray-300">+1</td>
+                                        <td className="px-4 py-2 border border-gray-300">+1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{color:"#88D4AB"}} className="italic font-bold px-4 py-2 border border-gray-300">a′</td>
+                                        <td className="px-4 py-2 border border-gray-300">-1</td>
+                                        <td style={{color:"#88D4AB"}} className="italic font-bold px-4 py-2 border border-gray-300">b</td>
                                         <td className="px-4 py-2 border border-gray-300">+1</td>
                                         <td className="px-4 py-2 border border-gray-300">-1</td>
                                     </tr>
                                     <tr>
-                                        <td style={{color:"#0a629e"}} className="italic px-4 py-2 border border-gray-300">a′</td>
+                                        <td style={{color:"#0a629e"}} className="italic font-bold px-4 py-2 border border-gray-300">a′</td>
                                         <td className="px-4 py-2 border border-gray-300">+1</td>
-                                        <td style={{color:"#0a629e"}} className="italic px-4 py-2 border border-gray-300">b′</td>
+                                        <td style={{color:"#0a629e"}} className="italic font-bold px-4 py-2 border border-gray-300">b′</td>
                                         <td className="px-4 py-2 border border-gray-300">+1</td>
                                         <td className="px-4 py-2 border border-gray-300">+1</td>
                                     </tr>
@@ -164,7 +196,25 @@ export default function E91() {
                             `}
                         </MathJax>
                         <p className="text-lg mb-4">{localize('component.e91.about.figures.part6')}</p>
-                        <p className="text-lg mb-4">{localize('component.e91.about.figures.part7')}</p>
+                        <p className="text-lg mb-4">{localize('component.e91.about.figures.part7.1')}
+                            <span>&#40;</span>
+                            <span className='italic font-bold'>a</span>
+                            <span>, </span>
+                            <span className='italic font-bold'>a'</span>
+                            <span>&#41;</span>
+                            <span>, </span>
+                            <span>&#40;</span>
+                            <span className='italic font-bold'>b</span>
+                            <span>, </span>
+                            <span className='italic font-bold'>b'</span>
+                            <span>&#41;, and </span>
+                            <span>&#40;</span>
+                            <span className='italic font-bold'>b</span>
+                            <span>, </span>
+                            <span className='italic font-bold'>a'</span>
+                            <span>&#41;. </span>
+                            {localize('component.e91.about.figures.part7.2')}
+                        </p>
                     </CardContent>
                 </Card>               
             </section>
