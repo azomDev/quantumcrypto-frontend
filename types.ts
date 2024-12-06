@@ -11,6 +11,13 @@ export enum BB84GameStep {
     MESSAGING,
 }
 
+export enum E91GameStep {
+    MEASUREMENT,
+    BASIS,
+    VALIDATION,
+    MESSAGING,
+}
+
 export interface Line {
     title?: string,
     content?: string,

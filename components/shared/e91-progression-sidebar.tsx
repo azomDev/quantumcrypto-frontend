@@ -10,9 +10,9 @@ import {MessageCircle} from 'lucide-react';
 import GameProgression from '@/components/shared/game-progression';
 import React, {useEffect, useState} from 'react';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-import Bb84Progression from '@/components/bb84/play-page/bb84-progression';
+import E91Progression from '@/components/e91/play-page/e91-progression';
 
-const ProgressionSidebar = () => {
+const E91ProgressionSidebar = () => {
 
     const [newMessage, setNewMessage] = useState(false);
     const displayedLinesLength = useBB84ProgressStore(
@@ -37,7 +37,7 @@ const ProgressionSidebar = () => {
                     </Button>
                 </SheetTrigger>
                 <SheetContent className="p-2 border-none">
-                    <Bb84Progression />
+                    <E91Progression />
                 </SheetContent>
             </Sheet>
         </div>
@@ -45,4 +45,4 @@ const ProgressionSidebar = () => {
     );
 };
 
-export default ProgressionSidebar;
+export default E91ProgressionSidebar;

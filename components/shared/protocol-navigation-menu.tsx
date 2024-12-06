@@ -30,7 +30,7 @@ const ProtocolNavigationMenu = () => {
                                         <NavigationMenuLink
                                             asChild>
                                             <Link href={href}
-                                                  target={'_blank'}>
+                                            target={'_blank'}>
                                                 <p className="text-md">{name}</p>
                                             </Link>
                                         </NavigationMenuLink>

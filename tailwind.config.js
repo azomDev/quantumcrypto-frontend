@@ -7,6 +7,12 @@ module.exports = {
         './app/**/*.{ts,tsx}',
         './src/**/*.{ts,tsx}',
     ],
+    safelist: [
+        'bg-blue-300',
+        'bg-blue-800',
+        'bg-green-300',
+        'bg-green-800'
+    ],
     prefix: "",
     theme: {
         container: {

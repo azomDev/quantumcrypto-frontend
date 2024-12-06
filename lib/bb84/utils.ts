@@ -1,14 +1,8 @@
-import {type ClassValue, clsx} from 'clsx';
-import {twMerge} from 'tailwind-merge';
 import React from 'react';
 import {inputField} from '@/types';
 import {toast} from 'sonner';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {useBB84ProgressStore} from '@/store/bb84/bb84-progress-store';
-
-export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
 
 export const onBasisInputChange = (event: React.ChangeEvent<HTMLInputElement>,
                                    index: number, basisInputs: inputField[],
@@ -36,8 +30,6 @@ export const onBasisInputChange = (event: React.ChangeEvent<HTMLInputElement>,
         }, false, index);
     }
 };
-
-export const forbiddenSymbols = ['e', 'E', '+', '-', '.'];
 
 export const clearBB84LocalStorage = () => {
     localStorage.removeItem('bb84PlayerData');

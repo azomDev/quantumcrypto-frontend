@@ -11,7 +11,8 @@ import {
 } from '@/components/ui/table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-import {cn, onBasisInputChange} from '@/lib/bb84/utils';
+import {cn} from '@/lib/utils';
+import {onBasisInputChange} from '@/lib/bb84/utils';
 import {CheckCircle2, SearchCode} from 'lucide-react';
 import useBB84RoomStore from '@/store/bb84/bb84-room-store';
 import {

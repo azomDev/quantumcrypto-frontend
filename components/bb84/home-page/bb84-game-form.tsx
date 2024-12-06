@@ -138,7 +138,7 @@ const BB84Main: React.FC = () => {
         }
 
         if (previousGame && previousGame.role && previousGame.room) {
-            connectToPlayRoom(previousGame.role, previousGame.room);
+            connectToPlayRoom('bb84', useBB84GameStore.getState().gameCode, previousGame.role, previousGame.room);
         }
     };
 
@@ -177,6 +177,7 @@ const BB84Main: React.FC = () => {
         setIsAdmin(false);
 
         const data = {
+            gameType: 'bb84',
             gameCode: gamePIN,
             playerName,
             admin: 0,
@@ -210,6 +211,7 @@ const BB84Main: React.FC = () => {
             setIsAdmin(true);
 
             const data = {
+                gameType: 'bb84',
                 gameCode: gamePIN,
                 playerName: 'admin',
                 admin: 1,

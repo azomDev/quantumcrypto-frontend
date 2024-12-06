@@ -67,4 +67,100 @@ body,
         --highlight: 45 93% 47%;
         --red: 0 100% 32%;
     }
+   
+    .flash-delete {
+        animation: flashDelete 0.25s ease forwards;
+    }
+
+    @keyframes flashDelete {
+        0% {
+            background-color: red;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        50% {
+            background-color: #ff4d4d;
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+        100% {
+            background-color: transparent;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    }
+
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s;
+    }
+    
+    .popup-content {
+        background: rgb(50, 49, 48);
+        padding: 20px;
+        border-radius: 10px;
+        width: fit-content;
+        max-width: 1000px;
+        position: relative;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        transform: scale(0.9);
+        animation: popupOpen 0.3s forwards;
+    }
+    
+    .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: rgb(244, 21, 21);
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 25px;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes popupOpen {
+        from { transform: scale(0.9); }
+        to { transform: scale(1); }
+    }
+    
+    @media (max-height: 900px) {
+        .table-head {
+            transform: scale(0.75);
+        }
+    }
+    
+    @media (min-height: 901px) {
+        .table-head {
+            transform: scale(1);
+        }
+    }  
+
+    @media (max-height: 1150px) {
+        .chsh-table {
+            max-height: 15rem;
+        }
+    }
+    
+    @media (min-height: 1151px) {
+        .chsh-table {
+            max-height: 30rem;
+        }
+    }  
+
 }

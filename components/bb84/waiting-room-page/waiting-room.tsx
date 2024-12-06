@@ -13,20 +13,22 @@ import {
     TooltipContent,
     TooltipProvider, TooltipTrigger,
 } from '@/components/ui/tooltip';
-import {cn} from '@/lib/bb84/utils';
+import {cn} from '@/lib/utils';
 import usePlayerStore from '@/store/player-store';
 // import PlayerCard from '@/components/waiting-room-page/player-card';
 import {Copy} from 'lucide-react';
 import isConnected from '@/components/hoc/is-connected';
 import {JOIN_EVENT} from '@/bb84-constants';
+import { recordGameStats } from '@/app/(main)/services/api'
 
 const WaitingRoom: React.FC = () => {
 
     const {
         waitingRoomSocket,
         isWaitingRoomConnected,
-        disconnectWaitingRoom,
+        disconnectBB84WaitingRoom,
         startGame,
+        sendEvent
     } = useSocket();
     const {localize} = useLanguage();
     const router = useRouter();
@@ -34,9 +36,10 @@ const WaitingRoom: React.FC = () => {
     const {playerName, isAdmin} = usePlayerStore();
     const [copied, setCopied] = useState(false);
 
-    const onStartGame = () => {
-        router.replace(`/games/${gameCode}/results`);
-        startGame();
+    const onStartGame = async () => {
+        const response = await recordGameStats('bb84', playerCount);
+        router.replace(`/games/bb84/${gameCode}/results`);
+        startGame('bb84', response.game_id);
     };
 
     useEffect(() => {
@@ -114,7 +117,7 @@ const WaitingRoom: React.FC = () => {
                 <div className="flex gap-x-4 justify-center">
                     <Button onClick={() => {
                         router.replace('/');
-                        disconnectWaitingRoom();
+                        disconnectBB84WaitingRoom();
                     }
                     } variant="destructive-outline" size="lg">{localize(
                         'component.waitingRoom.exit')}</Button>
@@ -165,7 +168,7 @@ const WaitingRoom: React.FC = () => {
             <div className="mx-auto">
                 <Button onClick={() => {
                     router.replace('/');
-                    disconnectWaitingRoom();
+                    disconnectBB84WaitingRoom();
                 }
                 } variant="destructive-outline" size="lg">{localize(
                     'component.waitingRoom.exit')}</Button>

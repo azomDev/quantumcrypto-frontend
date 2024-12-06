@@ -14,7 +14,7 @@ const Footer = () => {
                         <p>Backend</p>
                     </div>
                 </a>
-                <a href="https://github.com/algolab-quantique/quantumcrypto-backend" target="_blank">
+                <a href="https://github.com/algolab-quantique/quantumcrypto-frontend" target="_blank">
                     <div
                         className="flex flex-col gap-y-2 items-center p-3 hover:text-white transition-all duration-300 cursor-pointer">
                         <Github size={30}/>

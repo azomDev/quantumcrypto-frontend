@@ -1,3 +1,12 @@
+import {type ClassValue, clsx} from 'clsx';
+import {twMerge} from 'tailwind-merge';
+
+export const forbiddenSymbols = ['e', 'E', '+', '-', '.'];
+
+export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+}
+
 export function generateUniqueRandomList(min: number, max: number,
                                          length: number) {
     const tempArr: number[] = [];
