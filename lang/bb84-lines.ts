@@ -287,7 +287,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.bb84.additionalStep': 'In QuantumCrypto, not all BB84' +
             ' games have an eavesdropper. This next step only applies if' +
             ' there is one in your game. You\'ll find out at the end!',
-        'component.bb84.rawKeyInfo': 'At this point, you posses the "raw' +
+        'component.bb84.rawKeyInfo': 'At this point, you possess the "raw' +
             ' key", which will be used to detect the presence of an' +
             ' eavesdropper.',
         'component.bb84.steps.step1Bob': ' to' +
