@@ -20,7 +20,7 @@ export const bb84Lines: LanguageItem[] = [
         'component.main.pinRequired': 'A waiting-room PIN is required',
         'component.main.pinLength': 'The waiting-room PIN must be 5' +
             ' characters long',
-        'component.main.nameDescription': 'This v₀ be your public display' +
+        'component.main.nameDescription': 'This will be your public display' +
             ' name',
         'component.main.nameLabel': 'Name',
         'component.main.pinLabel': 'Game PIN',
